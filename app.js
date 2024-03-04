@@ -7,6 +7,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var salaryRouter = require('./routes/salary');
+var salarytypeRouter = require('./routes/salarytype');
 
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
@@ -34,6 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/salary', salaryRouter);
+app.use('/salarytype', salarytypeRouter);
 
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
