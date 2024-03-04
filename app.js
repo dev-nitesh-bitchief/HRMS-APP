@@ -10,16 +10,11 @@ var usersRouter = require('./routes/users');
 
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+var holiday = require('./routes/public-holiday')
 
 
 var leave = require('./routes/leave');
 var Leave_request = require('./routes/Leave_request');
-
-
-
-
-
-
 
 var app = express();
 
@@ -44,9 +39,14 @@ app.use('/employee',employee);
 
 
 
-// app.use('/leave', leave);
+
+
 app.use('/Leave', Leave_request)
 
+
+
+app.use('/leave', leave);
+app.use('/holiday',holiday);
 
 
 
