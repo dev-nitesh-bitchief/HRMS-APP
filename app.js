@@ -14,6 +14,7 @@ var holiday = require('./routes/public-holiday')
 
 
 var leave = require('./routes/leave');
+var Leave_request = require('./routes/Leave_request');
 
 var app = express();
 
@@ -32,8 +33,21 @@ app.use('/users', usersRouter);
 
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
+
+
+
+
+
+
+
+
+app.use('/Leave', Leave_request)
+
+
+
 app.use('/leave', leave);
 app.use('/holiday',holiday);
+
 
 
 // catch 404 and forward to error handler
