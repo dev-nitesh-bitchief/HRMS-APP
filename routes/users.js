@@ -18,13 +18,7 @@ router.get('/', function(req, res){
 
 
 
-
-
-
-
-
-
-router.post('/add-user', function(req, res) {
+router.post('/adduser', function(req, res) {
 
     const { Employee_id,username,password,Role_id,status } = req.body;
 
@@ -48,12 +42,7 @@ router.post('/add-user', function(req, res) {
 
 
 
-
-
-
-
-
-router.post('/update-user', (req, res) => {
+router.put('/updateuser', (req, res) => {
   const { Employee_id,username,password,Role_id,status } = req.body;
  
 
@@ -95,12 +84,7 @@ router.post('/update-user', (req, res) => {
 });
 
 
-
-
-
-
-
-router.post('/delete-user', function (req, res) {
+router.delete('/deleteuser', function (req, res) {
   const { Employee_id } = req.body;
 
   const data = [Employee_id];
