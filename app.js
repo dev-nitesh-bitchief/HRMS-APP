@@ -10,15 +10,16 @@ var usersRouter = require('./routes/users');
 var role=require('./routes/Role')
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+
 var permission = require('./routes/Permission')
 var subscription= require('./routes/Subscription')
+
+var holiday = require('./routes/public-holiday')
+
+
+
 var leave = require('./routes/leave');
-
-
-
-
-
-
+var Leave_request = require('./routes/Leave_request');
 
 var app = express();
 
@@ -43,7 +44,14 @@ app.use('/subscription',subscription);
 
 
 
+
+
+app.use('/Leave', Leave_request)
+
+
+
 app.use('/leave', leave);
+app.use('/holiday',holiday);
 
 
 
