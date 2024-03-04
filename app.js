@@ -7,11 +7,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var role=require('./routes/Role')
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
-
-
+var permission = require('./routes/Permission')
+var subscription= require('./routes/Subscription')
 var leave = require('./routes/leave');
 
 
@@ -34,11 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/role',role);
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
-
-
+app.use('/permission',permission);
+app.use('/subscription',subscription);
 
 
 

@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var db = require('../connection/db');
 
+//Route for Employee work information:
 router.get('/show', (req, res, next) => {
     // res.send("hello from ework")
-    db.query('SELECT *FROM Employee_work_info', (err, result) => {
+    db.query('SELECT * FROM Employee_work_info', (err, result) => {
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
@@ -85,7 +86,7 @@ router.post('/update', (req, res) => {
     }
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);
-    sql += ' WHERE id = ?';
+    sql += ' WHERE Employee_id = ?';
 
     // Add the id value to the updateValues array
     updateValues.push(Employee_id);
@@ -99,13 +100,14 @@ router.post('/update', (req, res) => {
         }
         // console.log('Data updated successfully');
         // return res.send('Data updated successfully');
+        console.log(result);
         return res.status(200).json({ success: true, message: 'Data update successfully',result});
     });
 });
 
-router.post('/search',(req,res)=>{
+router.get('/search',(req,res)=>{
     const {Employee_id}=req.body;
-    const sql=`SELECT FROM Employee_work_info WHERE Employee_id=${Employee_id}`;
+    const sql=`SELECT *FROM Employee_work_info WHERE Employee_id=${Employee_id}`;
     db.query(sql,(err,result)=>{
         if(err){
             console.error('error fetching data',err);
@@ -133,4 +135,5 @@ router.post('/delete',(req,res)=>{
         return res.status(200).json({result});
     });
 });
+
 module.exports = router;
