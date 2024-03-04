@@ -24,7 +24,7 @@ router.get('/', function(req, res){
 
 
 
-router.post('/add-user', function (req, res) {
+router.post('/add-user', function(req, res) {
 
     const { Employee_id,username,password,Role_id,status } = req.body;
 
