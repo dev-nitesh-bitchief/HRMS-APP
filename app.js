@@ -10,15 +10,10 @@ var usersRouter = require('./routes/users');
 
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+var holiday = require('./routes/public-holiday')
 
 
 var leave = require('./routes/leave');
-
-
-
-
-
-
 
 var app = express();
 
@@ -37,14 +32,8 @@ app.use('/users', usersRouter);
 
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
-
-
-
-
-
-
 app.use('/leave', leave);
-
+app.use('/holiday',holiday);
 
 
 // catch 404 and forward to error handler
