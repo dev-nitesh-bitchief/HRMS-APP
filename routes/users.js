@@ -20,4 +20,8 @@ router.get('/update_user', function(req, res, next) {
   res.send('add user successfully');
 });
 
+router.get('/all_user', function(req, res, next) {
+  res.send('add user successfully');
+});
+
 module.exports = router;
