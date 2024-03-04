@@ -6,10 +6,12 @@ const db= mysql.createConnection({
     password:"India@123",
     database:"HRMS"
 });
- 
-db.connect((err)=>{
-    if (err) throw err;
-    console.log("connected")
-});
+db.connect((err) => {
+    if (err) {
+      console.error('Database connection failed: ' + err.stack);
+      return;
+    }
+    console.log('Connected to database.');
+  });
 
 module.exports=db;
