@@ -8,6 +8,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var eworkInfo = require('./routes/emp-work-info');
+var leave = require('./routes/leave');
+
+
+
 
 
 
@@ -28,6 +33,9 @@ app.use('/users', usersRouter);
 
 
 
+
+
+app.use('/leave', leave);
 
 
 // catch 404 and forward to error handler
