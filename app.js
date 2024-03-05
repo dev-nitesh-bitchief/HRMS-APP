@@ -13,8 +13,8 @@ var employee = require('./routes/Employee');
 var permission = require('./routes/Permission')
 var subscription= require('./routes/Subscription')
 var leave = require('./routes/leave');
-
-
+var docs = require('./routes/Document');
+var feedback =require('./routes/Feedback');
 
 
 
@@ -39,7 +39,8 @@ app.use('/ework',eworkInfo);
 app.use('/employee',employee);
 app.use('/permission',permission);
 app.use('/subscription',subscription);
-
+app.use('/docs',docs);
+app.use('/feedback',feedback);
 
 
 

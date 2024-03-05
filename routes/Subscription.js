@@ -29,27 +29,32 @@ router.post('/add',(req,res)=>{
 
 router.post('/update',(req,res)=>{
     const {id,planName,stripe_id,user_count,price,status}=req.body;
-    let sql='UPDATE Subscription SET';
+    let sql='UPDATE Subscription SET ';
     const updateValues = [];
-    if (planName !== '') {
+    if (planName !== undefined) {
         sql += 'planName = ?, ';
         updateValues.push(planName);
     }
-    if (stripe_id !== '') {
+    if (stripe_id !== undefined) {
         sql += 'stripe_id = ?, ';
         updateValues.push(stripe_id);
     }
-    if (user_count!=='') {
+    if (user_count!==undefined) {
         sql += 'user_count = ?, ';
         updateValues.push(user_count);
     }
-    if (price!=='') {
+    if (price!==undefined) {
         sql += 'price = ?, ';
         updateValues.push(price);
     }
-    if (status!=='') {
+    if (status!==undefined) {
         sql += 'status = ?, ';
         updateValues.push(status);
+    }
+
+    // Check if any fields are provided for update
+    if (updateValues.length === 0) {
+        return res.status(400).json({ success: false, message: 'No fields provided for update' });
     }
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);
