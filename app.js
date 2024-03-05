@@ -7,14 +7,26 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var role=require('./routes/Role')
+
+var salaryRouter = require('./routes/salary');
+var salarytypeRouter = require('./routes/salarytype');
+
+
+var role=require('./routes/Role');
+var docs= require('./routes/Document');
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
-var permission = require('./routes/Permission')
-var subscription= require('./routes/Subscription')
-var leave = require('./routes/leave');
-var docs = require('./routes/Document');
 var feedback =require('./routes/Feedback');
+var permission = require('./routes/Permission');
+var subscription= require('./routes/Subscription');
+
+var holiday = require('./routes/public-holiday');
+
+
+
+var leave = require('./routes/leave');
+
+
 
 
 
@@ -34,7 +46,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/salary', salaryRouter);
+app.use('/salarytype', salarytypeRouter);
+
+
 app.use('/role',role);
+
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
 app.use('/permission',permission);
@@ -45,6 +63,7 @@ app.use('/feedback',feedback);
 
 
 app.use('/leave', leave);
+app.use('/holiday',holiday);
 
 
 
