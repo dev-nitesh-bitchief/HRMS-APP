@@ -12,20 +12,25 @@ var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
 
 
-var role=require('./routes/Role')
-
+var role=require('./routes/Role');
+var docs= require('./routes/Document');
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+var feedback =require('./routes/Feedback');
+var permission = require('./routes/Permission');
+var subscription= require('./routes/Subscription');
 
-var permission = require('./routes/Permission')
-var subscription= require('./routes/Subscription')
-
-var holiday = require('./routes/public-holiday')
+var holiday = require('./routes/public-holiday');
 
 
 
 var leave = require('./routes/leave');
-var Leave_request = require('./routes/Leave_request');
+
+
+
+
+
+
 
 var app = express();
 
@@ -52,13 +57,8 @@ app.use('/ework',eworkInfo);
 app.use('/employee',employee);
 app.use('/permission',permission);
 app.use('/subscription',subscription);
-
-
-
-
-
-
-app.use('/Leave', Leave_request)
+app.use('/docs',docs);
+app.use('/feedback',feedback);
 
 
 
