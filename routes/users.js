@@ -107,4 +107,21 @@ router.post('/deleteuser', function (req, res) {
 
 
 
+router.get('/searchuser', (req, res) => {
+  const {id} = req.body;
+
+ 
+  const sql = "SELECT u.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, u.username, u.password, r.roleName AS role_name, u.status, u.creationDate FROM User u JOIN Employee e ON u.Employee_id = e.id JOIN Role r ON u.Role_id = r.id WHERE u.id = ?";
+  const values = [id];
+
+  connection.query(sql, values, (err, results) => {
+    if (err) {
+      console.error('Error executing search query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json({ results });
+  });
+});
+
   module.exports = router;
