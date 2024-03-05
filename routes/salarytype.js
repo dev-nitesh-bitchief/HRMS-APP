@@ -35,16 +35,16 @@ console.log("salary type")
     });
 });
 
-router.delete('/deletesalarytype', function(req, res) {
+router.post('/deletesalarytype', function(req, res) {
   const { id } = req.body;
 console.log("salary type")
-  const sql = "DELETE SalaryType VALUES (?)";
+  const sql = "DELETE FROM SalaryType WHERE id = ?";
   const values = [id];
 
   connection.query(sql, values, (err, result) => {
       if (err) {
           console.error('Error adding salary type:', err);
-          return res.status(500).send('Failed to add salary type');
+          return res.status(500).send('Failed to delete salary type');
       }
       console.log('Salary type added successfully');
       res.status(200).json({ result });
@@ -53,11 +53,11 @@ console.log("salary type")
 
 
 
-router.put('/updatesalarytype', function(req, res) {
-  const { id, salarytype } = req.body;
+router.post('/updatesalarytype', function(req, res) {
+  const { id, salary_type } = req.body;
 
   const sql = "UPDATE SalaryType SET salary_type = ? WHERE id = ?";
-  const values = [salarytype, id];
+  const values = [salary_type, id];
 
   connection.query(sql, values, (err, result) => {
       if (err) {

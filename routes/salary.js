@@ -23,11 +23,70 @@ router.post('/addsalary', function(req, res) {
     connection.query(sql, values, (err, result) => {
         if (err) {
             console.error('Error adding salary', err);
-            return res.status(500).send('Failed to add salary type');
+            return res.status(500).send('Failed to add salary');
         }
         console.log('Salary added successfully');
         res.status(200).json({ result });
     });
 });
+
+
+router.post('/updatesalary', (req, res) => {
+  const { id, SalaryType_id, salaryAmount, salaryCycle } = req.body;
+
+  // Construct the SQL UPDATE query dynamically based on the provided columns
+  let sql = 'UPDATE Salary SET ';
+  const updateValues = [];
+
+ // SalaryType_id | salaryAmount | salaryCycle
+  if (SalaryType_id !== undefined) {
+    sql += 'SalaryType_id = ?, ';
+    updateValues.push(SalaryType_id);
+  }
+  if (salaryAmount !== undefined) {
+    sql += 'salaryAmount = ?, ';
+    updateValues.push(salaryAmount);
+  }
+  if (salaryCycle !== undefined) {
+    sql += 'salaryCycle = ?, ';
+    updateValues.push(salaryCycle);
+  }
+
+  // Remove the trailing comma and space
+  sql = sql.slice(0, -2);
+  sql += ' WHERE id = ?';
+
+  // Add the id value to the updateValues array
+  updateValues.push(id);
+
+  connection.query(sql, updateValues, (err, result) => {
+    if (err) {
+      console.error('Error updating user role:', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    console.log('User role updated successfully');
+    res.status(200).json({ result });
+  });
+});
+
+
+router.post('/deletesalary', function(req, res) {
+  const { id } = req.body;
+  const sql = "DELETE FROM Salary WHERE id = ?";
+  const values = [id];
+  
+  connection.query(sql, values, (err, result) => {
+      if (err) {
+          console.error("Error deleting salary:", err);
+          return res.status(500).send('Failed to delete salary');
+      }
+      console.log('Salary deleted successfully');
+      res.status(200).json({ result });
+  });
+});
+
+
+
 
 module.exports=router;
