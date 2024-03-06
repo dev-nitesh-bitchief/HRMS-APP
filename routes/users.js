@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt')
 router.get('/', function(req, res){
   //show all users
  
-  connection.query("select * from User", function (err, result) {
+  connection.query("SELECT u.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, u.username, u.password, r.roleName AS role_name, u.status, u.creationDate FROM User u JOIN Employee e ON u.Employee_id = e.id JOIN Role r ON u.Role_id = r.id", function (err, result) {
     if (err) throw err;
  
     res.status(200).json({ result });
@@ -18,13 +18,7 @@ router.get('/', function(req, res){
 
 
 
-
-
-
-
-
-
-router.post('/add-user', function(req, res) {
+router.post('/adduser', function(req, res) {
 
     const { Employee_id,username,password,Role_id,status } = req.body;
 
@@ -48,63 +42,59 @@ router.post('/add-user', function(req, res) {
 
 
 
-
-
-
-
-
-router.post('/update-user', (req, res) => {
-  const { Employee_id,username,password,Role_id,status } = req.body;
- 
+router.post('/updateuser', (req, res) => {
+  const { id, Employee_id, username, password, Role_id, status } = req.body;
 
   // Construct the SQL UPDATE query dynamically based on the provided columns
   let sql = 'UPDATE User SET ';
   const updateValues = [];
-  if (username !== '') {
+
+  if (Employee_id !== undefined) {
+    sql += 'Employee_id = ?, ';
+    updateValues.push(Employee_id);
+  }
+  if (username !== undefined) {
     sql += 'username = ?, ';
     updateValues.push(username);
   }
-  if (password !== '') {
+  if (password !== undefined) {
     sql += 'password = ?, ';
     updateValues.push(password);
   }
-  if (Role_id !== '') {
+  if (Role_id !== undefined) {
     sql += 'Role_id = ?, ';
     updateValues.push(Role_id);
   }
-  if (status !== '') {
+  if (status !== undefined) {
     sql += 'status = ?, ';
     updateValues.push(status);
   }
+
   // Remove the trailing comma and space
   sql = sql.slice(0, -2);
   sql += ' WHERE id = ?';
 
   // Add the id value to the updateValues array
-  updateValues.push(Employee_id);
+  updateValues.push(id);
 
-  con.query(sql, updateValues, (err, result) => {
+  connection.query(sql, updateValues, (err, result) => {
     if (err) {
       console.error('Error updating user role:', err);
       res.status(500).send('Internal Server Error');
       return;
     }
     console.log('User role updated successfully');
-    res.redirect('/users');
+    res.status(200).json({ result });
   });
 });
 
 
 
+router.post('/deleteuser', function (req, res) {
+  const { id } = req.body;
 
-
-
-
-router.post('/delete-user', function (req, res) {
-  const { Employee_id } = req.body;
-
-  const data = [Employee_id];
-  const sql = "DELETE FROM User WHERE Employee_id = ?";
+  const data = [id];
+  const sql = "DELETE FROM User WHERE id = ?";
   connection.query(sql, data, (err, result) => {
     if (err) {
       console.error('Error deleting user:', err);
@@ -116,5 +106,22 @@ router.post('/delete-user', function (req, res) {
 });
 
 
+
+router.get('/searchuser', (req, res) => {
+  const {id} = req.body;
+
+ 
+  const sql = "SELECT u.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, u.username, u.password, r.roleName AS role_name, u.status, u.creationDate FROM User u JOIN Employee e ON u.Employee_id = e.id JOIN Role r ON u.Role_id = r.id WHERE u.id = ?";
+  const values = [id];
+
+  connection.query(sql, values, (err, results) => {
+    if (err) {
+      console.error('Error executing search query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json({ results });
+  });
+});
 
   module.exports = router;
