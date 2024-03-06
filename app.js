@@ -23,7 +23,7 @@ var subscription= require('./routes/Subscription');
 var holiday = require('./routes/public-holiday');
 
 
-
+var expense_category = require('./routes/expense_category');
 var leave = require('./routes/leave');
 
 
@@ -64,6 +64,8 @@ app.use('/feedback',feedback);
 
 app.use('/leave', leave);
 app.use('/holiday',holiday);
+app.use('/expense',expense_category);
+
 
 
 
