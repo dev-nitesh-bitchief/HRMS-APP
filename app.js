@@ -14,10 +14,10 @@ var employee = require('./routes/Employee');
 
 var leave = require('./routes/leave');
 var Leave_request = require('./routes/Leave_request');
-
-
-
-
+var Leave_policy = require('./routes/Leave_policy');
+var Leave_balance = require('./routes/Leave_balance');
+var Leave_type = require('./routes/Leave_type');
+var Leave_allocation = require('./routes/Leave_allocation');
 
 
 
@@ -39,13 +39,12 @@ app.use('/users', usersRouter);
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
 
-
-
-
-
-
 // app.use('/leave', leave);
-app.use('/Leave', Leave_request)
+app.use('/Leave', Leave_request);
+app.use('/Leave-policy', Leave_policy);
+app.use('/Leave-balance', Leave_balance);
+app.use('/Leave-type' , Leave_type);
+app.use('/Leave-allocation' , Leave_allocation);
 
 
 
