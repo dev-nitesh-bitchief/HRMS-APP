@@ -12,7 +12,7 @@ var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
 var holiday = require('./routes/public-holiday')
 
-
+var expense_category = require('./routes/expense_category');
 var leave = require('./routes/leave');
 
 var app = express();
@@ -34,6 +34,8 @@ app.use('/ework',eworkInfo);
 app.use('/employee',employee);
 app.use('/leave', leave);
 app.use('/holiday',holiday);
+app.use('/expense',expense_category);
+
 
 
 // catch 404 and forward to error handler
