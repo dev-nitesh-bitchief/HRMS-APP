@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
 
 var indexRouter = require('./routes/index');
@@ -25,9 +26,9 @@ var holiday = require('./routes/public-holiday');
 
 
 var leave = require('./routes/leave');
-
-
-
+var smtp= require('./routes/Smtp');
+var subPlan = require('./routes/subPlan');
+var emailTemp = require('./routes/emailTemp');
 
 
 
@@ -38,6 +39,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -64,8 +67,9 @@ app.use('/feedback',feedback);
 
 app.use('/leave', leave);
 app.use('/holiday',holiday);
-
-
+app.use('/smtp',smtp);
+app.use('/subPlan',subPlan);
+app.use('/emailTemp',emailTemp);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

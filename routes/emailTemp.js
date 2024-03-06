@@ -1,10 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection/db');
+const express= require('express');
+const router=express.Router();
+const db=require('../connection/db');
+var bodyParser = require('body-parser');
+const app = express();
+
+// Middleware to parse JSON requests
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 //Route for Role-Management:
 router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Subscription';
+    const sql='SELECT *FROM Email_templates';
     db.query(sql,(err, result) => {
         if (err) {
             console.error('Error showing data:', err);
@@ -15,9 +21,9 @@ router.get('/show',(req,res)=>{
 });
 
 router.post('/add',(req,res)=>{
-    const {subscriptionPlan_plan_id,start_date,end_date,status}=req.body;
-    const data=[subscriptionPlan_plan_id,start_date,end_date,status];
-    const sql='INSERT INTO Subscription(subscriptionPlan_plan_id,start_date,end_date,status)VALUES(?,?,?,?)';
+    const {emailId,subject,text}=req.body;
+    const data=[emailId,subject,text];
+    const sql='INSERT INTO Email_templates(emailId,subject,text)VALUES(?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -28,24 +34,20 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {subscription_id,subscriptionPlan_plan_id,start_date,end_date,status}=req.body;
-    let sql='UPDATE Subscription SET ';
+    const {id,emailId,subject,text}=req.body;
+    let sql='UPDATE Email_templates SET ';
     const updateValues = [];
-    if (subscriptionPlan_plan_id !== undefined) {
-        sql += 'subscriptionPlan_plan_id = ?, ';
-        updateValues.push(subscriptionPlan_plan_id);
+    if (emailId !== undefined) {
+        sql += 'emailId = ?, ';
+        updateValues.push(emailId);
     }
-    if (start_date !== undefined) {
-        sql += 'start_date = ?, ';
-        updateValues.push(start_date);
+    if (subject !== undefined) {
+        sql += 'subject = ?, ';
+        updateValues.push(subject);
     }
-    if (end_date!==undefined) {
-        sql += 'end_date = ?, ';
-        updateValues.push(end_date);
-    }
-    if (status!==undefined) {
-        sql += 'status = ?, ';
-        updateValues.push(status);
+    if (text!==undefined) {
+        sql += 'text = ?, ';
+        updateValues.push(text);
     }
 
     // Check if any fields are provided for update
@@ -54,10 +56,10 @@ router.post('/update',(req,res)=>{
     }
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);
-    sql += ' WHERE subscription_id = ?';
+    sql += ' WHERE id = ?';
 
     // Add the id value to the updateValues array
-    updateValues.push(subscription_id);
+    updateValues.push(id);
 
     // Execute the SQL UPDATE query
     db.query(sql, updateValues, (err, result) => {
@@ -73,8 +75,8 @@ router.post('/update',(req,res)=>{
 });
 
 router.get('/search',(req,res)=>{
-    const {subscription_id}=req.body;
-    const sql=`SELECT *FROM Subscription WHERE subscription_id=${subscription_id}`;
+    const {id}=req.body;
+    const sql=`SELECT *FROM Email_templates WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -86,7 +88,7 @@ router.get('/search',(req,res)=>{
 
 router.post('/delete',(req,res)=>{
     const {subscription_id}=req.body;
-    const sql=`DELETE FROM Subscription WHERE subscription_id=${subscription_id}`;
+    const sql=`DELETE FROM Email_templates WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
