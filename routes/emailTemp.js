@@ -1,10 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection/db');
+const express= require('express');
+const router=express.Router();
+const db=require('../connection/db');
+var bodyParser = require('body-parser');
+const app = express();
 
-//Route for Permission-Management:
+// Middleware to parse JSON requests
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+//Route for Role-Management:
 router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Permission';
+    const sql='SELECT *FROM Email_templates';
     db.query(sql,(err, result) => {
         if (err) {
             console.error('Error showing data:', err);
@@ -15,9 +21,9 @@ router.get('/show',(req,res)=>{
 });
 
 router.post('/add',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    const data=[id,permissionName,description];
-    const sql='INSERT INTO Permission(id,permissionName,description)VALUES(?,?,?)';
+    const {emailId,subject,text}=req.body;
+    const data=[emailId,subject,text];
+    const sql='INSERT INTO Email_templates(emailId,subject,text)VALUES(?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -28,17 +34,22 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    let sql='UPDATE Permission SET ';
+    const {id,emailId,subject,text}=req.body;
+    let sql='UPDATE Email_templates SET ';
     const updateValues = [];
-    if (permissionName !== undefined) {
-        sql += 'permissionName = ?, ';
-        updateValues.push(permissionName);
+    if (emailId !== undefined) {
+        sql += 'emailId = ?, ';
+        updateValues.push(emailId);
     }
-    if (description !== undefined) {
-        sql += 'description = ?, ';
-        updateValues.push(description);
+    if (subject !== undefined) {
+        sql += 'subject = ?, ';
+        updateValues.push(subject);
     }
+    if (text!==undefined) {
+        sql += 'text = ?, ';
+        updateValues.push(text);
+    }
+
     // Check if any fields are provided for update
     if (updateValues.length === 0) {
         return res.status(400).json({ success: false, message: 'No fields provided for update' });
@@ -65,7 +76,7 @@ router.post('/update',(req,res)=>{
 
 router.get('/search',(req,res)=>{
     const {id}=req.body;
-    const sql=`SELECT *FROM Permission WHERE id=${id}`;
+    const sql=`SELECT *FROM Email_templates WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -76,8 +87,8 @@ router.get('/search',(req,res)=>{
 });
 
 router.post('/delete',(req,res)=>{
-    const {id}=req.body;
-    const sql=`DELETE FROM Permission WHERE id=${id}`;
+    const {subscription_id}=req.body;
+    const sql=`DELETE FROM Email_templates WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
