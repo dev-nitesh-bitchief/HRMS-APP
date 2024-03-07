@@ -9,8 +9,15 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
+
+var attendanceRouter = require('./routes/Attendance')
+
+var role=require('./routes/Role')
+
+
 var role=require('./routes/Role');
 var docs= require('./routes/Document');
+
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
 
@@ -50,6 +57,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
+
+app.use('/attendance',attendanceRouter)
+
+
+
 app.use('/role',role);
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
