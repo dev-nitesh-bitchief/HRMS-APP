@@ -13,10 +13,14 @@ var role=require('./routes/Role');
 var docs= require('./routes/Document');
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+
+var holiday = require('./routes/public_holiday')
+
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
 var holiday = require('./routes/public-holiday');
+
 var expense_category = require('./routes/expense_category');
 var leave = require('./routes/leave');
 var smtp= require('./routes/Smtp');
