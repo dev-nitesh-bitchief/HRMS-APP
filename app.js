@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 
 var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
-
+var attendanceRouter = require('./routes/Attendance')
 
 var role=require('./routes/Role')
 
@@ -44,6 +44,7 @@ app.use('/users', usersRouter);
 
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
+app.use('/attendance',attendanceRouter)
 
 
 app.use('/role',role);
