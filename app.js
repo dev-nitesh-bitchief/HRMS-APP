@@ -16,7 +16,7 @@ var employee = require('./routes/Employee');
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
-var holiday = require('./routes/public-holiday');
+var holiday = require('./routes/public_holiday');
 var expense_category = require('./routes/expense_category');
 var leave = require('./routes/leave');
 var smtp= require('./routes/Smtp');
@@ -31,6 +31,7 @@ var Leave_allocation = require('./routes/Leave_allocation');
 var app = express();
 
 // view engine setup
+app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
