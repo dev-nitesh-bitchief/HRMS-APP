@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var db = require('../connection/db');
 
-//Route for Permission-Management:
+//Route for Role-Management:
 router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Permission';
+    const sql='SELECT *FROM SubscriptionPlan';
     db.query(sql,(err, result) => {
         if (err) {
             console.error('Error showing data:', err);
@@ -15,9 +15,9 @@ router.get('/show',(req,res)=>{
 });
 
 router.post('/add',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    const data=[id,permissionName,description];
-    const sql='INSERT INTO Permission(id,permissionName,description)VALUES(?,?,?)';
+    const {plan_name,description,price,features,duration}=req.body;
+    const data=[plan_name,description,price,features,duration];
+    const sql='INSERT INTO SubscriptionPlan(plan_name,description,price,features,duration)VALUES(?,?,?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -28,27 +28,40 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    let sql='UPDATE Permission SET ';
+    const {plan_id,plan_name,description,price,features,duration}=req.body;
+    let sql='UPDATE SubscriptionPlan SET ';
     const updateValues = [];
-    if (permissionName !== undefined) {
-        sql += 'permissionName = ?, ';
-        updateValues.push(permissionName);
+    if (plan_name !== undefined) {
+        sql += 'plan_name = ?, ';
+        updateValues.push(plan_name);
     }
     if (description !== undefined) {
         sql += 'description = ?, ';
         updateValues.push(description);
     }
+    if (price!==undefined) {
+        sql += 'price = ?, ';
+        updateValues.push(price);
+    }
+    if (features!==undefined) {
+        sql += 'features = ?, ';
+        updateValues.push(features);
+    }
+    if (duration!==undefined) {
+        sql += 'duration = ?, ';
+        updateValues.push(duration);
+    }
+
     // Check if any fields are provided for update
     if (updateValues.length === 0) {
         return res.status(400).json({ success: false, message: 'No fields provided for update' });
     }
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);
-    sql += ' WHERE id = ?';
+    sql += ' WHERE plan_id = ?';
 
     // Add the id value to the updateValues array
-    updateValues.push(id);
+    updateValues.push(plan_id);
 
     // Execute the SQL UPDATE query
     db.query(sql, updateValues, (err, result) => {
@@ -64,8 +77,8 @@ router.post('/update',(req,res)=>{
 });
 
 router.get('/search',(req,res)=>{
-    const {id}=req.body;
-    const sql=`SELECT *FROM Permission WHERE id=${id}`;
+    const {plan_id}=req.body;
+    const sql=`SELECT *FROM SubscriptionPlan WHERE plan_id=${plan_id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -76,8 +89,8 @@ router.get('/search',(req,res)=>{
 });
 
 router.post('/delete',(req,res)=>{
-    const {id}=req.body;
-    const sql=`DELETE FROM Permission WHERE id=${id}`;
+    const {plan_id}=req.body;
+    const sql=`DELETE FROM SubscriptionPlan WHERE plan_id=${plan_id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);

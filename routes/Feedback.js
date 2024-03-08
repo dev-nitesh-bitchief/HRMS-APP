@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
 var db = require('../connection/db');
+const path= require('path');
+const app = express();
 
-//Route for Permission-Management:
+// Middleware to parse JSON requests
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
 router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Permission';
-    db.query(sql,(err, result) => {
+    const sql= "SELECT * FROM Feedback";
+    db.query(sql,(err,result)=>{
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
@@ -15,29 +21,45 @@ router.get('/show',(req,res)=>{
 });
 
 router.post('/add',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    const data=[id,permissionName,description];
-    const sql='INSERT INTO Permission(id,permissionName,description)VALUES(?,?,?)';
+    const {Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus}=req.body;
+    const data=[Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus];
+    const sql='INSERT INTO Feedback(Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus) VALUES(?,?,?,?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
-            console.error('error',err);
-            return res.status(500).send("Internal serevr error");
+            console.error('error', err);
+            return res.status(500).send("Internal server error");
         }
-        return res.status(201).json({result});
+        return res.status(201).json({ result });
     });
 });
 
 router.post('/update',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    let sql='UPDATE Permission SET ';
-    const updateValues = [];
-    if (permissionName !== undefined) {
-        sql += 'permissionName = ?, ';
-        updateValues.push(permissionName);
+    const {id,Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus}=req.body;
+    let sql= "UPDATE Feedback SET ";
+    const updateValues=[];
+    if (Employee_id !== undefined) {
+        sql += 'Employee_id = ?, ';
+        updateValues.push(Employee_id);
     }
-    if (description !== undefined) {
-        sql += 'description = ?, ';
-        updateValues.push(description);
+    if (feedbackType !== undefined) {
+        sql += 'feedbackType = ?, ';
+        updateValues.push(feedbackType);
+    }
+    if (feedbackDate !== undefined) {
+        sql += 'feedbackDate = ?, ';
+        updateValues.push(feedbackDate);
+    }
+    if (feedbackDescription !== undefined) {
+        sql += 'feedbackDescription = ?, ';
+        updateValues.push(feedbackDescription);
+    }
+    if (feedbackMethod !== undefined) {
+        sql += 'feedbackMethod = ?, ';
+        updateValues.push(feedbackMethod);
+    }
+    if (feedbackStatus !== undefined) {
+        sql += 'feedbackStatus = ?, ';
+        updateValues.push(feedbackStatus);
     }
     // Check if any fields are provided for update
     if (updateValues.length === 0) {
@@ -57,15 +79,13 @@ router.post('/update',(req,res)=>{
             res.status(500).send('Error updating data');
             return;
         }
-        // console.log('Data updated successfully');
-        // return res.send('Data updated successfully');
         return res.status(200).json({ success: true, message: 'Data update successfully',result});
     });
 });
 
 router.get('/search',(req,res)=>{
     const {id}=req.body;
-    const sql=`SELECT *FROM Permission WHERE id=${id}`;
+    const sql=`SELECT *FROM Feedback WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -77,7 +97,7 @@ router.get('/search',(req,res)=>{
 
 router.post('/delete',(req,res)=>{
     const {id}=req.body;
-    const sql=`DELETE FROM Permission WHERE id=${id}`;
+    const sql=`DELETE FROM Feedback WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
