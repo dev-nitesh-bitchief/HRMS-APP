@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* Styling the anchor tag to look like a button */
+    .btn-dark {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .btn-dark:hover {
+      background-color: #45a049;
+    }
+
+    /* Styling the actions column */
+    .actions {
+      text-align: right;
+    }
+
+    /* Styling the anchor tag to look like a button */
+    .new_data {
+      display: inline-block;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      background-color: #4CAF50;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .new_data:hover {
+      background-color: #45a049;
+      /* Darker green */
+    }
+
+    /* CSS styles for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+
+    #form-container {
+      display: none;
+      /* Hide the form by default */
+
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">User Management</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <!-- Button to trigger the modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+                      Add New User</button>
+                    <tr>
+                      <th>id</th>
+                      <th>employee_name</th>
+                      <th>username</th>
+                      <th>role_name</th>
+                      <th>status</th>
+                      <th>creationDate</th>
+                      <th class="actions">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each user}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.employee_name}}</td>
+                      <td>{{this.username}}</td>
+                      <td>{{this.role_name}}</td>
+                      <td>{{this.status}}</td>
+                      <td>{{this.creationDate}}</td>
+                      <td class="actions">
+                        <button type="button" class="btn btn-dark btn-icon-text" onclick="openEditForm('{{this.id}}')"
+                          data-toggle="modal" data-target="#updatePermissionsModal">
+                          Edit
+                          <i class="ti-file btn-icon-append"></i>
+                        </button>
+                        <button type="button" class="btn btn-dark btn-icon-text" data-toggle="modal"
+                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
+                          Delete
+                          <i class="ti-reload btn-icon-prepend"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addRoleModalLabel">Add New User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{!-- "Employee_id": "3","username": "shub","password": "1234","Role_id": "2","status":"active" --}}
+        {{!-- const { Employee_id,username,password,Role_id,status } = req.body; --}}
+        <div class="modal-body">
+          <form class="forms-sample" action="/users/adduser" method="post">
+            <div class="form-group">
+              <label for="employee_name">Name</label>
+              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee_id">
+            </div>
+            <div class="form-group">
+              <label for="age">username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+              <label for="email">password</label>
+              <input type="text" class="form-control" id="password" name="password" placeholder="password">
+            </div>
+
+
+
+
+            {{!-- <div class="form-group">
+              <label for="phone">Role_id</label>
+              <input type="text" class="form-control" id="Role_id" name="Role_id" placeholder="Role_id">
+            </div> --}}
+            {{!-- vanshcode below --}}
+            {{!-- <div class="form-group">
+              <label for="Role_id">Select Role </label>
+              <select id="salarytype" name="salarytype">
+                <option value=" "> Select </option>
+              </select>
+            </div> --}}
+
+            <div class="form-group">
+              <label for="salary_type">Select role:</label>
+              <select id="salary_type" name="salary_type">
+                <option value="">Select </option>
+              </select>
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label for="blood_group">status</label>
+              <input type="text" class="form-control" id="status" name="status" placeholder="status">
+            </div>
+            <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
+          </form>
+        </div>
+        <div id="toast" class="toast"></div>
+      </div>
+    </div>
+  </div>
+  {{!-- --}}
+
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteidModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="deleteForm" action="/users/deleteuser" method="post">
+            <div class="form-group">
+              <label for="id">Are you sure:</label>
+              <input type="hidden" id="recordid" name="id" value="{{this.id}}">
+              <p id="recordidDisplay"></p>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
+
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
+    function openDeleteModal(recordid) {
+      document.getElementById('recordid').value = recordid;
+      document.getElementById('recordidDisplay').innerText = 'ID: ' + recordid;
+      $('#deleteidModal').modal('show');
+    }
+
+     document.addEventListener('DOMContentLoaded', function () {
+      // Fetch data from the server and populate the dropdown
+      fetch('/salarytype')
+        .then(response => response.json())
+        .then(data => {
+          const roleDropdown = document.getElementById('salary_type');
+          data.forEach(SalaryType => {
+            const option = document.createElement('option');
+            option.value = SalaryType.id;
+            option.textContent = SalaryType.salary_type;
+            roleDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+  </script>
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -12,11 +12,13 @@ router.get('/', function(req, res){
         }
       
    
-      res.status(200).json({ result });
+      res.status(200).json(result);
    
     });
   
   });
+
+  
 
 
 router.post('/addsalarytype', function(req, res) {
