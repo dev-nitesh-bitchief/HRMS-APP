@@ -10,8 +10,8 @@ router.get('/', function(req, res){
   connection.query("SELECT u.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, u.username, u.password, r.roleName AS role_name, u.status, u.creationDate FROM User u JOIN Employee e ON u.Employee_id = e.id JOIN Role r ON u.Role_id = r.id", function (err, result) {
     if (err) throw err;
  
-    res.status(200).json({ result });
- 
+    // res.status(200).json({ result });
+    res.render('user', { user: result });
   });
 
 });
@@ -89,19 +89,18 @@ router.post('/updateuser', (req, res) => {
 });
 
 
-
-router.post('/deleteuser', function (req, res) {
+router.post('/deleteuser', function(req, res) {
   const { id } = req.body;
-
-  const data = [id];
   const sql = "DELETE FROM User WHERE id = ?";
-  connection.query(sql, data, (err, result) => {
-    if (err) {
-      console.error('Error deleting user:', err);
-      return res.status(500).send('Internal Server Error');
-    }
-    console.log('User deleted successfully');
-    res.status(200).json({ result });
+  const values = [id];
+  
+  connection.query(sql, values, (err, result) => {
+      if (err) {
+          console.error("Error deleting salary:", err);
+          return res.status(500).send('Failed to delete salary');
+      }
+      console.log('Salary deleted successfully');
+      res.redirect('/users');
   });
 });
 
