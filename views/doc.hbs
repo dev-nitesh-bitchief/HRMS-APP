@@ -1,0 +1,124 @@
+<!-- upload_documents.hbs -->
+<title>Upload Documents</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{{!--
+<link rel="stylesheet" href="styles.css"> --}}
+<style>
+    /* styles.css */
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    #toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #09a833;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: none;
+
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload Documents</h1>
+        <form id="uploadForm"  enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="Employee_id">Employee ID:</label>
+                <input type="text" class="form-control" id="Employee_id" name="Employee_id">
+            </div>
+            <div class="form-group">
+                <label for="documentName">documentName:</label>
+                <input type="text" class="form-control" id="documentName" name="documentName">
+            </div>
+            <div class="form-group">
+                <label for="docs">Upload Documents:</label>
+                <input type="file" class="form-control-file" id="docs" name="docs">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+
+    <div id="toast" class="hidden">document uploaded!</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4"></script>
+    <script>
+         document.addEventListener('DOMContentLoaded', function () {
+         });
+            document.getElementById('uploadForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                debugger
+                var formData = new FormData(this);
+
+                fetch('/docs/add', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        debugger
+                        if (!response.ok) {
+                            throw new Error('Error uploading documents');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        debugger
+                        console.log(data);
+                        alert('Documents uploaded successfully');
+
+                    })
+                    .catch(error => {
+                        debugger
+                        console.error('Error uploading documents:', error);
+                        alert('An error occurred while uploading documents');
+                    });
+            });
+        // Function to show toast notification
+        function showToast() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.style.display = 'block';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000); // Hide after 3 seconds
+            }
+        }
+        // Check if data updated flag is set in session storage
+        window.addEventListener('load', () => {
+            if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('documentuploaded')) {
+                showToast();
+                // Remove the flag from session storage to prevent showing the toast again on subsequent page loads
+                sessionStorage.removeItem('documentuploaded');
+            }
+        });
+        // Handle form submission
+        const uploadForm = document.getElementById('uploadForm');
+        if (uploadForm) {
+            uploadForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent form submission
+                // Update data
+                // For demonstration purposes, let's just set a flag indicating data update
+                if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.setItem('documentuploaded', 'true');
+                }
+                // Reload the page to show toast notification
+                location.reload();
+            });
+        }
+    </script>
+
+</body>

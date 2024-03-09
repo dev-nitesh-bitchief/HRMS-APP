@@ -15,14 +15,15 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 // show all documnet
-router.get('/show', (req, res) => {
+router.get('/', (req, res) => {
     const sql = 'SELECT *FROM Document';
     db.query(sql, (err, result) => {
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(200).json({ result });
+        // return res.status(200).json({ result });
+        return res.render('doc');
     });
 });
 
@@ -33,7 +34,7 @@ router.post('/add', upload.single('docs'), (req, res) => {
 
     // Save the uploaded file with filename
     const fileName = docs ? docs.filename : null;
-    const filePath = path.join(__dirname, 'docs', fileName);
+    const filePath = path.join(__dirname, '..', 'docs', fileName);
     // // Read and write the file to server
     fs.writeFileSync(filePath, fs.readFileSync(docs.path));
 
@@ -44,7 +45,8 @@ router.post('/add', upload.single('docs'), (req, res) => {
             console.error('error', err);
             return res.status(500).send("Internal server error");
         }
-        return res.status(201).json({ result });
+        return res.status(201).json( result );
+        //  res.redirect('/doc');
     });
 });
 

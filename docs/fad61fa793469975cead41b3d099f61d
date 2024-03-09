@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+</head>
+<body>
+    <center>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="uname"></label><br>
+        <input type="text"  id="uname" name="uname" placeholder="username" required><br>
+        <label for="fname"></label><br>
+        <input type="text"  id="fname" name="fname" placeholder="first name" required><br>
+        <!-- <label for="mname"></label><br>
+        <input type="text" id="mname" name="mname" placeholder="middle name"><br> -->
+        <label for="lname"></label><br>
+        <input type="text" id="lname" name="lname" placeholder="last name"required><br>
+        <label for="Mno"></label><br>
+        <input type="tel"  id="Mno" name="Mno" placeholder="Mobile no." required><br>
+        <label for="myfile"></label><br>
+        <input type="file" id="myfile" name="myfile"><br>
+        <button type="submit">upload</button>
+      </form>
+    </center>
+</body>
+</html>
