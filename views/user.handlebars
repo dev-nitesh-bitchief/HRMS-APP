@@ -75,6 +75,14 @@
 
 
     }
+
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 
@@ -112,8 +120,9 @@
                       <td>{{this.status}}</td>
                       <td>{{this.creationDate}}</td>
                       <td class="actions">
-                        <button type="button" class="btn btn-dark btn-icon-text" onclick="openEditForm('{{this.id}}')"
-                          data-toggle="modal" data-target="#updatePermissionsModal">
+                           <button type="button" class="btn btn-dark btn-icon-text"
+                          onclick="UpdateForm('{{this.id}}','{{this.role_id}}','{{this.status}}')"
+                          data-toggle="modal" data-target="#updateUserModal">
                           Edit
                           <i class="ti-file btn-icon-append"></i>
                         </button>
@@ -147,8 +156,6 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {{!-- "Employee_id": "3","username": "shub","password": "1234","Role_id": "2","status":"active" --}}
-        {{!-- const { Employee_id,username,password,Role_id,status } = req.body; --}}
         <div class="modal-body">
           <form class="forms-sample" action="/users/adduser" method="post">
             <div class="form-group">
@@ -163,34 +170,14 @@
               <label for="email">password</label>
               <input type="text" class="form-control" id="password" name="password" placeholder="password">
             </div>
-
-
-
-
-            {{!-- <div class="form-group">
-              <label for="phone">Role_id</label>
-              <input type="text" class="form-control" id="Role_id" name="Role_id" placeholder="Role_id">
-            </div> --}}
-            {{!-- vanshcode below --}}
-            {{!-- <div class="form-group">
-              <label for="Role_id">Select Role </label>
-              <select id="salarytype" name="salarytype">
-                <option value=" "> Select </option>
-              </select>
-            </div> --}}
-
             <div class="form-group">
               <label for="salary_type">Select role:</label>
               <select id="salary_type" name="salary_type">
                 <option value="">Select </option>
               </select>
             </div>
-
-
-
-
             <div class="form-group">
-              <label for="blood_group">status</label>
+              <label for="status">status</label>
               <input type="text" class="form-control" id="status" name="status" placeholder="status">
             </div>
             <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
@@ -228,6 +215,44 @@
     </div>
   </div>
 
+
+  <!-- Update Modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateUserModalLabel">Update User Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/users/updateuser" method="post">
+            <div class="form-group">
+              <input type="hidden" class="form-control" id="id" name="id">
+            </div>
+            <div class="form-group">
+              <label for="role_name">role_name : </label>
+              <input type="text" class="form-control" id="Role_id" name="Role_id" placeholder="Role_id">
+            </div>
+            <div class="form-group">
+              <label for="salaryAmount">salaryAmount:</label>
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="salaryAmount">
+            </div>
+
+            <button type="submit" class="btn btn-warning">Update Employee</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   <script>
     // Function to open the form
     function openForm() {
@@ -244,9 +269,17 @@
       $('#deleteidModal').modal('show');
     }
 
-     document.addEventListener('DOMContentLoaded', function () {
+    function UpdateForm(id, salary_type) {
+      document.getElementById('id').value = id;
+      document.getElementById('Role_id').value = Role_id;
+      document.getElementById('status').value = status;
+      $('#updateUserModal').modal('show');
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
       // Fetch data from the server and populate the dropdown
-      fetch('/salarytype')
+      fetch('/salarytype/allsalarytype')
         .then(response => response.json())
         .then(data => {
           const roleDropdown = document.getElementById('salary_type');
@@ -261,10 +294,7 @@
     });
 
   </script>
-  <!-- Bootstrap JS and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

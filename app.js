@@ -3,11 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-<<<<<<< HEAD
+
 var hbs = require('express-handlebars')
-=======
+
 const bodyParser = require('body-parser');
->>>>>>> de63456dc565106b8be81a650d4b34e9517ba9ca
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,7 +16,7 @@ var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
 
-var role=require('./routes/Role')
+
 
 
 var role=require('./routes/Role');
@@ -30,10 +30,9 @@ var holiday = require('./routes/public_holiday')
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
-var holiday = require('./routes/public-holiday');
+var holiday = require('./routes/public_holiday');
 
 var expense_category = require('./routes/expense_category');
-var leave = require('./routes/leave');
 var smtp= require('./routes/Smtp');
 var subPlan = require('./routes/subPlan');
 var emailTemp = require('./routes/emailTemp');
@@ -84,7 +83,6 @@ app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
 app.use('/Leave-type' , Leave_type);
 app.use('/Leave-allocation' , Leave_allocation);
-app.use('/leave', leave);
 app.use('/holiday',holiday);
 app.use('/smtp',smtp);
 app.use('/subPlan',subPlan);

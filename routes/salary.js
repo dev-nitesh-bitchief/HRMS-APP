@@ -44,7 +44,8 @@ router.post('/addsalary', function(req, res) {
             return res.status(500).send('Failed to add salary');
         }
         console.log('Salary added successfully');
-        res.status(200).json({ result });
+        // res.status(200).json({ result });
+        res.status(201).redirect('/salary')
         
     });
 });

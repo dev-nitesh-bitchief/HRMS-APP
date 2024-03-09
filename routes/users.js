@@ -91,15 +91,15 @@ router.post('/updateuser', (req, res) => {
 
 router.post('/deleteuser', function(req, res) {
   const { id } = req.body;
-  const sql = "DELETE FROM User WHERE id = ?";
+  const sql = "delete from User where id = ?";
   const values = [id];
   
   connection.query(sql, values, (err, result) => {
       if (err) {
           console.error("Error deleting salary:", err);
-          return res.status(500).send('Failed to delete salary');
+          return res.status(500).send('Failed to delete User');
       }
-      console.log('Salary deleted successfully');
+      console.log('USER deleted successfully');
       res.redirect('/users');
   });
 });

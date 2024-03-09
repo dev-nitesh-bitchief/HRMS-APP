@@ -30,14 +30,6 @@
       text-align: right;
     }
 
-     select {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-
     /* Styling the anchor tag to look like a button */
     .new_data {
       display: inline-block;
@@ -93,32 +85,28 @@
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Salary</h4>
+              <h4 class="card-title">salary_type Management</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
+                    <!-- Button to trigger the modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
-                      Add New salary</button>
+                      Add New User</button>
                     <tr>
-                      <th>Id:</th>
-                      <th>employee_name</th>
+                        {{!-- "id": 1,"salary_type": "basic salary" --}}
+                      <th>id</th>
                       <th>salary_type</th>
-                      <th>salaryAmount</th>
-                      <th>salaryCycle</th>
                       <th class="actions">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each salary}}
+                    {{#each salarytype}}
                     <tr>
                       <td>{{this.id}}</td>
-                      <td>{{this.employee_name}}</td>
                       <td>{{this.salary_type}}</td>
-                      <td>{{this.salaryAmount}}</td>
-                      <td>{{this.salaryCycle}}</td>
                       <td class="actions">
                         <button type="button" class="btn btn-dark btn-icon-text"
-                          onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
+                          onclick="UpdateForm('{{this.id}}','{{this.salary_type}}')"
                           data-toggle="modal" data-target="#updateUserModal">
                           Edit
                           <i class="ti-file btn-icon-append"></i>
@@ -141,36 +129,23 @@
     </div>
   </div>
 
-   <!-- add Modal -->
+
+  <!-- add Modal -->
   <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addRoleModalLabel">salary info</h5>
+          <h5 class="modal-title" id="addRoleModalLabel">Add New Type</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form class="forms-sample" action="/Salary/addsalary" method="post">
+          <form class="forms-sample" action="/salarytype/addsalarytype" method="post">
             <div class="form-group">
-              <label for="employee_name">Employee_id</label>
-              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee_id">
-            </div>
-            <div class="form-group">
-              <label for="salary_type">Select role:</label>
-              <select id="salary_type" name="SalaryType_id">
-                <option value="">Select </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="salaryAmount">salaryAmount</label>
-              <input type="text" class="form-control" id="salaryAmount1" name="salaryAmount" placeholder="salaryAmount">
-            </div>
-            <div class="form-group">
-              <label for="salaryCycle">salaryCycle</label>
-              <input type="text" class="form-control" id="salaryCycle2" name="salaryCycle" placeholder="salaryCycle">
+              <label for="salary_type">Name</label>
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="salary_type">
             </div>
             <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
           </form>
@@ -180,6 +155,7 @@
     </div>
   </div>
   {{!-- --}}
+
 
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteidModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
@@ -193,7 +169,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="deleteForm" action="/salary/deletesalary" method="post">
+          <form id="deleteForm" action="/salarytype/deletesalarytype" method="post">
             <div class="form-group">
               <label for="id">Are you sure:</label>
               <input type="hidden" id="recordid" name="id" value="{{this.id}}">
@@ -206,30 +182,28 @@
     </div>
   </div>
 
-  <!-- Update Modal -->
+
+    <!-- Update Modal -->
   <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="updateUserModalLabel">Update salary</h5>
+          <h5 class="modal-title" id="updateUserModalLabel">Update salary type</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="/salary/updatesalary" method="post">
+          <form action="/salarytype/updatesalarytype" method="post">
             <div class="form-group">
               <input type="hidden" class="form-control" id="id" name="id">
             </div>
             <div class="form-group">
               <label for="salaryAmount">salaryAmount:</label>
-              <input type="text" class="form-control" id="salaryAmount" name="salaryAmount" placeholder="salaryAmount">
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="salaryAmount">
             </div>
-            <div class="form-group">
-              <label for="salaryCycle">salaryCycle:</label>
-              <input type="text" class="form-control" id="salaryCycle" name="salaryCycle" placeholder="salaryCycle">
-            </div>
+          
             <button type="submit" class="btn btn-warning">Update Employee</button>
           </form>
         </div>
@@ -238,32 +212,7 @@
   </div>
 
 
-
-
   <script>
-
-        document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
-      fetch('/salarytype/allsalarytype')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('salary_type');
-          data.forEach(Type => {
-            const option = document.createElement('option');
-            option.value = Type.id;
-            option.textContent = Type.salary_type;
-            roleDropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    });
-    function openDeleteModal(recordid) {
-      document.getElementById('recordid').value = recordid;
-      document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
-      $('#deleteidModal').modal('show');
-    }
-
-
     // Function to open the form
     function openForm() {
       document.getElementById("form-container").style.display = "block";
@@ -273,20 +222,25 @@
     function closeForm() {
       document.getElementById("form-container").style.display = "none";
     }
+    function openDeleteModal(recordid) {
+      document.getElementById('recordid').value = recordid;
+      document.getElementById('recordidDisplay').innerText = 'ID: ' + recordid;
+      $('#deleteidModal').modal('show');
+    }
 
 
-      function UpdateForm(id, salaryAmount, salaryCycle) {
+       function UpdateForm(id, salary_type) {
       document.getElementById('id').value = id;
-      document.getElementById('salaryAmount').value = salaryAmount;
-      document.getElementById('salaryCycle').value = salaryCycle;
+      document.getElementById('salary_type').value = salary_type;
       $('#updateUserModal').modal('show');
     };
+
+
   </script>
   <!-- Bootstrap JS and jQuery -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 
 </html>
