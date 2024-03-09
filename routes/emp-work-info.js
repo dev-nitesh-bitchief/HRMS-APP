@@ -3,14 +3,15 @@ var router = express.Router();
 var db = require('../connection/db');
 
 //Route for Employee work information:
-router.get('/show', (req, res, next) => {
+router.get('/', (req, res, next) => {
     // res.send("hello from ework")
     db.query('SELECT * FROM Employee_work_info', (err, result) => {
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(200).json({ result });
+        // return res.status(200).json({ result });
+        return res.render("employee",({data:result}));
     })
 });
 
@@ -23,7 +24,8 @@ router.post('/add', (req, res) => {
             console.error('Error adding fields:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(201).json({ result });
+        // return res.status(201).json({ result });
+        return res.redirect('/ework');
     })
 });
 
@@ -109,7 +111,8 @@ router.post('/update', (req, res) => {
         // console.log('Data updated successfully');
         // return res.send('Data updated successfully');
         console.log(result);
-        return res.status(200).json({ success: true, message: 'Data update successfully',result});
+        // return res.status(200).json({ success: true, message: 'Data update successfully',result});
+        return res.redirect('/ework');
     });
 });
 

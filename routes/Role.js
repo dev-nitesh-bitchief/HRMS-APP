@@ -6,33 +6,35 @@ app.use(bodyParser.json());
 var db = require('../connection/db');
 
 //Route for Role-Management:
-router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Role';
+router.get('/',(req,res)=>{
+    const sql='SELECT r.id AS id, r.roleName, GROUP_CONCAT(p.permissionName) AS permissions FROM Role r JOIN permission p ON FIND_IN_SET(p.id, r.Permission_id) GROUP BY r.id, r.roleName';
     db.query(sql,(err, result) => {
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(200).json({ result });
+        // return res.status(200).json({ result });
+        return res.render('roles',({roles:result}));
     });
 });
 
 router.post('/add', (req, res) => {
-    const { id, roleName, permissions } = req.body;
+    const { roleName, permissions } = req.body;
     
     const permissions1=[permissions]
     // Convert array of permissions to comma-separated string
     const Permission_id = permissions1.join(',');
 
-    const data = [id, roleName, Permission_id];
-    const sql = 'INSERT INTO Role(id, roleName, Permission_id) VALUES (?, ?, ?)';
+    const data = [ roleName, Permission_id];
+    const sql = 'INSERT INTO Role( roleName, Permission_id) VALUES ( ?, ?)';
     
     db.query(sql, data, (err, result) => {
         if (err) {
             console.error('Error', err);
             return res.status(500).send("Internal server error");
         }
-        return res.status(201).json({ result });
+        // return res.status(201).json({ result });
+        return res.redirect('/role');
     });
 });
 
@@ -114,4 +116,59 @@ router.post('/delete',(req,res)=>{
     });
 });
 
+router.get('/dynamicpermission' , (req,res)=>{
+    const sql = 'select * from permission';
+    db.query(sql, (error, results) => {
+      if (error) {
+        console.error('Error retrieving data from database: ' + error.stack);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results);
+  });
+  });
+
+
+  router.get('/roles-edit-prefilled/:row_id' , (req,res)=>{
+    var id = req.params.row_id;
+    var sql = `select * from Role where id = ?`;
+  
+    console.log(`id: ${id}`);
+    console.log(id);
+  
+    db.query(sql  ,id , (error , results) => {
+      if (error) {
+        console.error('Error retrieving data from database: ' + error.stack);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      console.log(results);
+      res.json(results[0]);
+  });
+  });
+
+  router.get('/', (req, res) => {
+  
+    // Define the API URL
+    const apiUrl = 'http://localhost:3000/api/';
+  
+    // Function to fetch data from the API
+    async function fetchData() {
+      try {
+        // Make a GET request to the API
+        const response = await axios.get(apiUrl);
+  
+        // Log the data received from the API
+        // console.log('Data from the API:', response.data);
+        return res.json(response.data);
+      } catch (error) {
+        // Log any errors that occur during the API request
+        console.error('Error fetching data:', error.message);
+      }
+    }
+  
+    // Call the fetchData function to initiate the API request
+    fetchData();
+  
+  })
 module.exports=router;

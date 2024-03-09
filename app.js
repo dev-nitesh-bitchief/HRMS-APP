@@ -3,22 +3,38 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const bodyParser = require('body-parser');
-
+var bodyParser = require('body-parser');
+var exphbs = require("express-handlebars")
+var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
+
+var attendanceRouter = require('./routes/Attendance')
+
+var role=require('./routes/Role')
+
+
 var role=require('./routes/Role');
 var docs= require('./routes/Document');
+
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee');
+
+var holiday = require('./routes/public_holiday')
+
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
+
 var holiday = require('./routes/public_holiday');
+
+
+
+
 var expense_category = require('./routes/expense_category');
-var leave = require('./routes/leave');
+
 var smtp= require('./routes/Smtp');
 var subPlan = require('./routes/subPlan');
 var emailTemp = require('./routes/emailTemp');
@@ -29,6 +45,7 @@ var Leave_type = require('./routes/Leave_type');
 var Leave_allocation = require('./routes/Leave_allocation');
 
 var app = express();
+
 
 // view engine setup
 app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
@@ -41,12 +58,24 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'design')));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  // cookie: { secure: true }
+}))
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
+
+app.use('/attendance',attendanceRouter)
+
+
+
 app.use('/role',role);
 app.use('/ework',eworkInfo);
 app.use('/employee',employee);
@@ -61,7 +90,7 @@ app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
 app.use('/Leave-type' , Leave_type);
 app.use('/Leave-allocation' , Leave_allocation);
-app.use('/leave', leave);
+// app.use('/leave', leave);
 app.use('/holiday',holiday);
 app.use('/smtp',smtp);
 app.use('/subPlan',subPlan);
