@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* Styling the anchor tag to look like a button */
+    .btn-dark {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .btn-dark:hover {
+      background-color: #45a049;
+    }
+
+    /* Styling the actions column */
+    .actions {
+      text-align: right;
+    }
+
+    /* Styling the anchor tag to look like a button */
+    .new_data {
+      display: inline-block;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      background-color: #4CAF50;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .new_data:hover {
+      background-color: #45a049;
+      /* Darker green */
+    }
+
+    /* CSS styles for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+
+    #form-container {
+      display: none;
+      /* Hide the form by default */
+
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">salary_type Management</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <!-- Button to trigger the modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+                      Add New Type</button>
+                    <tr>
+                        {{!-- "id": 1,"salary_type": "basic salary" --}}
+                      <th>id</th>
+                      <th>salary_type</th>
+                      <th class="actions">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each salarytype}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.salary_type}}</td>
+                      <td class="actions">
+                        <button type="button" class="btn btn-success btn-rounded btn-fw"
+                          onclick="UpdateForm('{{this.id}}','{{this.salary_type}}')"
+                          data-toggle="modal" data-target="#updateUserModal">
+                          Edit
+                          <i class="ti-file btn-icon-append"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
+                          Delete
+                          <i class="ti-reload btn-icon-prepend"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addRoleModalLabel">Add New Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="forms-sample" action="/salarytype/addsalarytype" method="post">
+            <div class="form-group">
+              <label for="salary_type">Name</label>
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="salary_type">
+            </div>
+            <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
+          </form>
+        </div>
+        <div id="toast" class="toast"></div>
+      </div>
+    </div>
+  </div>
+  {{!-- --}}
+
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteidModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Record<span class="mdi mdi-alert"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="deleteForm" action="/salarytype/deletesalarytype" method="post">
+            <div class="form-group">
+              <label for="id">Are you sure:</label>
+              <input type="hidden" id="recordid" name="id" value="{{this.id}}">
+              <p id="recordidDisplay"></p>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Update Modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateUserModalLabel">Update salary type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/salarytype/updatesalarytype" method="post">
+            <div class="form-group">
+              <input type="hidden" class="form-control" id="id" name="id">
+            </div>
+            <div class="form-group">
+              <label for="salarytype">Type</label>
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="enter type">
+            </div>
+          
+            <button type="submit" class="btn btn-warning">Update Employee</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
+
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
+    function openDeleteModal(recordid) {
+      document.getElementById('recordid').value = recordid;
+      document.getElementById('recordidDisplay').innerText = 'ID: ' + recordid;
+      $('#deleteidModal').modal('show');
+    }
+
+
+       function UpdateForm(id, salary_type) {
+      document.getElementById('id').value = id;
+      document.getElementById('salary_type').value = salary_type;
+      $('#updateUserModal').modal('show');
+    };
+
+
+  </script>
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

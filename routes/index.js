@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secretKey = "$1234";
@@ -87,6 +88,18 @@ router.get('/dynamic-states', (req, res) => {
   });
 });
 
+var db = require('../connection/db');
+var path = require('path');
+
+/* GET home page. */
+// router.get('/', (req, res) => {
+//   res.render("login", { layout: 'empty' });
+// });
+
+
+router.get('/', (req, res) => {
+  res.render('user')
+})
 
 
 

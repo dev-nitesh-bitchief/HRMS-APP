@@ -2,11 +2,30 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection/db')
 
+const authenticateUser = require('./login');
 router.get('/', function(req, res){
     //show all users
    
     connection.query("SELECT s.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, st.salary_type, s.salaryAmount, s.salaryCycle FROM Salary s JOIN Employee e ON s.Employee_id = e.id JOIN SalaryType st ON s.SalaryType_id = st.id", function(err, result) {
       if (err) throw err;
+   
+      // res.status(200).render('salary',{ salary:result })
+      res.render('salary',{ salary : result })
+   
+    });
+  
+  });
+
+
+router.get('/salarytype', function(req, res){
+    //show all users
+   
+    connection.query("select * from SalaryType", function(err, result) {
+        if (err) {
+          console.error('failed: ' + err.stack);
+          return;
+        }
+      
    
       res.status(200).json({ result });
    
@@ -26,7 +45,9 @@ router.post('/addsalary', function(req, res) {
             return res.status(500).send('Failed to add salary');
         }
         console.log('Salary added successfully');
-        res.status(200).json({ result });
+        // res.status(200).json({ result });
+        res.status(201).redirect('/salary')
+        
     });
 });
 
@@ -66,7 +87,8 @@ router.post('/updatesalary', (req, res) => {
       return;
     }
     console.log('User role updated successfully');
-    res.status(200).json({ result });
+    // res.status(200).json({ result });
+    res.redirect('/salary')
   });
 });
 
@@ -82,7 +104,7 @@ router.post('/deletesalary', function(req, res) {
           return res.status(500).send('Failed to delete salary');
       }
       console.log('Salary deleted successfully');
-      res.status(200).json({ result });
+      res.redirect('/salary');
   });
 });
 
