@@ -136,7 +136,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="/role/add" method="post">
+                <form id="addForm">
                   <div class="form-group">
                     <label for="roleName">Role Name:</label>
                     <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter Role Name">
@@ -209,30 +209,16 @@
           </div>
         </div>
         {{!-- --}}
-
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Function to show toast notification
-      function showToast(message) {
-
-        const toast = document.getElementById('toast');
-        if (toast) {
-          toast.textContent = message;
-          toast.style.display = 'block';
-          setTimeout(() => {
-            toast.style.display = 'none';
-          }, 3000); // Hide after 3 seconds
-        }
-      }
-
-
+      //showToast('Roles');
       document.getElementById('uploadForm').addEventListener('submit', function (event) {
         event.preventDefault();
-        
+
         var formData = new FormData(this);
         // Create an empty object to store form data
         const formDataObject = {};
@@ -244,7 +230,7 @@
         let permissions = [];
         // Loop through all checkboxes
         document.getElementById('checkboxContainer').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-          
+
           if (checkbox.checked === true) {
             permissions.push(checkbox.value.toUpperCase())
           }
@@ -255,38 +241,79 @@
         console.log(formDataObject);
 
         fetch('/role/Update', { // Replace '/api/role/update' with your actual API endpoint
-        method: 'POST',
-                    headers:{
-                        "content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formDataObject)
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
         })
           .then(response => {
-            
-            if (!response.ok) {
-              // If response is not OK (status code not in the range 200-299), throw an error
-              throw new Error('Error updating data');
+            if (response.ok) {
+              showToast('Update successful');
+              window.location.href = '/role';
+            } else {
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
             }
-            // If response is OK, return the JSON data
-            const value = response.json();
-            console.log();
-            return response.json();
           })
-          .then(data => {
-            
-            // Success: data update was successful
-            console.log(data);
-            showToast('Update successful');
-            window.location.href = '/role'; // Reload the page or perform any other action
-          })
-          .catch(error => {
-            // Failure: an error occurred during the update process
-            console.error('Error updating data:', error);
-            showToast('An error occurred while updating');
-          });
-      });
-
+      .catch (error => {
+          debugger
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
     });
+    //----------------------------
+    document.getElementById('addForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+         var formData = new FormData(this);
+        
+    fetch('/role/add', { 
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => {
+            if (response.ok) {
+              showToast('Add successful');
+              window.location.href = '/role';
+            } else {
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+      .catch (error => {
+          debugger
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
+    }); 
+});
   </script>
   <script>
     // Function to open the form
@@ -367,7 +394,7 @@
             const checkboxElement = document.createElement('input');
             checkboxElement.type = 'checkbox';
             checkboxElement.id = `checkbox_${checkbox.id}`;
-           // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+            // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
             checkboxElement.value = checkbox.id; // Set value attribute if needed
 
 

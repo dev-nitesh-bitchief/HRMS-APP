@@ -33,8 +33,8 @@ router.post('/add', (req, res) => {
             console.error('Error', err);
             return res.status(500).send("Internal server error");
         }
-        // return res.status(201).json({ result });
-        return res.redirect('/role');
+        return res.status(201).json({ result });
+        // return res.redirect('/role');
     });
 });
 router.post('/roleUpdate', (req, res) => {
@@ -94,8 +94,8 @@ router.post('/update', (req, res) => {
         }
         
         // Return success response with updated data
-        // return res.status(200).json({ success: true, message: 'Data updated successfully', result });
-        return res.redirect('/role');
+        return res.status(200).json({ success: true, message: 'Data updated successfully', result });
+        // return res.redirect('/role');
     });
 });
 
