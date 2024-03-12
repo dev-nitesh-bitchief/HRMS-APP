@@ -41,13 +41,13 @@
   #form-container {
     display: none;
     /* Hide the form by default */
-
-
   }
-
- 
+  .actions {
+      text-align:right;
+}
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
@@ -62,8 +62,8 @@
               <h3 class="card-title">Employee</h3>
              
               <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
-                Add New Employee
+              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal" data-target="#addRoleModal">
+                <span class="mdi mdi-account-plus"></span> Add New Employee
               </button>
 
               <div class="table-responsive">
@@ -85,7 +85,7 @@
                       <th>visa Number</th>
                       <th>visa Expiration Date</th>
                       <th>workPermit</th>
-                      <th>Action</th>
+                      <th class="actions">Action</th>
 
                     </tr>
                   </thead>
@@ -109,15 +109,15 @@
                       <td>{{this.visaExpirationDate}}</td>
                       <td>{{this.workPermitNumber}}</td>
                       
-                      <td> <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                          onclick="openDeleteModal('{{this.e_id}}')">
+                      <td class="actions"> <!-- Button to trigger the modal -->
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#deleteModal"
+                          onclick="openDeleteModal('{{this.e_id}}')"> <span class="mdi mdi-account-minus"></span>
                           Delete Record
                         </button>
                         <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateUserModal"
+                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal" data-target="#updateUserModal"
     onclick="Update('{{this.e_id}}','{{this.Employee_id}}','{{this.workPhone}}', '{{this.manager}}', '{{this.coach}}','{{this.approveOff}}','{{this.workLocation}}','{{this.timeZone}}','{{this.language}}','{{this.passportNumber}}','{{this.placeOfBirth}}','{{this.countryOfBirth}}','{{this.visaNumber}}','{{this.visaExpirationDate}}','{{this.workPermitNumber}}')">
-    Update Employee
+   <span class="mdi mdi-account-convert"></span> Update Employee
 </button>
 
                       </td>
@@ -199,16 +199,15 @@
                         </div>
                         <div class="form-group">
                           <label for="visaExpirationDate">visaExpirationDate</label>
-                          <input type="text" class="form-control" id="visaExpirationDate" name="visaExpirationDate" placeholder="visaExpirationDate">
+                          <input type="date" class="form-control" id="visaExpirationDate" name="visaExpirationDate" placeholder="visaExpirationDate">
                         </div>
                         <div class="form-group">
-                          <label for="workPermit">workPermit</label>
-                          <input type="text" class="form-control" id="workPermit" name="workPermit" placeholder="workPermit">
+                          <label for="workPermitNumber">workPermitNumber</label>
+                          <input type="text" class="form-control" id="workPermitNumber" name="workPermitNumber" placeholder="workPermitNumber">
                         </div>
-                        <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
                       </form>
               </div>
-        <div id="toast" class="toast"></div>
             </div>
           </div>
         </div>
@@ -250,7 +249,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="/ework/update" method="post">
+                      <form id="updateForm" action="/ework/update" method="post">
                       <div class="form-group">
                           <label for="e_id">ID:</label>
                           <input type="text" class="form-control" id="pre-e_id" name="e_id"
@@ -309,11 +308,11 @@
                         </div>
                         <div class="form-group">
                           <label for="visaExpirationDate">visaExpirationDate</label>
-                          <input type="text" class="form-control" id="pre-visaExpirationDate" name="visaExpirationDate" placeholder="visaExpirationDate">
+                          <input type="date" class="form-control" id="pre-visaExpirationDate" name="visaExpirationDate" placeholder="visaExpirationDate">
                         </div>
                         <div class="form-group">
-                          <label for="workPermit">workPermit</label>
-                          <input type="text" class="form-control" id="pre-workPermit" name="workPermit" placeholder="workPermit">
+                          <label for="workPermitNumber">workPermitNumber</label>
+                          <input type="text" class="form-control" id="pre-workPermitNumber" name="workPermitNumber" placeholder="workPermitNumber">
                         </div>
                         <button type="submit" class="btn btn-warning">Update Employee</button>
                       </form>
@@ -326,6 +325,8 @@
     </div>
   </div>
         <script>
+          document.addEventListener('DOMContentLoaded', function () {
+    showToast('employee');
           // Function to open the form
           function openForm() {
             document.getElementById("form-container").style.display = "block";
@@ -373,8 +374,11 @@
     }
 
 //-----------------------------------
-        </script>
+   
+});
+</script>
 
+ <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <!-- Bootstrap JS and jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>

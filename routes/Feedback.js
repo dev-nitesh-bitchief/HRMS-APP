@@ -9,32 +9,34 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-router.get('/show',(req,res)=>{
+router.get('/',(req,res)=>{
     const sql= "SELECT * FROM Feedback";
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(200).json({ result });
+        // return res.status(200).json({ result });
+        return res.render('feedback');
     });
 });
 
 router.post('/add',(req,res)=>{
-    const {Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus}=req.body;
-    const data=[Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus];
-    const sql='INSERT INTO Feedback(Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus) VALUES(?,?,?,?,?,?)';
+    const {Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod}=req.body;
+    const data=[Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod];
+    const sql='INSERT INTO Feedback(Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod) VALUES(?,?,?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error', err);
             return res.status(500).send("Internal server error");
         }
-        return res.status(201).json({ result });
+        // return res.status(201).json( result );
+        return res.redirect('/feedback');
     });
 });
 
 router.post('/update',(req,res)=>{
-    const {id,Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod,feedbackStatus}=req.body;
+    const {id,Employee_id,feedbackType,feedbackDate,feedbackDescription,feedbackMethod}=req.body;
     let sql= "UPDATE Feedback SET ";
     const updateValues=[];
     if (Employee_id !== undefined) {
@@ -57,10 +59,7 @@ router.post('/update',(req,res)=>{
         sql += 'feedbackMethod = ?, ';
         updateValues.push(feedbackMethod);
     }
-    if (feedbackStatus !== undefined) {
-        sql += 'feedbackStatus = ?, ';
-        updateValues.push(feedbackStatus);
-    }
+    
     // Check if any fields are provided for update
     if (updateValues.length === 0) {
         return res.status(400).json({ success: false, message: 'No fields provided for update' });

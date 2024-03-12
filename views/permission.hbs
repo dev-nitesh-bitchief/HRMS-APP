@@ -43,6 +43,11 @@
     /* Hide the form by default */
 
   }
+
+  /* Styling the actions column */
+  .actions {
+    text-align: right;
+  }
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -56,7 +61,8 @@
               <h3 class="card-title">Permissions</h3>
               {{!-- <a class="new_data" onclick="openForm()">Add new Role </a> --}}
               <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
                 Add New Permission
               </button>
 
@@ -66,7 +72,7 @@
                     <tr>
                       <th>Id:</th>
                       <th>Permission-Name:</th>
-                      <th>Action</th>
+                      <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -75,16 +81,17 @@
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.permissionName}}</td>
-                      <td> <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                          onclick="openDeleteModal('{{this.id}}')">
+                      <td class="actions"> <!-- Button to trigger the modal -->
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')"><span
+                            class="mdi mdi-account-minus"></span>
                           Delete Record
                         </button>
                         <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal"
                           data-target="#updatePermissionModal"
                           onclick="UpdateForm('{{this.id}}', '{{this.permissionName}}')">
-                          Update Permissions-Name
+                          <span class="mdi mdi-account-convert"></span> Update Permissions-Name
                         </button>
                       </td>
                     </tr>
@@ -96,8 +103,8 @@
           </div>
         </div>
 
-{{!-- Add model --}}
-    <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+        {{!-- Add model --}}
+        <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -108,25 +115,19 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form class="forms-sample" action="/permission/add" method="post">
-                        <div class="form-group">
-                          <label for="id">ID:</label>
-                          <input type="text" class="form-control" id="id" name="id"
-                            placeholder="ID">
-                        </div>
-                        <div class="form-group">
-                          <label for="permissionName">permissionName:</label>
-                          <input type="text" class="form-control" id="permissionName" name="permissionName"
-                            placeholder="permissionName">
-                        </div>
-                        <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
-                      </form>
+                <form id="addForm" class="forms-sample">
+                  <div class="form-group">
+                    <label for="permissionName">permissionName:</label>
+                    <input type="text" class="form-control" id="permissionName" name="permissionName"
+                      placeholder="permissionName">
+                  </div>
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                </form>
               </div>
-        <div id="toast" class="toast"></div>
             </div>
           </div>
         </div>
-{{!--  --}}
+        {{!-- --}}
         <!-- Delete Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
           aria-hidden="true">
@@ -166,7 +167,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="/permission/update" method="post">
+                <form id="uploadForm">
                   <div class="form-group">
                     <label for="id"> ID:</label>
                     <input type="text" class="form-control" id="pre-id" name="id" placeholder="Enter ID">
@@ -189,34 +190,144 @@
   </div>
 
   <script>
-    // Function to open the form
-          function openForm() {
-            document.getElementById("form-container").style.display = "block";
-          }
+    document.addEventListener('DOMContentLoaded', function () {
+      showToast('permission');
+      //------------------------------------------------------------
+      document.getElementById('addForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this); // Get form data
 
-          // Function to close the form
-          function closeForm() {
-            document.getElementById("form-container").style.display = "none";
-          }
+        // Create an empty object to store form data
+        const formDataObject = {};
 
-    function openDeleteModal(id) {
-      // Set the record ID in the form and display it in the paragraph
-      document.getElementById('id').value = id;
-      document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
-      // Show the modal
-      $('#deleteModal').modal('show');
-    }
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
 
-    // Function to fill the form fields with data from the selected row
-    function UpdateForm(id, permissionName) {
+        // Now you can use formDataObject to access form data
+        console.log(formDataObject);
 
-      // Fill the input fields with the data
-      document.getElementById('pre-id').value = id;
-      document.getElementById('pre-permissionName').value = permissionName;
+        fetch('/permission/add', {
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              showToast('Add successful');
+              window.location.href = '/permission';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+          .catch(error => {
+            debugger
+            // Handle any errors that occur during the API request
+            console.error('Error:', error);
+            showToast('An error occurred. Please try again later.');
+          });
+      });
+      //--------------------------------------------
+      document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this); // Get form data
 
-      // Show the modal containing the form
-      $('#updatePermissionModal').modal('show');
-    }
+        // Create an empty object to store form data
+        const formDataObject = {};
+
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+
+        // Now you can use formDataObject to access form data
+        console.log(formDataObject);
+
+        fetch('/permission/update', {
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              showToast('update successful');
+              window.location.href = '/permission';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+          .catch(error => {
+            debugger
+            // Handle any errors that occur during the API request
+            console.error('Error:', error);
+            showToast('An error occurred. Please try again later.');
+          });
+      });
+      //--------------------------------
+      // Function to open the form
+      function openForm() {
+        document.getElementById("form-container").style.display = "block";
+      }
+
+      // Function to close the form
+      function closeForm() {
+        document.getElementById("form-container").style.display = "none";
+      }
+
+      function openDeleteModal(id) {
+        // Set the record ID in the form and display it in the paragraph
+        document.getElementById('id').value = id;
+        document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
+        // Show the modal
+        $('#deleteModal').modal('show');
+      }
+
+      // Function to fill the form fields with data from the selected row
+      function UpdateForm(id, permissionName) {
+
+        // Fill the input fields with the data
+        document.getElementById('pre-id').value = id;
+        document.getElementById('pre-permissionName').value = permissionName;
+
+        // Show the modal containing the form
+        $('#updatePermissionModal').modal('show');
+      }
+    });
   </script>
 
   <!-- Bootstrap JS and jQuery -->
