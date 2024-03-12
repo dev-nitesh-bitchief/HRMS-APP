@@ -1,0 +1,491 @@
+<style>
+  /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
+
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
+
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #form-container {
+    display: none;
+    /* Hide the form by default */
+
+  }
+
+  .actions {
+    text-align: right;
+  }
+
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #09a833;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="">
+          <div class="card">
+            <div class="card-body">
+              <div id="toast" class="hidden"></div>
+              <h3 class="card-title">User Roles</h3>
+              {{!-- <a class="new_data" onclick="openForm()">Add new Role </a> --}}
+              <!-- Button to trigger the modal -->
+              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Role
+              </button>
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id:</th>
+                      <th>Role-Name:</th>
+                      <th>Permissions-Name</th>
+                      <th class="actions">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {{#each roles}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.roleName}}</td>
+                      <td>{{this.permissions}}</td>
+                      <td class="actions"> <!-- Button to trigger the modal -->
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')"><span
+                            class="mdi mdi-account-minus"></span>
+                          Delete Record
+                        </button>
+                        <!-- Button to trigger the modal -->
+                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#updatePermissionsModal" id="update_data"
+                          onclick="UpdateForm('{{this.id}}')"><span class="mdi mdi-account-convert"></span>
+                          Update Permissions
+                        </button>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- --}}
+        <!-- add Modal -->
+        <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addForm">
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter Role Name">
+                  </div>
+                  <div id="checkboxContainer1" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="add">Add Role</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- --}}
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="deleteForm" action="/role/delete" method="post">
+                  <div class="form-group">
+                    {{!-- <label for="id">Are you sure:</label> --}}
+                    <input type="hidden" id="recordId" name="id" value="{{this.id}}">
+                    <!-- Hidden input field to store record ID -->
+                    <p id="recordIdDisplay"></p> <!-- Paragraph to display record ID -->
+                  </div>
+                  <button type="submit" class="btn btn-danger" id="del">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- --}}
+        <!-- update Modal -->
+        <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
+          aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePermissionsModalLabel">Update Permissions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="uploadForm">
+                  <div class="form-group">
+                    <label for="id">Role ID:</label>
+                    <input type="text" class="form-control" id="id" name="id" placeholder="Enter Role ID">
+                  </div>
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="pre-name" name="roleName" placeholder="Enter Role Name">
+                  </div>
+
+                  <div id="checkboxContainer" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-warning" id="upload-btn">Update Role</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- --}}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      //showToast('Roles');
+      document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+        // Create an empty object to store form data
+        const formDataObject = {};
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+        let permissions = [];
+        // Loop through all checkboxes
+        document.getElementById('checkboxContainer').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+
+          if (checkbox.checked === true) {
+            permissions.push(checkbox.value.toUpperCase())
+          }
+        });
+        // Log the form data object to console (for testing)
+        console.log("permissions", permissions);
+        formDataObject['permissions'] = permissions;
+        console.log(formDataObject);
+
+        fetch('/role/Update', { // Replace '/api/role/update' with your actual API endpoint
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            if (response.ok) {
+              showToast('Update successful');
+              window.location.href = '/role';
+            } else {
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+      .catch (error => {
+          debugger
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
+    });
+    //----------------------------
+    document.getElementById('addForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+         var formData = new FormData(this);
+         // Create an empty object to store form data
+        const formDataObject = {};
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+        let permissions = [];
+        // Loop through all checkboxes
+        document.getElementById('checkboxContainer1').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+
+          if (checkbox.checked === true) {
+            permissions.push(checkbox.value.toUpperCase())
+          }
+        });
+        // Log the form data object to console (for testing)
+        console.log("permissions", permissions);
+        formDataObject['permissions'] = permissions;
+        console.log(formDataObject);
+        
+    fetch('/role/add', { 
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              showToast('Add successful');
+              window.location.href = '/role';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+      .catch (error => {
+          debugger
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
+    }); 
+});
+  </script>
+  <script>
+    // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
+
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
+    //-------------------for add model--------
+    let allPermissions = [];
+    document.addEventListener('DOMContentLoaded', function () {
+      // Request to fetch checkbox data
+      fetch('/role/dynamicpermission')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          // Get the container where checkboxes will be appended
+          const checkboxContainer = document.getElementById('checkboxContainer1');
+
+          // Iterate through the data and create checkboxes
+          data.forEach(checkbox => {
+            // Create checkbox input element
+            const checkboxElement = document.createElement('input');
+            checkboxElement.type = 'checkbox';
+            checkboxElement.id = `checkbox_${checkbox.id}`;
+            checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+            checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+            // Create label for the checkbox
+            const label = document.createElement('label');
+            label.setAttribute('for', `checkbox_${checkbox.id}`);
+            label.textContent = checkbox.permissionName;
+
+            // Append checkbox and label to container
+            checkboxContainer.appendChild(checkboxElement);
+            checkboxContainer.appendChild(label);
+
+            // Append line break for better formatting
+            checkboxContainer.appendChild(document.createElement('br'));
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching checkbox data:', error);
+        });
+    });
+
+    function openDeleteModal(recordId) {
+      // Set the record ID in the form and display it in the paragraph
+      document.getElementById('recordId').value = recordId;
+      document.getElementById('recordIdDisplay').innerText = 'Are you sure want to delete: ' + recordId;
+      // Show the modal
+      $('#deleteModal').modal('show');
+    }
+
+
+    // Function to fill the form fields with data from the selected row
+
+
+  </script>
+
+  <script>
+    //-----------------------for update model---------------
+    document.addEventListener('DOMContentLoaded', function () {
+      // Request to fetch checkbox data
+      fetch('/role/dynamicpermission')
+        .then(response => response.json())
+        .then(data => {
+          // Get the container where checkboxes will be appended
+          const checkboxContainer = document.getElementById('checkboxContainer');
+
+          // Iterate through the data and create checkboxes
+          data.forEach(checkbox => {
+            // Create checkbox input element
+            const checkboxElement = document.createElement('input');
+            checkboxElement.type = 'checkbox';
+            checkboxElement.id = `checkbox_${checkbox.id}`;
+            // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+            checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+            // Create label for the checkbox
+            const label = document.createElement('label');
+            label.setAttribute('for', `checkbox_${checkbox.id}`);
+            label.textContent = checkbox.permissionName;
+
+            // Append checkbox and label to container
+            checkboxContainer.appendChild(checkboxElement);
+            checkboxContainer.appendChild(label);
+
+            // Append line break for better formatting
+            checkboxContainer.appendChild(document.createElement('br'));
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching checkbox data:', error);
+        });
+    });
+  </script>
+
+  <script>
+    var myButton = document.getElementById('update_data');
+    //myButton.addEventListener('click', function () {
+    function UpdateForm(row_id) {
+
+      //const row_id = myButton.data_id;
+      //var row_id = myButton.getAttribute('data_id');
+
+      fetch(`/role/roles-edit-prefilled/${row_id}`)
+        .then(response => response.json())
+        .then(data => {
+
+          // Get form elements by their IDs
+          var idInput = document.getElementById('id');
+          var role_nameInput = document.getElementById('pre-name');
+
+          // Assuming data is an object with properties like 'name', 'email', 'age'
+          // You can adjust this part according to your actual data structure
+          idInput.value = data.id;
+          role_nameInput.value = data.roleName;
+          const permissionToCheck = data.Permission_id.split(",");
+          // Get the container where checkboxes are appended
+          const checkboxContainer = document.getElementById('checkboxContainer');
+
+          // Find all checkbox input elements within the checkboxContainer
+          const checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+
+          // Iterate over each checkbox
+          checkboxes.forEach(function (checkbox) {
+
+            // Set the checked property to true
+            // Check if the value of the checkbox exists in the array of permissions to be checked
+            if (permissionToCheck.includes(checkbox.value)) {
+              // If the checkbox value exists in the array, set its checked attribute to true
+              checkbox.checked = true;
+            }
+          });
+          console.log('data :', data);
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+        });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
