@@ -4,9 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+
 var session = require('express-session');
 
 var login= require('./routes/login');
+
+
+var session = require('express-session');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var salaryRouter = require('./routes/salary');
@@ -33,9 +38,9 @@ var Leave_balance = require('./routes/Leave_balance');
 var Leave_type = require('./routes/Leave_type');
 var Leave_allocation = require('./routes/Leave_allocation');
 
-var Expense_category = require('./routes/Expense_category');
+// var Expense_category = require('./routes/Expense_category');
 var Payment_method = require('./routes/Payment_method');
-var Expense = require('./routes/Expense');
+// var Expense = require('./routes/Expense');
 
 var Email_template = require('./routes/Email_temp');
 var Smtp = require('./routes/Smtp');
@@ -49,9 +54,14 @@ var app = express();
 app.use(express.static('styling'));
 
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','hbs');
+
+
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -71,9 +81,16 @@ app.use(session({
 app.use(express.static('design'));
 
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine','hbs');
 
-app.use('/',login);
-app.use('/index', indexRouter);
+
+
+
+
+// app.use('/',login);
+// app.use('/index', indexRouter);
 
 app.use('/', indexRouter);
 app.use(express.static('design'));
@@ -87,7 +104,7 @@ app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance', attendanceRouter)
 app.use('/attendancerecord', attendancerecordRouter)
-app.use('/login', loginRouter)
+// app.use('/login', loginRouter)
 
 
 
@@ -115,9 +132,9 @@ app.use('/Leave-allocation', Leave_allocation);
 
 
 
-app.use('/Expense_category', Expense_category);
+// app.use('/Expense_category', Expense_category);
 app.use('/Payment_method', Payment_method);
-app.use('/Expense', Expense);
+// app.use('/Expense', Expense);
 
 
 app.use('/Email_template', Email_template);
@@ -141,7 +158,6 @@ app.use('/holiday',holiday);
 app.use('/smtp',smtp);
 app.use('/subPlan',subPlan);
 app.use('/emailTemp',emailTemp);
-app.use('/expense',expense_category);
 
 
 // catch 404 and forward to error handler
