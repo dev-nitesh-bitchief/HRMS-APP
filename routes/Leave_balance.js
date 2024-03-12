@@ -109,6 +109,60 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 });
 
 
+router.get('/show', (req, res) => {
+
+       
+        res.render('LeaveBalance-admin');
+       
+        return;
+
+    
+});
+
+
+
+router.post('/search', (req, res) => {
+    const { Employee_id } = req.body;
+
+
+    const sql = `SELECT 
+    lb.id AS Leave_balance_id,
+    e.id AS employee_id,
+    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
+    lb.Leave_type_id,
+    lt.typeName AS Leave_type_name,
+    m.monthName AS Month_name,
+    lb.totalLeaves,
+    lb.leavesTaken,
+    lb.date
+FROM 
+    Leave_balance AS lb
+LEFT JOIN 
+    Leave_type AS lt ON lb.Leave_type_id = lt.id
+LEFT JOIN 
+    Month AS m ON lb.Month_id = m.id
+INNER JOIN 
+    Employee AS e ON lb.employee_id = e.id
+    WHERE lb.Employee_id = ?`;
+
+
+    db.query(sql, Employee_id, (err, result) => {
+        if (err) {
+            console.error('Error searching data:', err);
+            res.status(500).json('Error searching  data');
+            return;
+        }
+        // console.log('Data searched successfully');
+        // res.status(200).json(result);
+
+        res.render('LeaveBalance-admin' , {data : result});
+        return;
+
+    })
+});
+
+
+
 
 
 
@@ -139,69 +193,52 @@ router.post('/add', (req, res) => {
 
 
 
-router.get('/show', (req, res) => {
+// router.get('/show', (req, res) => {
 
 
-    const sql = `SELECT 
-    lb.id AS balance_id,
-    e.id AS employee_id,
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    lb.Leave_type_id,
-    lt.typeName AS Leave_type_name,
-    m.monthName AS Month_name,
-    lb.totalLeaves,
-    lb.leavesTaken,
-    lb.date
-FROM 
-    Leave_balance AS lb
-LEFT JOIN 
-    Leave_type AS lt ON lb.Leave_type_id = lt.id
-LEFT JOIN 
-    Month AS m ON lb.Month_id = m.id
-INNER JOIN 
-    Employee AS e ON lb.employee_id = e.id`;
+//     const sql = `SELECT 
+//     lb.id AS balance_id,
+//     e.id AS employee_id,
+//     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
+//     lb.Leave_type_id,
+//     lt.typeName AS Leave_type_name,
+//     m.monthName AS Month_name,
+//     lb.totalLeaves,
+//     lb.leavesTaken,
+//     lb.date
+// FROM 
+//     Leave_balance AS lb
+// LEFT JOIN 
+//     Leave_type AS lt ON lb.Leave_type_id = lt.id
+// LEFT JOIN 
+//     Month AS m ON lb.Month_id = m.id
+// INNER JOIN 
+//     Employee AS e ON lb.employee_id = e.id`;
 
 
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Error Fetching data:', err);
-            res.status(500).json('Error Fetching data');
-            return;
-        }
+//     db.query(sql, (err, result) => {
+//         if (err) {
+//             console.error('Error Fetching data:', err);
+//             res.status(500).json('Error Fetching data');
+//             return;
+//         }
        
-        // res.status(200).json(result);
-
-        // var IP_address = localStorage.getItem('IP_address');
-        // var Location = localStorage.getItem('Location');
-        // var Browser_details = localStorage.getItem('Browser_details');
+//         // res.status(200).json(result);
 
        
-
-
-        // logActivity(req, res, {
-        //     User_id: userId,
-        //     activityType: "Management access",
-        //     resourceName: "Leaves balance",
-        //     operation: "show",
-        //     databaseTableName: "Leave_balance",
-        //     ipAddress: IP_address,
-        //     location: Location,
-        //     browserDetails: Browser_details
-        // });
-        res.render('LeaveBalance-admin' , {data : result});
+//         res.render('LeaveBalance-admin' , {data : result});
        
-        return;
+//         return;
 
-    })
-});
+//     })
+// });
 
 
 
 
 router.post('/edit', (req, res) => {
-    // const id = req.body.id;
-
-    const { balance_id, totalLeaves, leavesTaken } = req.body;
+   
+    const { id_, totalLeaves, leavesTaken } = req.body;
 
     
 
@@ -225,7 +262,7 @@ router.post('/edit', (req, res) => {
     sql += ' WHERE id = ?';
 
     // Add the id value to the updateValues array
-    updateValues.push(balance_id);
+    updateValues.push(id_);
 
     db.query(sql, updateValues, (err, result) => {
         if (err) {
@@ -267,44 +304,6 @@ router.post('/delete', (req, res) => {
 });
 
 
-
-router.post('/search', (req, res) => {
-    const { Employee_id } = req.body;
-
-
-    const sql = `SELECT 
-    lb.id AS Leave_balance_id,
-    e.id AS employee_id,
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    lb.Leave_type_id,
-    lt.typeName AS Leave_type_name,
-    m.monthName AS Month_name,
-    lb.totalLeaves,
-    lb.leavesTaken,
-    lb.date
-FROM 
-    Leave_balance AS lb
-LEFT JOIN 
-    Leave_type AS lt ON lb.Leave_type_id = lt.id
-LEFT JOIN 
-    Month AS m ON lb.Month_id = m.id
-INNER JOIN 
-    Employee AS e ON lb.employee_id = e.id
-    WHERE lb.Employee_id = ?`;
-
-
-    db.query(sql, Employee_id, (err, result) => {
-        if (err) {
-            console.error('Error searching data:', err);
-            res.status(500).json('Error searching  data');
-            return;
-        }
-        console.log('Data searched successfully');
-        res.status(200).json(result);
-        return;
-
-    })
-});
 
 
 

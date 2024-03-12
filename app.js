@@ -94,11 +94,14 @@ var Payroll = require('./routes/Payroll');
 
 
 
-var loginRouter = require('./routes/login');
-
 
 var app = express();
 app.use(express.static('styling'));
+
+
+
+
+
 
 
 
@@ -119,10 +122,13 @@ app.use(session({
   // cookie: { secure: true }
 }))
 
+
+
 app.use(express.static('design'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','hbs');
+
 
 
 
@@ -140,6 +146,11 @@ app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
 
 
+app.use('/attendance',attendanceRouter)
+app.use('/attendancerecord',attendancerecordRouter)
+
+
+
 app.use('/role', role);
 
 app.use('/ework', eworkInfo);
@@ -152,6 +163,7 @@ app.use('/feedback', feedback);
 app.use('/attendance', attendanceRouter)
 app.use('/attendancerecord', attendancerecordRouter)
 app.use('/login', loginRouter)
+
 
 
 

@@ -7,9 +7,7 @@ var db = require('../connection/db');
 const logActivity = (req, res , activityData) => {
     const { User_id, activityType, resourceName, operation, databaseTableName, previousValues, enteredValues, ipAddress, location, browserDetails } = activityData;
      
-    console.log('logactivity : ', activityData);
-    console.log('logactivity : ', location);
-
+   
     const sql = `INSERT INTO Audit_logging (User_id, activityType, resourceName, operation, databaseTableName, previousValues, enteredValues, ipAddress, location, browserDetails) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const data = [User_id, activityType, resourceName, operation, databaseTableName, previousValues, enteredValues, ipAddress, location, browserDetails];
