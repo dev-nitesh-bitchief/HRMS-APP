@@ -12,6 +12,7 @@
         #new_data {
             display: inline-block;
             padding: 5px 20px;
+            margin-right: 100px;
             /* Adjust padding as needed */
             background-color: #4CAF50;
             /* Button background color */
@@ -97,6 +98,38 @@
             border-radius: 5px;
             z-index: 9999;
         }
+
+        .row_ {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            /* Align items vertically */
+        }
+
+        .search_bar {
+            margin-right: 20px;
+        }
+
+        label {
+            margin-right: 5px;
+            /* Adjust as needed */
+        }
+
+        .search_button {
+            background-color: #007bff;
+            /* Blue background color */
+            color: white;
+            /* White text color */
+            border: none;
+            /* Remove border */
+            padding: 2px 10px;
+            /* Add padding */
+            cursor: pointer;
+            /* Add pointer cursor */
+            border-radius: 5px;
+            /* Add border radius */
+
+        }
     </style>
 </head>
 
@@ -107,9 +140,47 @@
                 {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
                     <div class="card">
                         <div class="card-body">
+
                             <h3 class="card-title">Employees Leave Balance</h3>
 
-                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add data</a>
+
+                            <div class="row_">
+                                <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add data</a>
+
+
+                                <form class="forms-sample" action="/Leave-balance/search" method="post">
+                                    <div class="row_">
+                                        <div class="search_bar">
+                                            <label for="id">Employee :</label>
+                                            <select id="Employee_s" name="Employee_id">
+                                                <option value="">Select </option>
+                                            </select>
+                                            <script>
+                                                debugger
+                                                // Fetch data from the server and populate the dropdown
+                                                fetch('/Leave-balance/employee')
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        const roleDropdown = document.getElementById('Employee_s');
+                                                        data.forEach(employee => {
+                                                            const option = document.createElement('option');
+                                                            option.value = employee.id;
+                                                            option.textContent = employee.fullName;
+                                                            roleDropdown.appendChild(option);
+                                                        });
+                                                    })
+                                                    .catch(error => console.error('Error fetching data:', error));
+                                            </script>
+
+                                        </div>
+
+                                        <button type="submit" class="search_button">Go</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+
 
                             <div class="table-responsive">
                                 <table class="table">
@@ -142,10 +213,12 @@
                                                     data-target="#DeleteModal"
                                                     data-bal_id="{{this.balance_id}}">Delete</a>
 
-                                                <a type="button" class="editBtn" id="update_data" data-toggle="modal"
-                                                    data-target="#editModal" data-bal_id="{{this.balance_id}}"
-                                                    data-total_leaves="{{this.totalLeaves}}"
-                                                    data-leaves_taken="{{this.leavesTaken}}">Edit
+
+                                                <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.balance_id}}','{{this.totalLeaves}}','{{this.leavesTaken}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
                                                 </a>
 
                                             </td>
@@ -175,13 +248,15 @@
                         </div>
                         <div class="modal-body">
                             <!-- Form inside the popup -->
+                           
+
                             <form class="forms-sample" action="/Leave-balance/add" method="post">
 
 
 
                                 <div class="form-group">
                                     <label for="id">Employee :</label>
-                                    <select id="Employee_id" name="Employee_id">
+                                    <select id="Employee_id" name="Employee_id" required>
                                         <option value="">Select </option>
                                     </select>
 
@@ -207,7 +282,7 @@
 
                                 <div class="form-group">
                                     <label for="Leave_type_id">Leave type:</label>
-                                    <select id="Leave_type_id" name="Leave_type_id">
+                                    <select id="Leave_type_id" name="Leave_type_id" required>
                                         <option value="">Select </option>
                                     </select>
 
@@ -233,7 +308,7 @@
 
                                 <div class="form-group">
                                     <label for="id">Month :</label>
-                                    <select id="Month_id" name="Month_id">
+                                    <select id="Month_id" name="Month_id" required>
                                         <option value="">Select </option>
                                     </select>
 
@@ -259,12 +334,14 @@
 
                                 <div class="form-group">
                                     <label for="totalLeaves">Total leaves</label>
-                                    <input type="text" class="form-control" id="totalLeaves" name="totalLeaves">
+                                    <input type="text" class="form-control" id="totalLeaves" name="totalLeaves"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="leavesTaken">Leaves taken</label>
-                                    <input type="text" class="form-control" id="leavesTaken" name="leavesTaken">
+                                    <input type="text" class="form-control" id="leavesTaken" name="leavesTaken"
+                                        required>
                                 </div>
 
 
@@ -347,20 +424,19 @@
 
                                 <div class="form-group">
 
-                                    <input type="hidden" id="balance_id" name="balance_id">
+                                    <input type="hidden" id="id_" name="id_">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="totalLeaves">Total Leaves</label>
-                                    <input type="text" class="form-control" id="totalLeaves" name="totalLeaves">
+                                    <label for="total_leaves">Total Leaves</label>
+                                    <input type="text" class="form-control" id="total_leaves" name="totalLeaves">
                                 </div>
                                 <div class="form-group">
-                                    <label for="leavesTaken">Leaves taken</label>
-                                    <input type="text" class="form-control" id="leavesTaken" name="leavesTaken"
-                                        placeholder="endDate">
+                                    <label for="leaves_taken">Leaves taken</label>
+                                    <input type="text" class="form-control" id="leaves_taken" name="leavesTaken">
                                 </div>
 
-                               
+
 
                                 <button type="submit" class="btn btn-primary me-2">Submit</button>
                                 {{!-- <button class="btn btn-light">Cancel</button> --}}
@@ -370,29 +446,19 @@
                 </div>
             </div>
 
+
             <script>
-                // Get the edit button and the modal form
-                const editBtn = document.querySelector('.editBtn');
-                const editModal = document.getElementById('editModal');
+                function UpdateRequest(balance_id, totalLeaves, leavesTaken) {
+                    debugger
+                    console.log(balance_id);
+                    document.getElementById('id_').value = balance_id;
 
-                // Add event listener to the edit button
-                editBtn.addEventListener('click', function () {
-
-
-                
-
-                    const balance_id = this.getAttribute('data-bal_id');
-                    const totalLeaves = this.getAttribute('data-total_leaves');
-                    const leavesTaken = this.getAttribute('data-leaves_taken');
+                    document.getElementById('toatl_leaves').value = totalLeaves;
+                    document.getElementById('leaves_taken').value = leavesTaken;
 
 
-
-                    editModal.querySelector('#balance_id').value = balance_id;
-                    editModal.querySelector('#totalLeaves').value = totalLeaves;
-                    editModal.querySelector('#leavesTaken').value = leavesTaken;
-
-
-                });
+                    $('#UpdateModal').modal('show');
+                };
 
             </script>
 

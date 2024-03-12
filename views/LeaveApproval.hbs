@@ -124,7 +124,7 @@
                                             <th>Days</th>
                                             <th>Reason</th>
                                             <th>Applied on</th>
-                                            <th>status</th>
+                                            {{!-- <th>status</th> --}}
                                             <th>Approved on</th>
                                             <th>Action</th>
 
@@ -141,7 +141,7 @@
                                             <td>{{this.days}}</td>
                                             <td>{{this.reason}}</td>
                                             <td>{{this.appliedOn}}</td>
-                                            <td>{{this.status}}</td>
+                                            {{!-- <td>{{this.status}}</td> --}}
                                             <td>{{this.approveDate}}</td>
 
                                             <td>
@@ -152,7 +152,7 @@
                                                 <a type="button" id="new_data" class="acceptRequest"
                                                     data-req-id="{{this.req_id}}">Accept</a>
 
-                                               <a type="button" id="reject_data" class="rejectRequest"
+                                                <a type="button" id="reject_data" class="rejectRequest"
                                                     data-req-id="{{this.req_id}}">Reject</a>
 
 
@@ -169,83 +169,71 @@
 
             </div>
 
+            
+
+
             <script>
                 $(document).ready(function () {
+                    // Function to handle the action (accept/reject)
+                    function handleAction(action, button) {
+                        const reqId = $(button).data('req-id');
+
+                        // Data to be sent in the POST request
+                        const requestData = { req_id: reqId };
+
+                        // Make AJAX POST request to the API
+                        $.ajax({
+                            url: "/Leave/status-" + action, // Endpoint for accept/reject
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(requestData),
+                            success: function (response) {
+                                console.log("Response:", response);
+                                if (response.success) {
+                                    // Replace the button with the appropriate message
+                                    const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
+                                    $(button).parent().html('<p>' + message + '</p>');
+                                    
+                                     window.location.href = '/Leave/show-to-approver';
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error:", xhr.status, error);
+                            }
+                        });
+                    }
+
+                    // Click event handler for Accept button
                     $(".acceptRequest").click(function () {
-
-
-                        const reqId = $(this).data('req-id'); // Retrieve req_id from button
-
-                        // Data to be sent in the POST request
-                        const requestData = {
-                            req_id: reqId
-
-                            // key1: 'value1',
-                            // key2: 'value2'
-                            // Add more key-value pairs as needed
-                        };
-                       
-
-                        // Make AJAX POST request to the API
-                        $.ajax({
-                            url: "/Leave/status-approve", // Replace URL with your API endpoint
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify(requestData),
-                            success: function (response) {
-                                console.log("Response:", response);
-                                if (response.success) {
-                                    // Redirect the user to the specified URL
-                                    window.location.href = '/Leave/show-to-approver';
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", xhr.status, error);
-                            }
-                        });
+                        handleAction('approve', this);
                     });
-                });
 
-
-
-
-
-                  $(document).ready(function () {
+                    // Click event handler for Reject button
                     $(".rejectRequest").click(function () {
-
-
-                        const reqId = $(this).data('req-id'); // Retrieve req_id from button
-
-                        // Data to be sent in the POST request
-                        const requestData = {
-                            req_id: reqId
-
-                            // key1: 'value1',
-                            // key2: 'value2'
-                            // Add more key-value pairs as needed
-                        };
-                       
-
-                        // Make AJAX POST request to the API
-                        $.ajax({
-                            url: "/Leave/status-reject", // Replace URL with your API endpoint
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify(requestData),
-                            success: function (response) {
-                                console.log("Response:", response);
-                                if (response.success) {
-                                    // Redirect the user to the specified URL
-                                    window.location.href = '/Leave/show-to-approver';
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", xhr.status, error);
-                            }
-                        });
+                        handleAction('reject', this);
                     });
                 });
+
+                // Fetch request statuses
+                $.get("/Leave/getRequestStatus", function (requestStatuses) {
+                    // Loop through each request on the page
+                    $(".acceptRequest, .rejectRequest").each(function () {
+                        const reqId = $(this).data('req-id');
+                        const status = requestStatuses[reqId];
+
+                        // Check if status is 'Accepted' or 'Rejected'
+                        if (status === 'Approved') {
+                            $(this).parent().html('<p>Request is Approved</p>');
+                        } else if (status === 'Rejected') {
+                            $(this).parent().html('<p>Request is rejected</p>');
+                        }
+                    });
+                });
+
             </script>
+
+
+
 
 
 

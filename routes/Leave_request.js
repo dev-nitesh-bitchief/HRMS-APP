@@ -140,7 +140,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
     router.get('/', (req, res) => {
 
-        const Employee_id = 4;
+       
 
         // const { Employee_id } = req.body;
 
@@ -220,58 +220,6 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
 
-
-    // router.get('/show' , (req, res) => {
-    //     // const sql =  'SELECT * FROM Leave_request';
-
-
-
-    //     const sql = `SELECT 
-    //     lr.id AS Leave_request_id,
-    //     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    //     lt.typeName AS Leave_type_name,
-    //     m.monthName AS Month_name,
-    //     lr.startDate,
-    //     lr.endDate,
-    //     lr.days,
-    //     lr.reason,
-    //     lr.appliedOn,
-    //     lr.approvedBy,
-    //     lr.status,
-    //     lr.approveDate
-    // FROM 
-    //     Leave_request AS lr
-    // LEFT JOIN 
-    //     Leave_type AS lt ON lr.Leave_type_id = lt.id
-    // LEFT JOIN 
-    //     Month AS m ON lr.Month_id = m.id
-    // LEFT JOIN 
-    //     Employee AS e ON lr.Employee_id = e.id`;
-
-
-
-    //     db.query(sql, (err, result) => {
-    //         if (err) {
-    //             console.error('Error Fetching data:', err);
-    //             res.status(500).json('Error Fetching data');
-    //             return;
-    //         }
-
-    //         console.log('Data fetched successfully');
-
-    //         res.status(200).json(result);
-
-    //         return;
-
-    //     })
-    // });
-
-
-
-
-
-
-
     router.get('/show-to-approver', (req, res) => {
         // const {Employee_id} = req.body;
         // const sql = `SELECT Employee_id ,  Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status  FROM Leave_request `;
@@ -306,7 +254,7 @@ LEFT JOIN
                 res.status(500).json('Error Fetching data');
                 return;
             }
-            console.log('Data fetched successfully');
+            // console.log('Data fetched successfully');
 
 
 
@@ -319,6 +267,24 @@ LEFT JOIN
             });
 
             // res.status(200).json(result);
+
+            var IP_address = localStorage.getItem('IP_address');
+            var Location = localStorage.getItem('Location');
+            var Browser_details = localStorage.getItem('Browser_details');
+
+           
+
+
+            logActivity(req, res, {
+                User_id: userId,
+                activityType: "Management access",
+                resourceName: "Leave applications",
+                operation: "show",
+                databaseTableName: "Leave_request",
+                ipAddress: IP_address,
+                location: Location,
+                browserDetails: Browser_details
+            });
 
             res.render('LeaveApproval', { data: result });
             return;
@@ -341,6 +307,10 @@ LEFT JOIN
             }
             console.log('Data deleted successfully');
             // res.status(200).json('Data deleted successfully');
+
+            var IP_address = localStorage.getItem('IP_address');
+            var Location = localStorage.getItem('Location');
+            var Browser_details = localStorage.getItem('Browser_details');
 
             logActivity(req, res, {
                 User_id: userId,
@@ -368,9 +338,9 @@ LEFT JOIN
         console.log('i am inside edit route');
 
 
-        const { req_id, startDate, endDate, Leave_type, reason } = req.body;
+        const { id_, startDate, endDate, Leave_type, reason } = req.body;
 
-        console.log('reuest id: ', req_id);
+        console.log('reqest id: ', id_);
 
 
 
@@ -402,7 +372,7 @@ LEFT JOIN
         sql += ' WHERE id = ?';
 
         // Add the id value to the updateValues array
-        updateValues.push(req_id);
+        updateValues.push(id_);
 
         db.query(sql, updateValues, (err, result) => {
             if (err) {
@@ -475,6 +445,32 @@ function calculateNumberOfDays(startDate, endDate) {
     return numberOfDays;
 }
 
+// Pseudo-code for fetching request status
+router.get('/getRequestStatus', (req, res) => {
+    // Assuming you have access to the database
+    // Query the database to get the status of each request
+    const requestStatuses = {}; // Object to store request statuses
+
+    // Example query
+    db.query('SELECT id, status FROM Leave_request', (err, results) => {
+        if (err) {
+            // Handle error
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+
+        // Store the statuses in the requestStatuses object
+        results.forEach(result => {
+            requestStatuses[result.id] = result.status;
+        });
+
+        // Send the requestStatuses object as JSON response
+        res.json(requestStatuses);
+    });
+});
+
+
 
 
 
@@ -518,10 +514,10 @@ router.post('/status-reject', (req, res) => {
 
     // Update the leave request in the database
     const sql = `UPDATE Leave_request 
-                             SET  status = 'Rejected', approvedBy = 'Admin',  approveDate = ? 
+                             SET  status = 'Rejected', approvedBy = ?,  approveDate = ? 
                              WHERE id = ?`;
 
-    data = [approveDate, req_id];
+    data = [ storedVariable ,approveDate, req_id];
 
     db.query(sql, data, (err, result) => {
 
@@ -538,10 +534,6 @@ router.post('/status-reject', (req, res) => {
 
     });
 });
-
-
-
-
 
 
 

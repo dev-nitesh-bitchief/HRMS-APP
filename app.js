@@ -10,7 +10,7 @@ var session = require('express-session');
 
 
 
-var hbs = require('express-handlebars')
+
 
 
 
@@ -70,15 +70,17 @@ var Payroll = require('./routes/Payroll');
 
 
 
-var loginRouter = require('./routes/login');
+// var loginRouter = require('./routes/login');
 
 
 var app = express();
 
 
+
+
 // view engine setup
-app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -96,9 +98,7 @@ app.use(session({
   // cookie: { secure: true }
 }))
 
-app.use(express.static('design'));
-app.set('view engine', 'handlebars');
-app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "index2" }));
+
 
 
 
@@ -113,7 +113,7 @@ app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance',attendanceRouter)
 app.use('/attendancerecord',attendancerecordRouter)
-app.use('/login',loginRouter)
+// app.use('/login',loginRouter)
 
 
 

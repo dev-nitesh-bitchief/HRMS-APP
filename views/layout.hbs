@@ -429,7 +429,7 @@
             </a>
           </li>
 
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title">Admin</span>
@@ -438,10 +438,24 @@
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="/Leave/show-to-approver">Leave applications</a></li>
-                 <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
-                  
+                <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/role">Roles management</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/permission">Permissions</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Expense/show">All Expenses</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a> </li>
+                <li class="nav-item"><a class="nav-link" href="/ework">Employees</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/users">User Management</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/attendancerecord">attendancerecord</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/salary">Salary</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/salarytype">salarytype</a></li>
+
+
+
+
+
               </ul>
+
             </div>
           </li>
           {{!-- <li class="nav-item nav-category">UI Elements</li>
@@ -461,7 +475,22 @@
             </div>
           </li> --}}
           <li class="nav-item nav-category">Features</li>
-          
+           <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
+              aria-controls="attendance">
+              <i class="menu-icon mdi mdi-account-check"></i>
+              <span class="menu-title">attendance</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="attendance">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/attendance">attendance</a></li>
+
+              </ul>
+            </div>
+          </li>
+
+
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
               aria-controls="ui-basic">
@@ -478,68 +507,80 @@
             </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
-              aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-card-text-outline"></i>
-              <span class="menu-title">Employees</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="form-elements">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="/employee">Employees</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-              <i class="menu-icon mdi mdi-chart-line"></i>
-              <span class="menu-title">User Management</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="charts">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/user_mgt">User Management</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-              <i class="menu-icon mdi mdi-table"></i>
-              <span class="menu-title">Roles Management</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="tables">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/roles_mgt">Roles management</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
-              <i class="menu-icon mdi mdi-layers-outline"></i>
-              <span class="menu-title">Permission Management</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="icons">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/permission_mgt">Permissions</a></li>
-              </ul>
-            </div>
-          </li>
-          {{!-- <li class="nav-item nav-category">pages</li> --}}
-
-
          
 
-
-          {{!-- <li class="nav-item nav-category">help</li>
           <li class="nav-item">
-            <a class="nav-link" href="http://bootstrapdash.com/demo/star-admin2-free/docs/documentation.html">
-              <i class="menu-icon mdi mdi-file-document"></i>
-              <span class="menu-title">Documentation</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#docs" aria-expanded="false" aria-controls="docs">
+              <i class="menu-icon mdi mdi-file-multiple"></i>
+              <span class="menu-title">Documents</span>
+              <i class="menu-arrow"></i>
             </a>
-          </li> --}}
+            <div class="collapse" id="docs">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/docs">Documents</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+              aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Expense Management </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/Expense">Expense
+                    Details</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-pub" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Public Holiday</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-pub">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/holiday">Holiday Lists </a></li>
+              </ul>
+            </div>
+          </li>
+ 
+
+         
+           <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ics" aria-expanded="false" aria-controls="ics">
+              <i class="menu-icon mdi mdi-wallet-membership"></i>
+              <span class="menu-title">Subscription</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ics">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/subPlan">Subscription Plans</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#feedback" aria-expanded="false"
+              aria-controls="feedback">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">Feedback</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="feedback">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/feedback">Feedback Form</a></li>
+              </ul>
+            </div>
+          </li>
+
+
+
         </ul>
       </nav>
 

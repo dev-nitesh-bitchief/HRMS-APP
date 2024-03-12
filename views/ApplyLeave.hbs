@@ -115,7 +115,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-
+                                           
                                             <th>Leave type</th>
                                             <th>Start date</th>
                                             <th>End date</th>
@@ -133,6 +133,7 @@
 
                                         {{#each data}}
                                         <tr>
+                                           
                                             <td>{{this.Leave_type_name}}</td>
                                             <td>{{this.startDate}}</td>
                                             <td>{{this.endDate}}</td>
@@ -149,12 +150,12 @@
                                                 <a type="button" id="delete_data" data-toggle="modal"
                                                     data-target="#DeleteModal" data-req-id="{{this.req_id}}">Delete</a>
 
-                                                <a type="button" class="editBtn" id="update_data" data-toggle="modal"
-                                                    data-target="#editModal" data-req-id="{{this.req_id}}"
-                                                    data-start-date="{{this.startDate}}"
-                                                    data-end-date="{{this.endDate}}"
-                                                    data-leave-type="{{this.Leave_type_name}}"
-                                                    data-reason="{{this.reason}}">Edit
+                                                
+                                                 <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
                                                 </a>
 
                                             </td>
@@ -240,7 +241,7 @@
 
 
 
-           
+
             <!-- Delete modal -->
             <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -302,30 +303,22 @@
                         </div>
                         <div class="modal-body">
                             <!-- Form inside the popup -->
-                            <form  class="forms-sample" action="/Leave/edit" method="post">
+                            <form class="forms-sample" action="/Leave/edit" method="post">
 
-                                {{!-- <div class="form-group">
-                                    <label for="user_name">User name</label>
-                                    <input type="text" class="form-control" id="user_name" name="user_name"
-                                        placeholder="role name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="id">Role id</label>
-                                    <input type="text" class="form-control" id="role_id" name="role_id"
-                                        placeholder="role id" required>
-                                </div> --}}
+                               
                                 <div class="form-group">
 
-                                    <input type="hidden" id="req_id" name="req_id">
+                                    
+                                     <input type="hidden" class="form-control" id="id_" name="id_" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="id">start date</label>
+                                    <label for="startDate">start date</label>
                                     <input type="date" class="form-control" id="startDate" name="startDate"
                                         placeholder="startDate">
                                 </div>
                                 <div class="form-group">
-                                    <label for="id">End date</label>
+                                    <label for="endDate">End date</label>
                                     <input type="date" class="form-control" id="endDate" name="endDate"
                                         placeholder="endDate">
                                 </div>
@@ -355,8 +348,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="id">Reason</label>
-                                    <input type="text" class="form-control" id="reason" name="reason"
-                                        placeholder="reason">
+                                    <input type="text" class="form-control" id="reason_" name="reason">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -367,41 +359,25 @@
                 </div>
             </div>
 
+           
+
+           
+           
             <script>
-                // Get the edit button and the modal form
-                const editBtn = document.querySelector('.editBtn');
-                const editModal = document.getElementById('editModal');
-              
-
-                // Add event listener to the edit button
-                editBtn.addEventListener('click', function () {
+                 function UpdateRequest(req_id, startDate, endDate , Leave_type_name, reason) {
                     debugger
-                    // Get role_id and role_name attributes from the button
-                    // const roleId = this.getAttribute('data-role-id');
-                    // const roleName = this.getAttribute('data-user-name');
-
-                    const req_id = this.getAttribute('data-req-id');
-                    const start_date = this.getAttribute('data-start-date');
-                    const end_date = this.getAttribute('data-end-date');
-                    const leave_type = this.getAttribute('data-leave-type');
-                    const reason = this.getAttribute('data-reason');
-
-                    // Prefill the form fields with role_id and role_name
-
-                    // editModal.querySelector('#role_id').value = roleId;
-                    //editModal.querySelector('#user_name').value = roleName;
-                    editModal.querySelector('#req_id').value = req_id;
-
-                    editModal.querySelector('#startDate').value = start_date;
-                    editModal.querySelector('#endDate').value = end_date;
-                    editModal.querySelector('#Leave_type').value = leave_type;
-                    editModal.querySelector('#reason').value = reason;
-
                    
-                    console.log('req-id in script', req_id);
-                });
+                    document.getElementById('id_').value = req_id;
+                    document.getElementById('startDate').value = startDate;
+                    document.getElementById('endDate').value = endDate;
+                    document.getElementById('Leave_type').value = Leave_type_name;
+                    document.getElementById('reason_').value = reason;
+                    $('#UpdateModal').modal('show');
+                };
 
             </script>
+           
+
 
             <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
