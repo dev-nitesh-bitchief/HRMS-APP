@@ -5,12 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var bodyParser = require('body-parser');
-var exphbs = require("express-handlebars")
+
 var session = require('express-session');
 
 
 
-var hbs = require('express-handlebars')
+
 
 
 
@@ -101,9 +101,7 @@ var app = express();
 app.use(express.static('styling'));
 
 
-// view engine setup
-app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
-app.set('views', path.join(__dirname, 'views'));
+
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -122,8 +120,10 @@ app.use(session({
 }))
 
 app.use(express.static('design'));
-app.set('view engine', 'handlebars');
-app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "index2" }));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine','hbs');
+
 
 
 
