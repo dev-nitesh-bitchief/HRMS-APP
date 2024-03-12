@@ -6,7 +6,7 @@ var path = require('path');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.redirect('/users')
+  res.render('index')
 });
 
 module.exports = router;

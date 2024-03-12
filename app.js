@@ -5,16 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var bodyParser = require('body-parser');
-var exphbs = require("express-handlebars")
+// var exphbs = require("express-handlebars")
 var session = require('express-session');
 
 
 var hbs = require('express-handlebars')
 
-const bodyParser = require('body-parser');
 
 
-
+var login= require('./routes/login');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var salaryRouter = require('./routes/salary');
@@ -25,7 +24,7 @@ var attendanceRouter = require('./routes/Attendance')
 var role=require('./routes/Role')
 
 
-var role=require('./routes/Role');
+// var role=require('./routes/Role');
 var docs= require('./routes/Document');
 
 var eworkInfo = require('./routes/emp-work-info');
@@ -57,18 +56,18 @@ var app = express();
 
 
 // view engine setup
-app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
-app.set('views', path.join(__dirname, 'views'));
+// app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
+// app.set('views', path.join(__dirname, 'views'));
 
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'design')));
+// app.use(express.static(path.join(__dirname, 'design')));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -78,12 +77,12 @@ app.use(session({
 
 app.use(express.static('design'));
 app.set('view engine', 'handlebars');
-app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "index2" }));
+app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "main" }));
 
 
 
-
-app.use('/', indexRouter);
+app.use('/',login);
+app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);

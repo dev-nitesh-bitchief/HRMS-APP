@@ -43,6 +43,10 @@
     /* Hide the form by default */
 
   }
+  /* Styling the actions column */
+  .actions {
+      text-align:right;
+}
 </style>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -56,7 +60,7 @@
               <h3 class="card-title">Permissions</h3>
               {{!-- <a class="new_data" onclick="openForm()">Add new Role </a> --}}
               <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal" data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
                 Add New Permission
               </button>
 
@@ -66,7 +70,7 @@
                     <tr>
                       <th>Id:</th>
                       <th>Permission-Name:</th>
-                      <th>Action</th>
+                      <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -75,16 +79,16 @@
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.permissionName}}</td>
-                      <td> <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                          onclick="openDeleteModal('{{this.id}}')">
+                      <td class="actions"> <!-- Button to trigger the modal -->
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#deleteModal"
+                          onclick="openDeleteModal('{{this.id}}')"><span class="mdi mdi-account-minus"></span>
                           Delete Record
                         </button>
                         <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal"
                           data-target="#updatePermissionModal"
                           onclick="UpdateForm('{{this.id}}', '{{this.permissionName}}')">
-                          Update Permissions-Name
+                          <span class="mdi mdi-account-convert"></span> Update Permissions-Name
                         </button>
                       </td>
                     </tr>
@@ -122,7 +126,6 @@
                         <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
                       </form>
               </div>
-        <div id="toast" class="toast"></div>
             </div>
           </div>
         </div>
@@ -189,6 +192,9 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      showToast('permission');
+    
     // Function to open the form
           function openForm() {
             document.getElementById("form-container").style.display = "block";
@@ -217,6 +223,7 @@
       // Show the modal containing the form
       $('#updatePermissionModal').modal('show');
     }
+    });
   </script>
 
   <!-- Bootstrap JS and jQuery -->
