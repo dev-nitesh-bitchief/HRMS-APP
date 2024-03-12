@@ -1,21 +1,51 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../connection/db');
+const bodyParser = require('body-parser');
+router.use(bodyParser.json());
+router.use(express.urlencoded({ extended: true }));
+router.get('/admin', (req, res) => {
+    res.render('admin_public_holiday');
+});
+
+// router.post('/add', (req, res) => {
+//     const { holidayDate, holidayName } = req.body;
+//     const permissions = req.body.permissions || [];
+//     console.log(holidayDate);
+//     console.log(holidayName);
+//     console.log(permissions);
+//     // const permissions1 = [permissions]
+//     // console.log(permissions1);
+//     // const date = new Date(holidayDate);
+//     // const monthNumber = date.getMonth();
+//     // const month_id = monthNumber + 1;
+//     // console.log(month_id);
+//     const state_id = permissions.join(',');
+//     // Insert holiday data into the database
+//     const sqlQuery = 'INSERT INTO Holiday_lists (holidayDate,holidayName,state_id) VALUES (?, ?, ?)';
+//     db.query(sqlQuery, [holidayDate, holidayName, state_id,], (err, result) => {
+//         if (err) {
+//             console.error('Error inserting into database: ' + err.stack);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+//         res.status(200).json({ message: 'Data Inserted Successfully', result });
+//     });
+// });
 
 router.post('/add', (req, res) => {
-    const { stateIds, holidayName, holidayDate } = req.body;
-    const date = new Date(holidayDate);
-    const monthNumber = date.getMonth();
-    const month_id = monthNumber + 1;
-    console.log(month_id);
-    const state_id = stateIds.join(',');
+    const { holidayDate, holidayName, permissions } = req.body;
+    console.log('Received data:', holidayDate, holidayName, permissions);
+
+    // Handle permissions array appropriately
+    const state_id = permissions ? permissions.join(',') : '';
+
     // Insert holiday data into the database
-    const sqlQuery = 'INSERT INTO Holiday_lists (holidayName, holidayDate, state_id , month_id) VALUES (?, ?, ?, ?)';
-    db.query(sqlQuery, [holidayName, holidayDate, state_id, month_id], (err, result) => {
+    const sqlQuery = 'INSERT INTO Holiday_lists (holidayDate, holidayName, state_id) VALUES (?, ?, ?)';
+    db.query(sqlQuery, [holidayDate, holidayName, state_id], (err, result) => {
         if (err) {
-            console.error('Error inserting into database: ' + err.stack);
-            res.status(500).send('Internal Server Error');
-            return;
+            console.error('Error inserting into database:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
         res.status(200).json({ message: 'Data Inserted Successfully', result });
     });
