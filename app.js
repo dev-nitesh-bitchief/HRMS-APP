@@ -56,6 +56,10 @@ var holiday = require('./routes/public_holiday');
 
 
 
+
+
+
+
 var expense_category = require('./routes/expense_category');
 
 
@@ -71,12 +75,24 @@ var Leave_allocation = require('./routes/Leave_allocation');
 
 
 
+
 var Expense_category = require('./routes/Expense_category');
 var Payment_method = require('./routes/Payment_method');
 var Expense = require('./routes/Expense');
 
 var Email_template = require('./routes/Email_temp');
 var Smtp = require('./routes/Smtp');
+
+var Audit_logging = require('./routes/Audit_logging');
+var Payroll = require('./routes/Payroll');
+
+
+
+
+
+
+
+
 
 var loginRouter = require('./routes/login');
 
@@ -114,6 +130,11 @@ app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "ind
 
 app.use('/', indexRouter);
 
+
+
+app.use(express.static('design'));
+
+
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
@@ -143,10 +164,16 @@ app.use('/docs', docs);
 app.use('/feedback', feedback);
 
 
+
+
+
+
 // app.use('/leave', leave);
+
 app.use('/Leave', Leave_request);
 app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
+
 app.use('/Leave-type', Leave_type);
 app.use('/Leave-allocation', Leave_allocation);
 
@@ -189,3 +216,48 @@ app.use(function (req, res, next) {
   });
 
   module.exports = app;
+
+app.use('/Leave-type' , Leave_type);
+app.use('/Leave-allocation' , Leave_allocation);
+
+
+app.use('/Audit-logging', Audit_logging);
+app.use('/Payroll',Payroll);
+
+
+app.use('/leaveType-dropdown' , Leave_request);
+
+
+
+
+
+app.use('/holiday',holiday);
+
+
+
+
+app.use('/holiday',holiday);
+app.use('/smtp',smtp);
+app.use('/subPlan',subPlan);
+app.use('/emailTemp',emailTemp);
+app.use('/expense',expense_category);
+
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
+
