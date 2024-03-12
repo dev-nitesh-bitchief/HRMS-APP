@@ -9,9 +9,9 @@ var exphbs = require("express-handlebars")
 var session = require('express-session');
 
 
+
 var hbs = require('express-handlebars')
 
-const bodyParser = require('body-parser');
 
 
 
@@ -21,8 +21,9 @@ var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
+var attendancerecordRouter = require('./routes/attendancerecord')
 
-var role=require('./routes/Role')
+
 
 
 var role=require('./routes/Role');
@@ -42,6 +43,7 @@ var holiday = require('./routes/public_holiday');
 
 
 
+
 var expense_category = require('./routes/expense_category');
 
 var smtp= require('./routes/Smtp');
@@ -52,6 +54,7 @@ var Leave_policy = require('./routes/Leave_policy');
 var Leave_balance = require('./routes/Leave_balance');
 var Leave_type = require('./routes/Leave_type');
 var Leave_allocation = require('./routes/Leave_allocation');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
@@ -89,6 +92,8 @@ app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance',attendanceRouter)
+app.use('/attendancerecord',attendancerecordRouter)
+app.use('/login',loginRouter)
 
 
 
@@ -106,7 +111,7 @@ app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
 app.use('/Leave-type' , Leave_type);
 app.use('/Leave-allocation' , Leave_allocation);
-// app.use('/leave', leave);
+
 app.use('/holiday',holiday);
 app.use('/smtp',smtp);
 app.use('/subPlan',subPlan);

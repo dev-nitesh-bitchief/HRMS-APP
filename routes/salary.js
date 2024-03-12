@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection/db')
 
+const authenticateUser = require('./login');
 router.get('/', function(req, res){
     //show all users
    
@@ -44,7 +45,8 @@ router.post('/addsalary', function(req, res) {
             return res.status(500).send('Failed to add salary');
         }
         console.log('Salary added successfully');
-        res.status(200).json({ result });
+        // res.status(200).json({ result });
+        res.status(201).redirect('/salary')
         
     });
 });

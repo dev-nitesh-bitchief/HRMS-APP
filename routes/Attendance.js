@@ -9,20 +9,11 @@ router.get('/', function(req, res) {
             res.status(500).send('Error retrieving attendance data');
             return;
         }
-        res.status(200).json(result);
+        // res.status(200).json(result);
+        res.status(200).render('attendance')
     });
 });
 
-// CheckIn              | datetime      | YES  |     | NULL    |       |
-// | CheckOut             | datetime      | YES  |     | NULL    |       |
-// | CheckInLocationLink  | varchar(255)  | YES  |     | NULL    |       |
-// | CheckOutLocationLink | varchar(255)  | YES  |     | NULL    |       |
-// | CheckInLatitude      | decimal(10,8) | YES  |     | NULL    |       |
-// | CheckInLongitude     | decimal(11,8) | YES  |     | NULL    |       |
-// | CheckOutLatitude     | decimal(10,8) | YES  |     | NULL    |       |
-// | CheckOutLongitude
-
-// API endpoint for check-in
 router.post('/checkin', (req, res) => {
     const { employee_id, checkIn, checkInLatitude, checkInLongitude } = req.body;
     const checkinLocationLink = `https://maps.google.com/maps?q=${checkInLatitude},${checkInLongitude}`;
@@ -44,8 +35,8 @@ router.post('/checkin', (req, res) => {
   });
   
   // Function to calculate worked hours in hours and minutes
-  function calculateWorkedHours(checkInTime, checkOutTime) {
-    const diffInMilliseconds = new Date(checkOutTime) - new Date(checkInTime);
+  function calculateWorkedHours(checkIn, checkOut) {
+    const diffInMilliseconds = new Date(checkOut) - new Date(checkIn);
     const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
     const hours = Math.floor(diffInHours);
     const minutes = Math.floor((diffInHours - hours) * 60);
@@ -57,11 +48,11 @@ router.post('/checkin', (req, res) => {
   
   // API endpoint for check-out
   router.post('/checkout', (req, res) => {
-    const { employee_id, checkOutTime, checkOutLatitude, checkOutLongitude } = req.body;
+    const { employee_id, checkOut, checkOutLatitude, checkOutLongitude } = req.body;
     const checkoutLocationLink = `https://maps.google.com/maps?q=${checkOutLatitude},${checkOutLongitude}`;
   
     // Retrieve the check-in time from the database
-    const getCheckinTimeSql = `SELECT CheckIn FROM Attendance WHERE employee_id = ?`;
+    const getCheckinTimeSql = ` SELECT CheckIn FROM Attendance WHERE employee_id = 2 ORDER BY id DESC LIMIT 1`;
     connection.query(getCheckinTimeSql, [employee_id], (err, rows) => {
       if (err) {
         console.error('Error retrieving check-in time:', err);
@@ -73,14 +64,14 @@ router.post('/checkin', (req, res) => {
         return;
       }
   
-      const checkInTime = new Date(rows[0].CheckIn);
-      const { hours, minutes } = calculateWorkedHours(checkInTime, new Date(checkOutTime));
+      const checkIn = new Date(rows[0].CheckIn);
+      const { hours, minutes } = calculateWorkedHours(checkIn, new Date(checkOut));
       const workedHours = `${hours} hours ${minutes} minutes`;
   
       // Update check-out data and worked hours in the database
    
       const updateSql = `UPDATE Attendance SET CheckOut = ?, CheckOutLatitude = ?, CheckOutLongitude = ?, CheckOutLocationLink = ?, WorkedHours = ? WHERE employee_id = ? ORDER BY id DESC LIMIT 1`;
-      const values = [checkOutTime, checkOutLatitude, checkOutLongitude, checkoutLocationLink, workedHours, employee_id];
+      const values = [checkOut, checkOutLatitude, checkOutLongitude, checkoutLocationLink, workedHours, employee_id];
   
       connection.query(updateSql, values, (err, result) => {
         if (err) {

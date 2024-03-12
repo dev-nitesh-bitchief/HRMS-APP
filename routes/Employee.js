@@ -112,15 +112,15 @@ router.post('/update', (req, res) => {
     });
 });
 
-router.post('/show',(req,res)=>{
-    const sqlQuery = `SELECT * FROM Employee`;
+router.get('/show',(req,res)=>{
+    const sqlQuery = "SELECT id,CONCAT(firstName, ' ', lastName) AS employeeName FROM Employee";
     db.query(sqlQuery, (err, result) => {
         if (err) {
             console.error('Error while Fetching data: ' + err.stack);
             res.status(500).send('Error while fetching data');
             return;
         }
-        res.status(200).json({ message: "Data Fetched Successfully", result });
+        res.status(200).json(result);
     });
 });
 

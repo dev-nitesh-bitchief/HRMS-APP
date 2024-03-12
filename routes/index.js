@@ -4,9 +4,13 @@ var db= require('../connection/db');
 var path = require('path');
 
 /* GET home page. */
+// router.get('/', (req, res) => {
+//   res.render("login", { layout: 'empty' });
+// });
 
-router.get('/', function(req, res, next) {
-  res.redirect('/users')
-});
+router.get('/',(req,res)=>{
+  res.render('user')
+})
+
 
 module.exports = router;
