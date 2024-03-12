@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the anchor tag to look like a button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        #delete_data {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #af9e4c;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        #update_data {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #4c91af;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+        /* Additional custom styles */
+        .popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Employees Leave Balance</h3>
+
+                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add data</a>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Employee name</th>
+                                            <th>Month</th>
+                                            <th>Leave type</th>
+                                            <th>Total leaves</th>
+                                            <th>Leaves taken</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.employeeName}}</td>
+                                            <td>{{this.Month_name}}</td>
+                                            <td>{{this.Leave_type_name}}</td>
+                                            <td>{{this.totalLeaves}}</td>
+                                            <td>{{this.leavesTaken}}</td>
+                                            <td>
+
+
+                                                <!-- Button to trigger the modal -->
+                                                <a type="button" id="delete_data" data-toggle="modal"
+                                                    data-target="#DeleteModal"
+                                                    data-bal_id="{{this.balance_id}}">Delete</a>
+
+                                                <a type="button" class="editBtn" id="update_data" data-toggle="modal"
+                                                    data-target="#editModal" data-bal_id="{{this.balance_id}}"
+                                                    data-total_leaves="{{this.totalLeaves}}"
+                                                    data-leaves_taken="{{this.leavesTaken}}">Edit
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ADD data modal -->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Leave details</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Leave-balance/add" method="post">
+
+
+
+                                <div class="form-group">
+                                    <label for="id">Employee :</label>
+                                    <select id="Employee_id" name="Employee_id">
+                                        <option value="">Select </option>
+                                    </select>
+
+                                    <script>
+                                        debugger
+                                        // Fetch data from the server and populate the dropdown
+                                        fetch('/Leave-balance/employee')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const roleDropdown = document.getElementById('Employee_id');
+                                                data.forEach(employee => {
+                                                    const option = document.createElement('option');
+                                                    option.value = employee.id;
+                                                    option.textContent = employee.fullName;
+                                                    roleDropdown.appendChild(option);
+                                                });
+                                            })
+                                            .catch(error => console.error('Error fetching data:', error));
+                                    </script>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Leave_type_id">Leave type:</label>
+                                    <select id="Leave_type_id" name="Leave_type_id">
+                                        <option value="">Select </option>
+                                    </select>
+
+                                    <script>
+                                        debugger
+                                        // Fetch data from the server and populate the dropdown
+                                        fetch('/Leave/leaveType-dropdown')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const roleDropdown = document.getElementById('Leave_type_id');
+                                                data.forEach(leave_type => {
+                                                    const option = document.createElement('option');
+                                                    option.value = leave_type.id;
+                                                    option.textContent = leave_type.typeName;
+                                                    roleDropdown.appendChild(option);
+                                                });
+                                            })
+                                            .catch(error => console.error('Error fetching data:', error));
+                                    </script>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="id">Month :</label>
+                                    <select id="Month_id" name="Month_id">
+                                        <option value="">Select </option>
+                                    </select>
+
+                                    <script>
+                                        debugger
+                                        // Fetch data from the server and populate the dropdown
+                                        fetch('/Leave-balance/month')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const roleDropdown = document.getElementById('Month_id');
+                                                data.forEach(month => {
+                                                    const option = document.createElement('option');
+                                                    option.value = month.id;
+                                                    option.textContent = month.monthName;
+                                                    roleDropdown.appendChild(option);
+                                                });
+                                            })
+                                            .catch(error => console.error('Error fetching data:', error));
+                                    </script>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="totalLeaves">Total leaves</label>
+                                    <input type="text" class="form-control" id="totalLeaves" name="totalLeaves">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="leavesTaken">Leaves taken</label>
+                                    <input type="text" class="form-control" id="leavesTaken" name="leavesTaken">
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- new Delete modal -->
+            <!-- Delete modal -->
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Leave-balance/delete" method="post">
+
+                                <label for="id">Are you sure you want to delete?</label>
+                                <!-- Hidden input field to store the req_id -->
+                                <input type="hidden" id="deleteReqId" name="balance_Id">
+                                {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
+                                <button id="delete_data" type="submit">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                $(document).ready(function () {
+                    // Event listener for when the delete modal is shown
+                    $('#DeleteModal').on('show.bs.modal', function (event) {
+                        // Extract the req_id from the button that triggered the modal
+                        const button = $(event.relatedTarget);
+                        const balance_Id = button.data('bal_id');
+
+                        // Set the req_id as the value of the hidden input field
+                        $('#deleteReqId').val(balance_Id);
+
+                        // Display the req_id in the modal for reference (optional)
+                        $('#requestIdDisplay').text(balance_Id);
+                    });
+                });
+
+
+            </script>
+
+
+
+
+
+
+            <!-- update modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Update data</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Leave-balance/edit" method="post">
+
+                                <div class="form-group">
+
+                                    <input type="hidden" id="balance_id" name="balance_id">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="totalLeaves">Total Leaves</label>
+                                    <input type="text" class="form-control" id="totalLeaves" name="totalLeaves">
+                                </div>
+                                <div class="form-group">
+                                    <label for="leavesTaken">Leaves taken</label>
+                                    <input type="text" class="form-control" id="leavesTaken" name="leavesTaken"
+                                        placeholder="endDate">
+                                </div>
+
+                               
+
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                {{!-- <button class="btn btn-light">Cancel</button> --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Get the edit button and the modal form
+                const editBtn = document.querySelector('.editBtn');
+                const editModal = document.getElementById('editModal');
+
+                // Add event listener to the edit button
+                editBtn.addEventListener('click', function () {
+
+
+                
+
+                    const balance_id = this.getAttribute('data-bal_id');
+                    const totalLeaves = this.getAttribute('data-total_leaves');
+                    const leavesTaken = this.getAttribute('data-leaves_taken');
+
+
+
+                    editModal.querySelector('#balance_id').value = balance_id;
+                    editModal.querySelector('#totalLeaves').value = totalLeaves;
+                    editModal.querySelector('#leavesTaken').value = leavesTaken;
+
+
+                });
+
+            </script>
+
+            <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

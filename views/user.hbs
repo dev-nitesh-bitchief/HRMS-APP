@@ -68,12 +68,29 @@
       cursor: pointer;
     }
 
-
     #form-container {
       display: none;
       /* Hide the form by default */
+    }
 
+    select {
+      width: calc(100% - 20px);
+      /* Adjusted width */
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
 
+    /* Reduce space between elements */
+    .form-group {
+      margin-bottom: 5px;
+      /* Reduced margin */
+    }
+
+    /* Adjust modal size */
+    .modal-dialog {
+      max-width: 500px;
+      /* Adjust as needed */
     }
   </style>
 </head>
@@ -90,7 +107,8 @@
                 <table class="table">
                   <thead>
                     <!-- Button to trigger the modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                      data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
                       Add New User</button>
                     <tr>
                       <th>id</th>
@@ -112,12 +130,13 @@
                       <td>{{this.status}}</td>
                       <td>{{this.creationDate}}</td>
                       <td class="actions">
-                        <button type="button" class="btn btn-dark btn-icon-text" onclick="openEditForm('{{this.id}}')"
-                          data-toggle="modal" data-target="#updatePermissionsModal">
+                        <button type="button" class="btn btn-success btn-rounded btn-fw"
+                          onclick="UpdateForm('{{this.id}}','{{this.role_name}}','{{this.status}}')" data-toggle="modal"
+                          data-target="#updateUserModal">
                           Edit
                           <i class="ti-file btn-icon-append"></i>
                         </button>
-                        <button type="button" class="btn btn-dark btn-icon-text" data-toggle="modal"
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
                           data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
                           Delete
                           <i class="ti-reload btn-icon-prepend"></i>
@@ -147,51 +166,35 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {{!-- "Employee_id": "3","username": "shub","password": "1234","Role_id": "2","status":"active" --}}
-        {{!-- const { Employee_id,username,password,Role_id,status } = req.body; --}}
         <div class="modal-body">
           <form class="forms-sample" action="/users/adduser" method="post">
             <div class="form-group">
-              <label for="employee_name">Name</label>
-              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee_id">
+              <label for="Employee_id">Employee Name</label>
+              <select id="Employee_id" name="Employee_id">
+                <option value="">Select Employee </option>
+              </select>
             </div>
             <div class="form-group">
               <label for="age">username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="username">
+              <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Enter username">
+              <div id="usernameStatus"></div>
             </div>
             <div class="form-group">
               <label for="email">password</label>
               <input type="text" class="form-control" id="password" name="password" placeholder="password">
             </div>
-
-
-
-
-            {{!-- <div class="form-group">
-              <label for="phone">Role_id</label>
-              <input type="text" class="form-control" id="Role_id" name="Role_id" placeholder="Role_id">
-            </div> --}}
-            {{!-- vanshcode below --}}
-            {{!-- <div class="form-group">
-              <label for="Role_id">Select Role </label>
-              <select id="salarytype" name="salarytype">
-                <option value=" "> Select </option>
-              </select>
-            </div> --}}
-
             <div class="form-group">
-              <label for="salary_type">Select role:</label>
-              <select id="salary_type" name="salary_type">
+              <label for="roleName">Select role:</label>
+              <select id="roleName" name="Role_id">
                 <option value="">Select </option>
               </select>
             </div>
-
-
-
-
             <div class="form-group">
-              <label for="blood_group">status</label>
-              <input type="text" class="form-control" id="status" name="status" placeholder="status">
+              <label for="status">status</label>
+              <select name="status">
+                <option value="active">active</option>
+                <option value="inactive">inactive</option>
+              </select>
             </div>
             <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
           </form>
@@ -200,7 +203,7 @@
       </div>
     </div>
   </div>
-  {{!-- --}}
+  {{!-- --}}
 
 
   <!-- Delete Modal -->
@@ -228,6 +231,49 @@
     </div>
   </div>
 
+
+  <!-- Update Modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateUserModalLabel">Update User Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/users/updateuser" method="post">
+            <div class="form-group">
+              <input type="hidden" class="form-control" id="id" name="id">
+            </div>
+             <div class="form-group">
+              <label for="roleName">Select role:</label>
+              <select id="roleName1" name="Role_id">
+                <option value="">Select </option>
+              </select>
+            </div>
+             <div class="form-group">
+              <label for="status">status</label>
+              <select name="status">
+                <option value="active">active</option>
+                <option value="inactive">inactive</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Update Employee</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   <script>
     // Function to open the form
     function openForm() {
@@ -244,27 +290,90 @@
       $('#deleteidModal').modal('show');
     }
 
-     document.addEventListener('DOMContentLoaded', function () {
+    function UpdateForm(id, role_id,status) {
+      document.getElementById('id').value = id;
+      document.getElementById('Role_name').value = Role_name;
+      document.getElementById('status').value = status;
+      $('#updateUserModal').modal('show');
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
       // Fetch data from the server and populate the dropdown
-      fetch('/salarytype')
+      fetch('/employee/show')
         .then(response => response.json())
         .then(data => {
-          const roleDropdown = document.getElementById('salary_type');
-          data.forEach(SalaryType => {
+          const roleDropdown = document.getElementById('Employee_id');
+          data.forEach(drop => {
             const option = document.createElement('option');
-            option.value = SalaryType.id;
-            option.textContent = SalaryType.salary_type;
+            option.value = drop.id;
+            option.textContent = drop.employeeName;
             roleDropdown.appendChild(option);
           });
         })
         .catch(error => console.error('Error fetching data:', error));
     });
 
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Fetch data from the server and populate the dropdown
+      fetch('/role/showroles')
+        .then(response => response.json())
+        .then(data => {
+          const roleDropdown = document.getElementById('roleName1');
+          data.forEach(showroles => {
+            const option = document.createElement('option');
+            option.value = showroles.id;
+            option.textContent = showroles.roleName;
+            roleDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Fetch data from the server and populate the dropdown
+      fetch('/role/showroles')
+        .then(response => response.json())
+        .then(data => {
+          const roleDropdown = document.getElementById('roleName');
+          data.forEach(showroles => {
+            const option = document.createElement('option');
+            option.value = showroles.id;
+            option.textContent = showroles.roleName;
+            roleDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+
+    const usernameInput = document.getElementById('usernameInput');
+    const usernameStatus = document.getElementById('usernameStatus');
+
+    usernameInput.addEventListener('blur', () => {
+      const username = usernameInput.value;
+
+      fetch(`/users/checkUsername?username=${username}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            usernameStatus.textContent = 'Username not available';
+            usernameStatus.style.color = 'red';
+          } else {
+            usernameStatus.textContent = 'Username available';
+            usernameStatus.style.color = 'green';
+          }
+        })
+        .catch(error => {
+          console.error('Error checking username availability:', error);
+          usernameStatus.textContent = 'Error checking username availability';
+          usernameStatus.style.color = 'red';
+        });
+    });
+
   </script>
-  <!-- Bootstrap JS and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

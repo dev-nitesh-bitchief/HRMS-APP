@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* Styling the anchor tag to look like a button */
+    .btn-dark {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .btn-dark:hover {
+      background-color: #45a049;
+    }
+
+    /* Styling the actions column */
+    .actions {
+      text-align: right;
+    }
+
+    /* Styling the anchor tag to look like a button */
+    .new_data {
+      display: inline-block;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      background-color: #4CAF50;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .new_data:hover {
+      background-color: #45a049;
+      /* Darker green */
+    }
+
+    /* CSS styles for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #form-container {
+      display: none;
+      /* Hide the form by default */
+    }
+
+    select {
+      width: calc(100% - 20px);
+      /* Adjusted width */
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    /* Reduce space between elements */
+    .form-group {
+      margin-bottom: 5px;
+      /* Reduced margin */
+    }
+
+    /* Adjust modal size */
+    .modal-dialog {
+      max-width: 500px;
+      /* Adjust as needed */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Attendance Record</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>id</th>
+                      <th>EmployeeName</th>
+                      <th>CheckIn</th>
+                      <th>CheckOut</th>
+                      <th>CheckInLocationLink</th>
+                      <th>CheckOutLocationLink</th>
+                      <th>CheckInLatitude</th>
+                      <th>CheckInLongitude</th>
+                      <th>CheckOutLatitude</th>
+                      <th>CheckOutLongitude</th>
+                      <th>WorkedHours</th>
+                      <th>AttendanceReason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each attendancerecord}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.EmployeeName}}</td>
+                      <td>{{this.CheckIn}}</td>
+                      <td>{{this.CheckOut}}</td>
+                      <td>{{this.CheckInLocationLink}}</td>
+                      <td>{{this.CheckOutLocationLink}}</td>
+                      <td>{{this.CheckInLatitude}}</td>
+                      <td>{{this.CheckInLongitude}}</td>
+                      <td>{{this.CheckOutLatitude}}</td>
+                      <td>{{this.CheckOutLongitude}}</td>
+                      <td>{{this.WorkedHours}}</td>
+                      <td>{{this.AttendanceReason}}</td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ 
+
+ 
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

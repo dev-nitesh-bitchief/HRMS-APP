@@ -157,28 +157,23 @@ router.get('/dynamicpermission' , (req,res)=>{
   });
   });
 
-//   router.get('/api/roles', (req, res) => {
+  router.get('/show', (req, res) => {
   
-//     // Define the API URL
-//     const apiUrl = 'http://localhost:3000/api/roles';
-  
-//     // Function to fetch data from the API
-//     async function fetchData() {
-//       try {
-//         // Make a GET request to the API
-//         const response = await axios.get(apiUrl);
-  
-//         // Log the data received from the API
-//         // console.log('Data from the API:', response.data);
-//         return res.json(response.data);
-//       } catch (error) {
-//         // Log any errors that occur during the API request
-//         console.error('Error fetching data:', error.message);
-//       }
-//     }
-  
-//     // Call the fetchData function to initiate the API request
-//     fetchData();
-  
-//   })
+    // Define the API URL
+    const apiUrl = 'http://localhost:3000/api/show';
+  })
+
+
+  router.get('/showroles',(req,res)=>{
+    const sql='SELECT r.id AS id, r.roleName, GROUP_CONCAT(p.permissionName) AS permissions FROM Role r JOIN permission p ON FIND_IN_SET(p.id, r.Permission_id) GROUP BY r.id, r.roleName';
+    db.query(sql,(err, result) => {
+        if (err) {
+            console.error('Error showing data:', err);
+            return res.status(500).send('Internal server error');
+        }
+        // return res.status(200).json({ result });
+        return res.status(200).json(result);
+    });
+});  
+
 module.exports=router;
