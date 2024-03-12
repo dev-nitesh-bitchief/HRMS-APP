@@ -1,0 +1,86 @@
+<style>
+.container {
+    text-align: center;
+}
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Attendance Management</h1>
+  <input type="text" id="employeeid" placeholder="Enter Employee ID">
+  <br>
+  <button id="attendanceBtn">Check In</button>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const attendanceBtn = document.getElementById('attendanceBtn');
+  let isCheckIn = true; // Variable to track whether it's check-in or check-out
+  
+  attendanceBtn.addEventListener('click', async () => {
+    try {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+      
+      
+      const employee_id = document.getElementById('employeeid').value;
+      const position = await getCurrentPosition();
+      const { latitude, longitude } = position.coords;
+      
+      let action; // Action type (check-in or check-out)
+      if (isCheckIn) {
+        action = 'checkIn';
+      } else {
+        action = 'checkOut';
+      }
+      
+      const requestData = {
+        employee_id: employee_id,
+        [action]: formattedDate,
+        [action + 'Latitude']: latitude,
+        [action + 'Longitude']: longitude
+      };
+      
+      await fetch(`/attendance/${action}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
+      
+      if (isCheckIn) {
+        alert('Check-in successful!');
+        attendanceBtn.textContent = 'Check Out';
+      } else {
+        alert('Check-out successful!');
+        attendanceBtn.textContent = 'Check In';
+      }
+      
+      isCheckIn = !isCheckIn; // Toggle check-in/check-out
+      
+    } catch (error) {
+      console.error('Error:', error);
+      if (isCheckIn) {
+        alert('Failed to check in. Please try again.');
+      } else {
+        alert('Failed to check out. Please try again.');
+      }
+    }
+  });
+
+  function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+});
+</script>
+</body>
+
+ 

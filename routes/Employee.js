@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
             return;
         }
         console.log('Data Inserted Successfully');
-        res.status(200).json('Data Inserted Successfully');
+        res.status(200).json(result);
         return;
     });
 });
@@ -43,7 +43,7 @@ router.post('/delete', (req, res) => {
 });
 
 
-router.get('/search', (req, res) => {
+router.post('/search', (req, res) => {
     const { id } = req.body;
     const sqlquery = `SELECT * FROM Employee WHERE id = ${id}`;
 
@@ -108,9 +108,20 @@ router.post('/update', (req, res) => {
             return res.status(500).json('Error updating data');
         }
         console.log('Data updated successfully', result);
-        return res.status(200).json('Data updated successfully');
+        return res.status(200).json(result);
     });
 });
 
+router.get('/show',(req,res)=>{
+    const sqlQuery = "SELECT id,CONCAT(firstName, ' ', lastName) AS employeeName FROM Employee";
+    db.query(sqlQuery, (err, result) => {
+        if (err) {
+            console.error('Error while Fetching data: ' + err.stack);
+            res.status(500).send('Error while fetching data');
+            return;
+        }
+        res.status(200).json(result);
+    });
+});
 
 module.exports = router;

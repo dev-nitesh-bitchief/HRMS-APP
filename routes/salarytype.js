@@ -12,11 +12,29 @@ router.get('/', function(req, res){
         }
       
    
-      res.status(200).json({ result });
+        res.status(200).render('salarytype',{ salarytype : result })
    
     });
   
   });
+
+  router.get('/allsalarytype', function(req, res){
+    //show all users
+   
+    connection.query("select * from SalaryType", function(err, result) {
+        if (err) {
+          console.error('failed: ' + err.stack);
+          return;
+        }
+      
+   
+      res.status(200).json(result);
+   
+    });
+  
+  });
+
+  
 
 
 router.post('/addsalarytype', function(req, res) {
@@ -31,7 +49,8 @@ console.log("salary type")
             return res.status(500).send('Failed to add salary type');
         }
         console.log('Salary type added successfully');
-        res.status(201).json({ result });
+        // res.status(201).json({ result });
+        res.redirect('/salarytype')
     });
 });
 
@@ -47,7 +66,8 @@ console.log("salary type")
           return res.status(500).send('Failed to delete salary type');
       }
       console.log('Salary type added successfully');
-      res.status(200).json({ result });
+      // res.status(200).json({ result });
+      res.status(204).redirect('/salarytype')
   });
 });
 
@@ -65,7 +85,8 @@ router.post('/updatesalarytype', function(req, res) {
           return res.status(500).send('Failed to update salary type');
       }
       console.log('Salary type updated successfully');
-      res.status(200).json({ result });
+      // res.status(200).json({ result });
+      res.status(200).redirect('/salarytype')
   });
 });
 

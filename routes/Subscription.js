@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../connection/db');
 
 //Route for Role-Management:
-router.get('/show',(req,res)=>{
+router.get('/',(req,res)=>{
     const sql='SELECT *FROM Subscription';
     db.query(sql,(err, result) => {
         if (err) {
@@ -11,13 +11,14 @@ router.get('/show',(req,res)=>{
             return res.status(500).send('Internal server error');
         }
         return res.status(200).json({ result });
+        
     });
 });
 
 router.post('/add',(req,res)=>{
-    const {id,planName,stripe_id,user_count,price,status}=req.body;
-    const data=[id,planName,stripe_id,user_count,price,status];
-    const sql='INSERT INTO Subscription(id,planName,stripe_id,user_count,price,status)VALUES(?,?,?,?,?,?)';
+    const {subscriptionPlan_plan_id,start_date,end_date,status}=req.body;
+    const data=[subscriptionPlan_plan_id,start_date,end_date,status];
+    const sql='INSERT INTO Subscription(subscriptionPlan_plan_id,start_date,end_date,status)VALUES(?,?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -28,24 +29,20 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {id,planName,stripe_id,user_count,price,status}=req.body;
+    const {subscription_id,subscriptionPlan_plan_id,start_date,end_date,status}=req.body;
     let sql='UPDATE Subscription SET ';
     const updateValues = [];
-    if (planName !== undefined) {
-        sql += 'planName = ?, ';
-        updateValues.push(planName);
+    if (subscriptionPlan_plan_id !== undefined) {
+        sql += 'subscriptionPlan_plan_id = ?, ';
+        updateValues.push(subscriptionPlan_plan_id);
     }
-    if (stripe_id !== undefined) {
-        sql += 'stripe_id = ?, ';
-        updateValues.push(stripe_id);
+    if (start_date !== undefined) {
+        sql += 'start_date = ?, ';
+        updateValues.push(start_date);
     }
-    if (user_count!==undefined) {
-        sql += 'user_count = ?, ';
-        updateValues.push(user_count);
-    }
-    if (price!==undefined) {
-        sql += 'price = ?, ';
-        updateValues.push(price);
+    if (end_date!==undefined) {
+        sql += 'end_date = ?, ';
+        updateValues.push(end_date);
     }
     if (status!==undefined) {
         sql += 'status = ?, ';
@@ -58,10 +55,10 @@ router.post('/update',(req,res)=>{
     }
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);
-    sql += ' WHERE id = ?';
+    sql += ' WHERE subscription_id = ?';
 
     // Add the id value to the updateValues array
-    updateValues.push(id);
+    updateValues.push(subscription_id);
 
     // Execute the SQL UPDATE query
     db.query(sql, updateValues, (err, result) => {
@@ -77,8 +74,8 @@ router.post('/update',(req,res)=>{
 });
 
 router.get('/search',(req,res)=>{
-    const {id}=req.body;
-    const sql=`SELECT *FROM Subscription WHERE id=${id}`;
+    const {subscription_id}=req.body;
+    const sql=`SELECT *FROM Subscription WHERE subscription_id=${subscription_id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -89,8 +86,8 @@ router.get('/search',(req,res)=>{
 });
 
 router.post('/delete',(req,res)=>{
-    const {id}=req.body;
-    const sql=`DELETE FROM Subscription WHERE id=${id}`;
+    const {subscription_id}=req.body;
+    const sql=`DELETE FROM Subscription WHERE subscription_id=${subscription_id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);

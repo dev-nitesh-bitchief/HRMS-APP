@@ -2,12 +2,17 @@ var express = require('express');
 var router = express.Router();
 
 
+
 var bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secretKey = '1234';
 
 
+
+
 var db= require('../connection/db');
+var path = require('path');
+
 
 // Import the LocalStorage class from the node-localstorage package
 const { LocalStorage } = require('node-localstorage');
@@ -168,6 +173,15 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+/* GET home page. */
+// router.get('/', (req, res) => {
+//   res.render("login", { layout: 'empty' });
+// });
+
+
+router.get('/',(req,res)=>{
+  res.render('user')
+})
 
 
 
