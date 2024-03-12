@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Styling the anchor tag to look like a button */
+    #new_data {
+      display: inline-block;
+      padding: 5px 20px;
+      /* Adjust padding as needed */
+      background-color: #4CAF50;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    #delete_data {
+      display: inline-block;
+      padding: 5px 20px;
+      margin-left: 20px;
+      /* Adjust padding as needed */
+      background-color: #af9e4c;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    #update_data {
+      display: inline-block;
+      padding: 5px 20px;
+      margin-left: 20px;
+      /* Adjust padding as needed */
+      background-color: #4c91af;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+
+    /* Styling the anchor tag when hovered */
+    .new_data:hover {
+      background-color: #45a049;
+      /* Darker green */
+    }
+
+
+    /* CSS styles for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+
+
+    /* Additional custom styles */
+    .popup-form {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      z-index: 9999;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Roles</h3>
+
+
+
+              <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add role </a>
+
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>id</th>
+                      <th>role_name</th>
+                      <th>permissions</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {{#each roles}}
+                    <tr>
+                      <td>{{this.role_id}}</td>
+                      <td>{{this.role_name}}</td>
+                      <td>{{this.permission_names}}</td>
+                      <td>
+
+                        <a id="delete_data" type="button" data-toggle="modal" data-target="#DeleteModal"
+                          onclick="openDeleteModal('{{this.role_id}}')">Delete
+                        </a>
+                        <a type="button" class="btn btn-primary updateBtn" id="update_data" data-toggle="modal"
+                          data-target="#updateModal" onclick="editRole('{{this.role_id}}')"
+                          data_id="{{this.role_id}}">Edit
+                        </a>
+
+                      </td>
+                    </tr>
+                    {{/each}}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ADD data modal -->
+        <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Add data</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Form inside the popup -->
+                <form class="forms-sample" action="/role_data" method="post">
+                  <div class="form-group">
+                    <label for="role_name">Role name</label>
+                    <input type="text" class="form-control" id="role_name" name="role_name" placeholder="role name">
+                  </div>
+
+
+
+                  <div id="checkboxContainer" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- Delete modal -->
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/delete-role" method="post">
+                  <label for="id">Are you sure , you want to delete</label>
+                  <input type="hidden" id="recordId" name="id" value="{{this.role_id}}">
+                  <p id="recordIdDisplay"></p>
+                  <button id="delete_data" type="submit">yes</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Update data</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Form inside the popup -->
+                <form class="forms-sample" action="/update-role" method="post">
+                  <div class="form-group">
+                    <label for="id">Role id</label>
+                    <input type="text" class="form-control" id="pre-id" name="id" placeholder="role id" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="role_name">Role name</label>
+                    <input type="text" class="form-control" id="pre-name" name="role_name" placeholder="role name">
+                  </div>
+
+
+
+                  <div id="editCheckBox" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <script>
+          let allPermissions = [];
+          document.addEventListener('DOMContentLoaded', function () {
+
+            // Make a request to fetch checkbox data
+            fetch('/dynamic-permission')
+              .then(response => response.json())
+              .then(data => {
+                // Get the container where checkboxes will be appended
+                const checkboxContainer = document.getElementById('checkboxContainer');
+
+                // Iterate through the data and create checkboxes
+                data.forEach(checkbox => {
+                  allPermissions.push(checkbox);
+                  // Create checkbox input element
+                  const checkboxElement = document.createElement('input');
+                  checkboxElement.type = 'checkbox';
+                  checkboxElement.id = `checkbox_${checkbox.id}`;
+                  checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+                  checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+                  // Create label for the checkbox
+                  const label = document.createElement('label');
+                  label.setAttribute('for', `checkbox_${checkbox.id}`);
+                  label.textContent = checkbox.permission_name;
+
+                  // Append checkbox and label to container
+                  checkboxContainer.appendChild(checkboxElement);
+                  checkboxContainer.appendChild(label);
+
+                  // Append line break for better formatting
+                  checkboxContainer.appendChild(document.createElement('br'));
+                });
+              })
+              .catch(error => {
+                console.error('Error fetching checkbox data:', error);
+              });
+          });
+          console.log(allPermissions)
+
+          function openDeleteModal(recordId) {
+            // Set the record ID in the form and display it in the paragraph
+            document.getElementById('recordId').value = recordId;
+            document.getElementById('recordIdDisplay').innerText = 'Role ID: ' + recordId;
+            // Show the modal
+            $('#DeleteModal').modal('show');
+          }
+
+          document.addEventListener('DOMContentLoaded', function () {
+            // Make a request to fetch checkbox data
+            fetch('/dynamic-permission')
+              .then(response => response.json())
+              .then(data => {
+                // Get the container where checkboxes will be appended
+                const checkboxContainer = document.getElementById('editCheckBox');
+
+                // Iterate through the data and create checkboxes
+                data.forEach(checkbox => {
+                  // Create checkbox input element
+                  const checkboxElement = document.createElement('input');
+                  checkboxElement.type = 'checkbox';
+                  checkboxElement.id = `checkbox_${checkbox.id}`;
+                  checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+                  checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+                  // Create label for the checkbox
+                  const label = document.createElement('label');
+                  label.setAttribute('for', `checkbox_${checkbox.id}`);
+                  label.textContent = checkbox.permission_name;
+
+                  // Append checkbox and label to container
+                  checkboxContainer.appendChild(checkboxElement);
+                  checkboxContainer.appendChild(label);
+
+                  // Append line break for better formatting
+                  checkboxContainer.appendChild(document.createElement('br'));
+                });
+              })
+              .catch(error => {
+                console.error('Error fetching checkbox data:', error);
+              });
+
+          });
+
+
+
+
+          var myButton = document.getElementById('update_data');
+
+
+          //myButton.addEventListener('click', function () {
+          function editRole(row_id) {
+            debugger
+            //const row_id = myButton.data_id;
+            //var row_id = myButton.getAttribute('data_id');
+
+            fetch(`/roles-edit-prefilled/${row_id}`)
+              .then(response => response.json())
+              .then(data => {
+                debugger
+                // Get form elements by their IDs
+                var idInput = document.getElementById('pre-id');
+                var role_nameInput = document.getElementById('pre-name');
+
+                var idInput = document.getElementById('pre-id');
+                var role_nameInput = document.getElementById('pre-name');
+
+
+
+                // Assuming data is an object with properties like 'name', 'email', 'age'
+                // You can adjust this part according to your actual data structure
+                idInput.value = data.id;
+                role_nameInput.value = data.role_name;
+                const permissionToCheck = data.permission_id.split(",");
+                // Get the container where checkboxes are appended
+                const checkboxContainer = document.getElementById('editCheckBox');
+
+                // Find all checkbox input elements within the checkboxContainer
+                const checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+
+                // Iterate over each checkbox
+                checkboxes.forEach(function (checkbox) {
+                  debugger
+                  // Set the checked property to true
+                   // Check if the value of the checkbox exists in the array of permissions to be checked
+                  if (permissionToCheck.includes(checkbox.value)) {
+                    // If the checkbox value exists in the array, set its checked attribute to true
+                    checkbox.checked = true;
+                  }
+                });
+                console.log('data :', data);
+
+              })
+              .catch(error => {
+                console.error('Error fetching user data:', error);
+              });
+          }
+          //});
+
+
+
+
+        </script>
+
+
+
+
+        <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

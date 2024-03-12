@@ -98,7 +98,7 @@
                 <table class="table">
                   <thead>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
-                      Add New salary</button>
+                      Add New salary <span class="mdi mdi-currency-inr"></span></button>
                     <tr>
                       <th>Id:</th>
                       <th>employee_name</th>
@@ -117,13 +117,13 @@
                       <td>{{this.salaryAmount}}</td>
                       <td>{{this.salaryCycle}}</td>
                       <td class="actions">
-                        <button type="button" class="btn btn-dark btn-icon-text"
+                        <button type="button" class="btn btn-success btn-rounded btn-fw"
                           onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
                           data-toggle="modal" data-target="#updateUserModal">
                           Edit
                           <i class="ti-file btn-icon-append"></i>
                         </button>
-                        <button type="button" class="btn btn-dark btn-icon-text" data-toggle="modal"
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
                           data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
                           Delete
                           <i class="ti-reload btn-icon-prepend"></i>
@@ -154,12 +154,14 @@
         </div>
         <div class="modal-body">
           <form class="forms-sample" action="/Salary/addsalary" method="post">
-            <div class="form-group">
-              <label for="employee_name">Employee_id</label>
-              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee_id">
+             <div class="form-group">
+              <label for="Employee_id">Employee_id:</label>
+              <select id="Employee_id" name="Employee_id">
+                <option value="">Select Employee </option>
+              </select>
             </div>
             <div class="form-group">
-              <label for="salary_type">Select role:</label>
+              <label for="salary_type">Select Type:</label>
               <select id="salary_type" name="SalaryType_id">
                 <option value="">Select </option>
               </select>
@@ -242,6 +244,22 @@
 
   <script>
 
+           document.addEventListener('DOMContentLoaded', function () {
+      // Fetch data from the server and populate the dropdown
+      fetch('/employee/show')
+        .then(response => response.json())
+        .then(data => {
+          const roleDropdown = document.getElementById('Employee_id');
+          data.forEach(result => {
+            const option = document.createElement('option');
+            option.value = result.id;
+            option.textContent = result.employeeName;
+            roleDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
         document.addEventListener('DOMContentLoaded', function () {
       // Fetch data from the server and populate the dropdown
       fetch('/salarytype/allsalarytype')
@@ -257,6 +275,7 @@
         })
         .catch(error => console.error('Error fetching data:', error));
     });
+
     function openDeleteModal(recordid) {
       document.getElementById('recordid').value = recordid;
       document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;

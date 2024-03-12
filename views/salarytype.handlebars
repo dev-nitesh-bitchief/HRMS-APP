@@ -91,7 +91,7 @@
                   <thead>
                     <!-- Button to trigger the modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
-                      Add New User</button>
+                      Add New Type</button>
                     <tr>
                         {{!-- "id": 1,"salary_type": "basic salary" --}}
                       <th>id</th>
@@ -105,13 +105,13 @@
                       <td>{{this.id}}</td>
                       <td>{{this.salary_type}}</td>
                       <td class="actions">
-                        <button type="button" class="btn btn-dark btn-icon-text"
+                        <button type="button" class="btn btn-success btn-rounded btn-fw"
                           onclick="UpdateForm('{{this.id}}','{{this.salary_type}}')"
                           data-toggle="modal" data-target="#updateUserModal">
                           Edit
                           <i class="ti-file btn-icon-append"></i>
                         </button>
-                        <button type="button" class="btn btn-dark btn-icon-text" data-toggle="modal"
+                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
                           data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
                           Delete
                           <i class="ti-reload btn-icon-prepend"></i>
@@ -163,7 +163,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+          <h5 class="modal-title" id="deleteModalLabel">Delete Record<span class="mdi mdi-alert"></span></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -200,8 +200,8 @@
               <input type="hidden" class="form-control" id="id" name="id">
             </div>
             <div class="form-group">
-              <label for="salaryAmount">salaryAmount:</label>
-              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="salaryAmount">
+              <label for="salarytype">Type</label>
+              <input type="text" class="form-control" id="salary_type" name="salary_type" placeholder="enter type">
             </div>
           
             <button type="submit" class="btn btn-warning">Update Employee</button>

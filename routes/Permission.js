@@ -1,23 +1,26 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../connection/db');
+var path = require('path');
+var app = express();
 
 //Route for Permission-Management:
-router.get('/show',(req,res)=>{
-    const sql='SELECT *FROM Permission';
+router.get('/',(req,res)=>{
+    const sql='SELECT *FROM permission';
     db.query(sql,(err, result) => {
         if (err) {
             console.error('Error showing data:', err);
             return res.status(500).send('Internal server error');
         }
-        return res.status(200).json({ result });
+        // return res.status(200).json({ result });
+        return res.render('permission',({permissions:result}));
     });
 });
 
 router.post('/add',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    const data=[id,permissionName,description];
-    const sql='INSERT INTO Permission(id,permissionName,description)VALUES(?,?,?)';
+    const {id,permissionName}=req.body;
+    const data=[id,permissionName];
+    const sql='INSERT INTO permission(id,permissionName)VALUES(?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -28,17 +31,14 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {id,permissionName,description}=req.body;
-    let sql='UPDATE Permission SET ';
+    const {id,permissionName}=req.body;
+    let sql='UPDATE permission SET ';
     const updateValues = [];
     if (permissionName !== undefined) {
         sql += 'permissionName = ?, ';
         updateValues.push(permissionName);
     }
-    if (description !== undefined) {
-        sql += 'description = ?, ';
-        updateValues.push(description);
-    }
+    
     // Check if any fields are provided for update
     if (updateValues.length === 0) {
         return res.status(400).json({ success: false, message: 'No fields provided for update' });
@@ -65,7 +65,7 @@ router.post('/update',(req,res)=>{
 
 router.get('/search',(req,res)=>{
     const {id}=req.body;
-    const sql=`SELECT *FROM Permission WHERE id=${id}`;
+    const sql=`SELECT *FROM permission WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
@@ -77,7 +77,7 @@ router.get('/search',(req,res)=>{
 
 router.post('/delete',(req,res)=>{
     const {id}=req.body;
-    const sql=`DELETE FROM Permission WHERE id=${id}`;
+    const sql=`DELETE FROM permission WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);

@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../connection/db');
 
 //Route for Role-Management:
-router.get('/show',(req,res)=>{
+router.get('/',(req,res)=>{
     const sql='SELECT *FROM Subscription';
     db.query(sql,(err, result) => {
         if (err) {
@@ -11,6 +11,7 @@ router.get('/show',(req,res)=>{
             return res.status(500).send('Internal server error');
         }
         return res.status(200).json({ result });
+        
     });
 });
 

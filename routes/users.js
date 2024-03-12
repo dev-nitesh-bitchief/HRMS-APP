@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection/db')
 var bcrypt = require('bcrypt')
+const authorizeUser = require('./login')
+const authenticateUser = require('./login')
+
 
 /* GET users listing. */
 router.get('/', function(req, res){
@@ -9,7 +12,6 @@ router.get('/', function(req, res){
  
   connection.query("SELECT u.id, CONCAT(e.firstname, ' ', e.lastname) AS employee_name, u.username, u.password, r.roleName AS role_name, u.status, u.creationDate FROM User u JOIN Employee e ON u.Employee_id = e.id JOIN Role r ON u.Role_id = r.id", function (err, result) {
     if (err) throw err;
- 
     // res.status(200).json({ result });
     res.render('user', { user: result });
   });
@@ -32,7 +34,8 @@ router.post('/adduser', function(req, res) {
         connection.query(sql, data, (err, result) => {
             if (err) { throw err; }
             console.log('User data stored successfully');
-            res.status(200).json({result});
+            // res.status(200).json({result});
+            res.status(200).redirect('/users')
         });
     });
 });
@@ -43,24 +46,11 @@ router.post('/adduser', function(req, res) {
 
 
 router.post('/updateuser', (req, res) => {
-  const { id, Employee_id, username, password, Role_id, status } = req.body;
+  const { id,Role_id, status } = req.body;
 
   // Construct the SQL UPDATE query dynamically based on the provided columns
   let sql = 'UPDATE User SET ';
   const updateValues = [];
-
-  if (Employee_id !== undefined) {
-    sql += 'Employee_id = ?, ';
-    updateValues.push(Employee_id);
-  }
-  if (username !== undefined) {
-    sql += 'username = ?, ';
-    updateValues.push(username);
-  }
-  if (password !== undefined) {
-    sql += 'password = ?, ';
-    updateValues.push(password);
-  }
   if (Role_id !== undefined) {
     sql += 'Role_id = ?, ';
     updateValues.push(Role_id);
@@ -84,7 +74,8 @@ router.post('/updateuser', (req, res) => {
       return;
     }
     console.log('User role updated successfully');
-    res.status(200).json({ result });
+    // res.status(200).json({ result });
+    res.status(200).redirect('/users')
   });
 });
 
@@ -123,4 +114,30 @@ router.get('/searchuser', (req, res) => {
   });
 });
 
-  module.exports = router;
+router.get('/checkUsername', (req, res) => {
+  const username = req.query.username;
+
+  // Query the database to check if the username exists
+  connection.query('SELECT * FROM User WHERE username = ?', [username], (error, results) => {
+    if (error) {
+      console.error('Error querying database:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    if (results.length > 0) {
+      // Username already exists
+      res.json({ exists: true });
+    } else {
+      // Username is available
+      res.json({ exists: false });
+    }
+  });
+});
+
+
+
+
+module.exports = router;
+
+

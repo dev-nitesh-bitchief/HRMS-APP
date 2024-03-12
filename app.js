@@ -4,9 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var bodyParser = require('body-parser');
+var exphbs = require("express-handlebars")
+var session = require('express-session');
+
+
+
 var hbs = require('express-handlebars')
 
-const bodyParser = require('body-parser');
+
 
 
 var indexRouter = require('./routes/index');
@@ -15,6 +21,7 @@ var salaryRouter = require('./routes/salary');
 var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
+var attendancerecordRouter = require('./routes/attendancerecord')
 
 
 
@@ -30,9 +37,15 @@ var holiday = require('./routes/public_holiday')
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
+
 var holiday = require('./routes/public_holiday');
 
+
+
+
+
 var expense_category = require('./routes/expense_category');
+
 var smtp= require('./routes/Smtp');
 var subPlan = require('./routes/subPlan');
 var emailTemp = require('./routes/emailTemp');
@@ -41,10 +54,13 @@ var Leave_policy = require('./routes/Leave_policy');
 var Leave_balance = require('./routes/Leave_balance');
 var Leave_type = require('./routes/Leave_type');
 var Leave_allocation = require('./routes/Leave_allocation');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
+
 // view engine setup
+app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
 app.set('views', path.join(__dirname, 'views'));
 
 
@@ -54,9 +70,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, 'design')));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  // cookie: { secure: true }
+}))
+
 app.use(express.static('design'));
 app.set('view engine', 'handlebars');
 app.engine('handlebars', hbs.engine({ extname: "handlebars", defaultLayout: "index2" }));
+
 
 
 
@@ -66,6 +92,8 @@ app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance',attendanceRouter)
+app.use('/attendancerecord',attendancerecordRouter)
+app.use('/login',loginRouter)
 
 
 
@@ -83,6 +111,7 @@ app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
 app.use('/Leave-type' , Leave_type);
 app.use('/Leave-allocation' , Leave_allocation);
+
 app.use('/holiday',holiday);
 app.use('/smtp',smtp);
 app.use('/subPlan',subPlan);
