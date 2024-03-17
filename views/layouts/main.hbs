@@ -1,43 +1,19 @@
-{{!--
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>{{title}}</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-
-<body>
-  {{{body}}}
-</body>
-
-</html> --}}
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Star Admin2 </title>
   <!-- plugins:css -->
-
-
   <link rel="stylesheet" href="/vendors/feather/feather.css">
   <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="/vendors/typicons/typicons.css">
   <link rel="stylesheet" href="/vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/vendors/css/toastify.min.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
@@ -47,24 +23,8 @@
   <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="/images/favicon.png" />
-  <style>
-    #toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #09a833;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: none;
-
-    }
-
-    .hidden {
-        display: none;
-    }
-  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ 
 </head>
 
 <body>
@@ -78,10 +38,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo" href="index.html">
+          <a class="navbar-brand brand-logo" href="/index">
             <img src="/images/logo.svg" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">
+          <a class="navbar-brand brand-logo-mini" href="/index">
             <img src="/images/logo-mini.svg" alt="logo" />
           </a>
         </div>
@@ -89,8 +49,8 @@
       <div class="navbar-menu-wrapper d-flex align-items-top">
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">EMPLOYEE management system<span class="text-black fw-bold"> </span></h1>
-            <h3 class="welcome-sub-text"> </h3>
+            <h1 class="welcome-text">Hey developer!.., <span class="text-black fw-bold">Nitesh</span></h1>
+            <h3 class="welcome-sub-text">Your first project is here!.. </h3>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -230,8 +190,8 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="/images/faces/face8.jpg" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                <p class="mb-1 mt-3 font-weight-semibold">Nitesh Sharma</p>
+                <p class="fw-light text-muted mb-0">nitesh.sharma@bitchief.in</p>
               </div>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
                 Profile <span class="badge badge-pill badge-danger">1</span></a>
@@ -241,7 +201,7 @@
                   class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                 FAQ</a>
-              <a class="dropdown-item" href="/logout"><i
+              <a class="dropdown-item" href="/signout"><i
                   class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
             </div>
           </li>
@@ -435,190 +395,168 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="/main">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Home</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/dashboard">
+            <a class="nav-link" href="/index">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
 
+          <li class="nav-item nav-category">Forms and Datas</li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">Admin</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
+              aria-controls="form-elements">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">Employees </span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="auth">
+            <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave/show-to-approver">Leave applications</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/role">Roles management</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/permission">Permissions</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Expense/show">All Expenses</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a> </li>
-                <li class="nav-item"><a class="nav-link" href="/ework">Employees</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/users">User Management</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/attendancerecord">attendancerecord</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/salary">Salary</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/salarytype">salarytype</a></li>
-
-
-
-
-
-              </ul>
-
-            </div>
-          </li>
-          {{!-- <li class="nav-item nav-category">UI Elements</li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-              aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">UI Elements</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
-              </ul>
-            </div>
-          </li> --}}
-          <li class="nav-item nav-category">Features</li>
-           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
-              aria-controls="attendance">
-              <i class="menu-icon mdi mdi-account-check"></i>
-              <span class="menu-title">attendance</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="attendance">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/attendance">attendance</a></li>
-
-              </ul>
-            </div>
-          </li>
-            <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#check" aria-expanded="false" aria-controls="check">
-              <i class="menu-icon mdi mdi-file-multiple"></i>
-              <span class="menu-title">CheckInOut</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="check">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/checkinout">checkinout</a></li>
+                <li class="nav-item"><a class="nav-link" href="/ework">Employee</a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-              aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">Leave Management</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#form" aria-expanded="false"
+              aria-controls="form">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">Department </span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="form">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave">Apply leave</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance">My leaves</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-policy">Leave policies</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Department">Department</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#salary" aria-expanded="false" aria-controls="salary">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">salary</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="salary">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/salary">salary</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#salaryType" aria-expanded="false"
+              aria-controls="salaryType">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">salary Type</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="salaryType">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/salarytype">salaryType</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">User Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/users">user details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="menu-icon mdi mdi-table"></i>
+              <span class="menu-title">Role Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/role">User-roles</a></li>
               </ul>
             </div>
           </li>
 
-         
-
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#permissions" aria-expanded="false"
+              aria-controls="permissions">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">Permissions Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="permissions">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/permission">Permissions </a></li>
+              </ul>
+            </div>
+          </li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#docs" aria-expanded="false" aria-controls="docs">
-              <i class="menu-icon mdi mdi-file-multiple"></i>
+              <i class="menu-icon mdi mdi-layers-outline"></i>
               <span class="menu-title">Documents</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="docs">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/docs">Documents</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/docs">Documents </a></li>
               </ul>
             </div>
           </li>
-
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-              aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">Expense Management </span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#subscription" aria-expanded="false"
+              aria-controls="subscription">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">subscription</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="subscription">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Expense">Expense
-                    Details</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/subPlan">subscription </a></li>
               </ul>
             </div>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-pub" aria-expanded="false" aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">Public Holiday</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-pub">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/holiday">Holiday Lists </a></li>
-              </ul>
-            </div>
-          </li>
- 
-
-         
-           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ics" aria-expanded="false" aria-controls="ics">
-              <i class="menu-icon mdi mdi-wallet-membership"></i>
-              <span class="menu-title">Subscription</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ics">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/subPlan">Subscription Plans</a></li>
-              </ul>
-            </div>
-          </li>
-
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#feedback" aria-expanded="false"
               aria-controls="feedback">
               <i class="menu-icon mdi mdi-layers-outline"></i>
-              <span class="menu-title">Feedback</span>
+              <span class="menu-title">feedback</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="feedback">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/feedback">Feedback Form</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/feedback">feedback </a></li>
               </ul>
             </div>
           </li>
-
-
-
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
+              aria-controls="attendance">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">attendance</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="attendance">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/attendance">attendance </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/attendancerecord">attendancerecord </a></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
+      {{{body}}}
+      
+
 
       <!-- plugins:js -->
       <script src="/vendors/js/vendor.bundle.base.js"></script>
+      <script src="/vendors/js/toastify-js.js"></script>
       <!-- endinject -->
       <!-- Plugin js for this page -->
-      <script src="/vendors/chart.js/Chart.min.js"></script>
-      <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-      <script src="/vendors/progressbar.js/progressbar.min.js"></script>
+      <script src="/chart.js/Chart.min.js"></script>
+      <script src="/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+      <script src="/progressbar.js/progressbar.min.js"></script>
 
       <!-- End plugin js for this page -->
       <!-- inject:js -->
@@ -627,6 +565,7 @@
       <script src="/js/template.js"></script>
       <script src="/js/settings.js"></script>
       <script src="/js/todolist.js"></script>
+      <script src="/javascripts/script.js"></script>
       <!-- endinject -->
       <!-- Custom js for this page-->
       <script src="/js/dashboard.js"></script>
@@ -634,25 +573,12 @@
       <!-- End custom js for this page-->
 
 
+      <!-- Bootstrap JS and jQuery -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <!-- Your custom script -->
 
-
-      {{{body}}}
-      <div id="toast" class="toast"></div>
-
-      <script>
-         function showToast(message) {
-            debugger
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.textContent = message;
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000); // Hide after 3 seconds
-            }
-        }
-
-      </script>
 </body>
 
 </html>

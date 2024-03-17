@@ -1,5 +1,22 @@
-<style>
-  /* Styling the anchor tag to look like a button */
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <style>
+   /* Styling the anchor tag to look like a button */
   .new_data {
     display: inline-block;
     padding: 10px 20px;
@@ -37,63 +54,75 @@
     cursor: pointer;
   }
 
-
   #form-container {
     display: none;
     /* Hide the form by default */
 
   }
 
-  /* Styling the actions column */
   .actions {
     text-align: right;
   }
-</style>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #09a833;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+
+  }
+
+  .hidden {
+    display: none;
+  }
+  </style>
+</head>
 
 <body>
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row">
-        <div class="">
+        <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Permissions</h3>
-              {{!-- <a class="new_data" onclick="openForm()">Add new Role </a> --}}
-              <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
-                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                Add New Permission
-              </button>
-
+              <h4 class="card-title">Permissions:</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Permission
+              </button>
                     <tr>
                       <th>Id:</th>
-                      <th>Permission-Name:</th>
+                      <th>Permissions-Name</th>
                       <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-
                     {{#each permissions}}
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.permissionName}}</td>
-                      <td class="actions"> <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')"><span
-                            class="mdi mdi-account-minus"></span>
-                          Delete Record
-                        </button>
-                        <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#updatePermissionModal"
-                          onclick="UpdateForm('{{this.id}}', '{{this.permissionName}}')">
-                          <span class="mdi mdi-account-convert"></span> Update Permissions-Name
-                        </button>
-                      </td>
+                   <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.permissionName}}')" data-toggle="modal"
+                          data-target="#updatePermissionModal">Edit Permission</button>
+
+                        <button type="button" class="dropdown-item" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -102,9 +131,12 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        {{!-- Add model --}}
-        <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -127,9 +159,10 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-        <!-- Delete Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  {{!-- --}}
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -153,10 +186,9 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
 
-        <!-- update Modal -->
-        <div class="modal fade" id="updatePermissionModal" tabindex="-1" role="dialog"
+  <!-- Update Modal -->
+  <div class="modal fade" id="updatePermissionModal" tabindex="-1" role="dialog"
           aria-labelledby="updatePermissionModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -170,11 +202,11 @@
                 <form id="uploadForm">
                   <div class="form-group">
                     <label for="id"> ID:</label>
-                    <input type="text" class="form-control" id="pre-id" name="id" placeholder="Enter ID">
+                    <input type="text" class="form-control" id="pre-id" name="id_" placeholder="Enter ID">
                   </div>
                   <div class="form-group">
                     <label for="permissionName">permission Name:</label>
-                    <input type="text" class="form-control" id="pre-permissionName" name="permissionName"
+                    <input type="text" class="form-control" id="pre-permissionName" name="permissionName_"
                       placeholder="Enter permission Name">
                   </div>
 
@@ -184,12 +216,38 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-      </div>
-    </div>
-  </div>
 
   <script>
+      // Function to open the form
+      function openForm() {
+        document.getElementById("form-container").style.display = "block";
+      }
+
+      // Function to close the form
+      function closeForm() {
+        document.getElementById("form-container").style.display = "none";
+      }
+
+      function openDeleteModal(id) {
+        // Set the record ID in the form and display it in the paragraph
+        document.getElementById('id').value = id;
+        document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
+        // Show the modal
+        $('#deleteModal').modal('show');
+      }
+      //function to prefill the update  form:
+   function UpdateForm(id, permissionName) {
+        console.log(id);
+        console.log(permissionName);
+
+        // Fill the input fields with the data
+        document.getElementById('pre-id').value = id;
+        document.getElementById('pre-permissionName').value = permissionName;
+
+        // Show the modal containing the form
+        $('#updatePermissionModal').modal('show');
+      }
+    
     document.addEventListener('DOMContentLoaded', function () {
       showToast('permission');
       //------------------------------------------------------------
@@ -299,34 +357,8 @@
           });
       });
       //--------------------------------
-      // Function to open the form
-      function openForm() {
-        document.getElementById("form-container").style.display = "block";
-      }
 
-      // Function to close the form
-      function closeForm() {
-        document.getElementById("form-container").style.display = "none";
-      }
 
-      function openDeleteModal(id) {
-        // Set the record ID in the form and display it in the paragraph
-        document.getElementById('id').value = id;
-        document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
-        // Show the modal
-        $('#deleteModal').modal('show');
-      }
-
-      // Function to fill the form fields with data from the selected row
-      function UpdateForm(id, permissionName) {
-
-        // Fill the input fields with the data
-        document.getElementById('pre-id').value = id;
-        document.getElementById('pre-permissionName').value = permissionName;
-
-        // Show the modal containing the form
-        $('#updatePermissionModal').modal('show');
-      }
     });
   </script>
 

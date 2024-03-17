@@ -2,10 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
   <style>
     /* Styling the anchor tag to look like a button */
     .btn-dark {
@@ -30,7 +39,7 @@
       text-align: right;
     }
 
-     select {
+    select {
       width: 100%;
       padding: 10px;
       font-size: 14px;
@@ -84,6 +93,74 @@
 
     }
   </style>
+  <style>
+    /* Dropdown Button */
+    .dropbtn {
+      background-color: #04AA6D;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover,
+    .dropbtn:focus {
+      background-color: #3e8e41;
+    }
+
+    /* The search field */
+    #myInput {
+      box-sizing: border-box;
+      background-image: url('searchicon.png');
+      background-position: 14px 12px;
+      background-repeat: no-repeat;
+      font-size: 16px;
+      padding: 14px 20px 12px 45px;
+      border: none;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* The search field when it gets focus/clicked on */
+    #myInput:focus {
+      outline: 3px solid #ddd;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      /* display: none; */
+      position: absolute;
+      background-color: #f6f6f6;
+      min-width: 230px;
+      border: 1px solid #ddd;
+      z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -116,19 +193,19 @@
                       <td>{{this.salary_type}}</td>
                       <td>{{this.salaryAmount}}</td>
                       <td>{{this.salaryCycle}}</td>
-                      <td class="actions">
-                        <button type="button" class="btn btn-success btn-rounded btn-fw"
-                          onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
-                          data-toggle="modal" data-target="#updateUserModal">
-                          Edit
-                          <i class="ti-file btn-icon-append"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
-                          Delete
-                          <i class="ti-reload btn-icon-prepend"></i>
-                        </button>
-                      </td>
+                       <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <a class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
+                          data-toggle="modal" data-target="#updateUserModal">edit</a>
+                        <a class="dropdown-item" data-toggle="modal"
+                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">Delete</a>
+                      </div>
+                    </div>
+                     </td> 
                     </tr>
                     {{/each}}
                   </tbody>
@@ -141,7 +218,7 @@
     </div>
   </div>
 
-   <!-- add Modal -->
+  <!-- add Modal -->
   <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -154,15 +231,27 @@
         </div>
         <div class="modal-body">
           <form class="forms-sample" action="/Salary/addsalary" method="post">
-             <div class="form-group">
-              <label for="Employee_id">Employee_id:</label>
-              <select id="Employee_id" name="Employee_id">
+          <div class="form-group">
+              <label for="Employee_id">Employee Name</label>
+              <select class="form-select" id="Employee_id" name="Employee_id">
                 <option value="">Select Employee </option>
               </select>
             </div>
+
+            <div class="form-group">
+                    <label>Single select box using select 2</label>
+                    <select class="js-example-basic-single w-100">
+                      <option value="AL">Alabama</option>
+                      <option value="WY">Wyoming</option>
+                      <option value="AM">America</option>
+                      <option value="CA">Canada</option>
+                      <option value="RU">Russia</option>
+                    </select>
+                  </div>
+
             <div class="form-group">
               <label for="salary_type">Select Type:</label>
-              <select id="salary_type" name="SalaryType_id">
+              <select class="form-select" id="salary_type" name="SalaryType_id">
                 <option value="">Select </option>
               </select>
             </div>
@@ -243,69 +332,104 @@
 
 
   <script>
+    // Fetch data from the server and populate the dropdown
+fetch('/employee/show')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    employeeData = data;
+    const employeeDropdown = document.getElementById('Employee-id');
 
-           document.addEventListener('DOMContentLoaded', function () {
+    // Function to filter options based on search input
+    function filterOptions(searchInput) {
+      const filteredData = data.filter(employee => employee.employeeName.toLowerCase().includes(searchInput.toLowerCase()));
+      employeeDropdown.innerHTML = ''; // Clear existing options
+      filteredData.forEach(employee => {
+        const option = document.createElement('option');
+        option.value = employee.id;
+        option.text = employee.employeeName;
+        employeeDropdown.appendChild(option);
+      });
+    }
+
+    // Populate initial options
+    data.forEach(employee => {
+      const option = document.createElement('option');
+      option.value = employee.id;
+      option.text = employee.employeeName;
+      employeeDropdown.appendChild(option);
+    });
+
+    // Add an event listener to the dropdown for validation and search
+    employeeDropdown.addEventListener('input', function () {
+      const searchInput = this.value;
+      filterOptions(searchInput);
+    });
+  })
+  .catch(error => console.error('Error fetching data:', error));
+
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // Fetch data from the server and populate the dropdown
+        fetch('/salarytype/allsalarytype')
+          .then(response => response.json())
+          .then(data => {
+            const roleDropdown = document.getElementById('salary_type');
+            data.forEach(Type => {
+              const option = document.createElement('option');
+              option.value = Type.id;
+              option.textContent = Type.salary_type;
+              roleDropdown.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      });
+
+      function openDeleteModal(recordid) {
+        document.getElementById('recordid').value = recordid;
+        document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
+        $('#deleteidModal').modal('show');
+      }
+
+
+      // Function to open the form
+      function openForm() {
+        document.getElementById("form-container").style.display = "block";
+      }
+
+      // Function to close the form
+      function closeForm() {
+        document.getElementById("form-container").style.display = "none";
+      }
+
+
+      function UpdateForm(id, salaryAmount, salaryCycle) {
+        document.getElementById('id').value = id;
+        document.getElementById('salaryAmount').value = salaryAmount;
+        document.getElementById('salaryCycle').value = salaryCycle;
+        $('#updateUserModal').modal('show');
+      };
+
+
+   document.addEventListener('DOMContentLoaded', function () {
       // Fetch data from the server and populate the dropdown
       fetch('/employee/show')
         .then(response => response.json())
         .then(data => {
           const roleDropdown = document.getElementById('Employee_id');
-          data.forEach(result => {
+          data.forEach(drop => {
             const option = document.createElement('option');
-            option.value = result.id;
-            option.textContent = result.employeeName;
+            option.value = drop.id;
+            option.textContent = drop.employeeName;
             roleDropdown.appendChild(option);
           });
         })
         .catch(error => console.error('Error fetching data:', error));
     });
 
-        document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
-      fetch('/salarytype/allsalarytype')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('salary_type');
-          data.forEach(Type => {
-            const option = document.createElement('option');
-            option.value = Type.id;
-            option.textContent = Type.salary_type;
-            roleDropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    });
 
-    function openDeleteModal(recordid) {
-      document.getElementById('recordid').value = recordid;
-      document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
-      $('#deleteidModal').modal('show');
-    }
-
-
-    // Function to open the form
-    function openForm() {
-      document.getElementById("form-container").style.display = "block";
-    }
-
-    // Function to close the form
-    function closeForm() {
-      document.getElementById("form-container").style.display = "none";
-    }
-
-
-      function UpdateForm(id, salaryAmount, salaryCycle) {
-      document.getElementById('id').value = id;
-      document.getElementById('salaryAmount').value = salaryAmount;
-      document.getElementById('salaryCycle').value = salaryCycle;
-      $('#updateUserModal').modal('show');
-    };
   </script>
-  <!-- Bootstrap JS and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  
 </body>
 
 </html>
