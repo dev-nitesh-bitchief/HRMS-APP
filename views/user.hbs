@@ -1,11 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../images/favicon.png" />
   <style>
     /* Styling the anchor tag to look like a button */
     .btn-dark {
@@ -92,6 +108,9 @@
       max-width: 500px;
       /* Adjust as needed */
     }
+
+
+    
   </style>
 </head>
 
@@ -129,19 +148,19 @@
                       <td>{{this.role_name}}</td>
                       <td>{{this.status}}</td>
                       <td>{{this.creationDate}}</td>
-                      <td class="actions">
-                        <button type="button" class="btn btn-success btn-rounded btn-fw"
-                          onclick="UpdateForm('{{this.id}}','{{this.role_name}}','{{this.status}}')" data-toggle="modal"
-                          data-target="#updateUserModal">
-                          Edit
-                          <i class="ti-file btn-icon-append"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
-                          Delete
-                          <i class="ti-reload btn-icon-prepend"></i>
-                        </button>
-                      </td>
+                    <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <a class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.role_name}}','{{this.status}}')" data-toggle="modal"
+                          data-target="#updateUserModal">edit</a>
+                        <a class="dropdown-item" data-toggle="modal"
+                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">Delete</a>
+                      </div>
+                    </div>
+                     </td> 
                     </tr>
                     {{/each}}
                   </tbody>
@@ -168,12 +187,25 @@
         </div>
         <div class="modal-body">
           <form class="forms-sample" action="/users/adduser" method="post">
+
+           <div class="form-group">
+                    <label>Single select box using select 2</label>
+                    <select class="js-example-basic-single w-100">
+                      <option value="AL">Alabama</option>
+                      <option value="WY">Wyoming</option>
+                      <option value="AM">America</option>
+                      <option value="CA">Canada</option>
+                      <option value="RU">Russia</option>
+                    </select>
+                  </div>
+
             <div class="form-group">
               <label for="Employee_id">Employee Name</label>
-              <select id="Employee_id" name="Employee_id">
+              <select class="form-select" id="Employee_id" name="Employee_id">
                 <option value="">Select Employee </option>
               </select>
-            </div>
+            </div> 
+
             <div class="form-group">
               <label for="age">username</label>
               <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Enter username">
@@ -185,13 +217,13 @@
             </div>
             <div class="form-group">
               <label for="roleName">Select role:</label>
-              <select id="roleName" name="Role_id">
+              <select class="form-select" id="roleName" name="Role_id">
                 <option value="">Select </option>
               </select>
             </div>
             <div class="form-group">
               <label for="status">status</label>
-              <select name="status">
+              <select class="form-select" name="status">
                 <option value="active">active</option>
                 <option value="inactive">inactive</option>
               </select>
@@ -203,6 +235,7 @@
       </div>
     </div>
   </div>
+
   {{!-- --}}
 
 
@@ -248,13 +281,13 @@
             <div class="form-group">
               <input type="hidden" class="form-control" id="id" name="id">
             </div>
-             <div class="form-group">
+            <div class="form-group">
               <label for="roleName">Select role:</label>
               <select id="roleName1" name="Role_id">
                 <option value="">Select </option>
               </select>
             </div>
-             <div class="form-group">
+            <div class="form-group">
               <label for="status">status</label>
               <select name="status">
                 <option value="active">active</option>
@@ -290,7 +323,7 @@
       $('#deleteidModal').modal('show');
     }
 
-    function UpdateForm(id, role_id,status) {
+    function UpdateForm(id, role_id, status) {
       document.getElementById('id').value = id;
       document.getElementById('Role_name').value = Role_name;
       document.getElementById('status').value = status;
@@ -373,6 +406,7 @@
     });
 
   </script>
+
 
 </body>
 

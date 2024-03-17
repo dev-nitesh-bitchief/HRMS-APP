@@ -1,5 +1,22 @@
-<style>
-  /* Styling the anchor tag to look like a button */
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <style>
+   /* Styling the anchor tag to look like a button */
   .new_data {
     display: inline-block;
     padding: 10px 20px;
@@ -47,47 +64,24 @@
     text-align: right;
   }
 
-  #toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #09a833;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: none;
-
-  }
-
-  .hidden {
-    display: none;
-  }
-</style>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </style>
+</head>
 
 <body>
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row">
-        <div class="">
+        <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <div id="toast" class="hidden"></div>
-              <h3 class="card-title">User Roles</h3>
-              {{!-- <a class="new_data" onclick="openForm()">Add new Role </a> --}}
-              <!-- Button to trigger the modal -->
-              <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
-                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                Add New Role
-              </button>
-
+              <h4 class="card-title">Roles:</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Role
+              </button>
                     <tr>
                       <th>Id:</th>
                       <th>Role-Name:</th>
@@ -96,25 +90,26 @@
                     </tr>
                   </thead>
                   <tbody>
-
                     {{#each roles}}
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.roleName}}</td>
                       <td>{{this.permissions}}</td>
-                      <td class="actions"> <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')"><span
-                            class="mdi mdi-account-minus"></span>
-                          Delete Record
-                        </button>
-                        <!-- Button to trigger the modal -->
-                        <button type="button" class="btn btn-success btn-rounded btn-fw" data-toggle="modal"
+                      <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
                           data-target="#updatePermissionsModal" id="update_data"
-                          onclick="UpdateForm('{{this.id}}')"><span class="mdi mdi-account-convert"></span>
-                          Update Permissions
-                        </button>
-                      </td>
+                          onclick="UpdateForm('{{this.id}}')">Edit Role</button>
+
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -123,9 +118,12 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-        <!-- add Modal -->
-        <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+      </div>
+    </div>
+  </div>
+
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -150,9 +148,10 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-        <!-- Delete Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  {{!-- --}}
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -176,9 +175,9 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-        <!-- update Modal -->
-        <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
+
+  <!-- Update Modal -->
+  <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
           aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -208,14 +207,16 @@
             </div>
           </div>
         </div>
-        {{!-- --}}
-      </div>
-    </div>
-  </div>
+
 
   <script>
+
     document.addEventListener('DOMContentLoaded', function () {
-      //showToast('Roles');
+      
+  
+    displayMessage("Hey!!!", '3000000');
+
+      
       document.getElementById('uploadForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -256,19 +257,19 @@
                 console.log(data);
                 // Display an error message if login fails
                 if (!data.success) {
-                  debugger
+                  
                   showToast(data.message);
                 } else {
                   showToast('An error occurred. Please try again later.');
                 }
               }).catch(error => {
-                debugger
+                
                 showToast('An error occurred. Please try again later.');
               });
             }
           })
       .catch (error => {
-          debugger
+          
           // Handle any errors that occur during the API request
           console.error('Error:', error);
           showToast('An error occurred. Please try again later.');
@@ -306,29 +307,29 @@
           body: JSON.stringify(formDataObject)
         })
           .then(response => {
-            debugger
+            
             if (response.ok) {
               showToast('Add successful');
               window.location.href = '/role';
             } else {
-              debugger
+              
               response.json().then(data => {
                 console.log(data);
                 // Display an error message if login fails
                 if (!data.success) {
-                  debugger
+                  
                   showToast(data.message);
                 } else {
                   showToast('An error occurred. Please try again later.');
                 }
               }).catch(error => {
-                debugger
+                
                 showToast('An error occurred. Please try again later.');
               });
             }
           })
       .catch (error => {
-          debugger
+          
           // Handle any errors that occur during the API request
           console.error('Error:', error);
           showToast('An error occurred. Please try again later.');
@@ -482,7 +483,7 @@
         });
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
   <!-- Bootstrap JS and jQuery -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
