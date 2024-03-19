@@ -27,8 +27,8 @@ var holiday = require('./routes/public_holiday')
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
-
-var holiday = require('./routes/public_holiday');
+var CompanyRecord = require('./routes/CompanyRecord');
+var Company = require('./routes/Company');
 
 var expense_category = require('./routes/expense_category');
 
@@ -86,7 +86,8 @@ app.use('/salarytype', salarytypeRouter);
 app.use('/attendance',attendanceRouter)
 app.use('/attendancerecord',attendancerecordRouter)
 app.use('/Department',Department);
-
+app.use('/CompanyRecord',CompanyRecord);
+app.use('/Company',Company);
 
 app.use('/role',role);
 app.use('/ework',eworkInfo);
@@ -109,7 +110,7 @@ app.use('/Payroll',Payroll);
 
 app.use('/leaveType-dropdown' , Leave_request);
 
-app.use('/holiday',holiday);
+
 
 app.use('/holiday',holiday);
 app.use('/smtp',smtp);

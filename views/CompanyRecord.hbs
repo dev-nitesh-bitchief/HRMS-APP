@@ -63,7 +63,6 @@
   .actions {
     text-align: right;
   }
-
   .search-box {
   position: relative;
 }
@@ -94,14 +93,14 @@
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Department:</h4>
+              <h4 class="card-title">Companies:</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                     <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
                 data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                Add New Department
+                Add New Company
               </button>
               <div class="search-box">
           <input type="text" class="form-control" placeholder="Search...">
@@ -110,22 +109,22 @@
         </div>
                     <tr>
                       <th>Id:</th>
-                      <th>Department-Name:</th>
+                      <th>Company-Name:</th>
                       {{!-- <th>Company ID:</th> --}}
-                      <th>Head of Department</th>
-                      <th>Description</th>
+                      <th>Package</th>
+                      <th>CreateDate</th>
                       <th>Status</th>
                       <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each department}}
+                    {{#each records}}
                     <tr>
                       <td>{{this.id}}</td>
-                      <td>{{this.departmentName}}</td>
+                      <td>{{this.company}}</td>
                       {{!-- <td>{{this.Company_Id}}</td> --}}
-                      <td>{{this.headOfDepartment}}</td>
-                      <td>{{this.description}}</td>
+                      <td>{{this.package}}</td>
+                      <td>{{this.createDate}}</td>
                       <td>{{this.status}}</td>
                       <td class="actions">
                                <div class="dropdown">
@@ -135,7 +134,7 @@
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
                         <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
                           data-target="#updatePermissionsModal" id="update_data"
-                          onclick="UpdateForm('{{this.id}}','{{this.departmentName}}','{{this.headOfDepartment}}','{{this.description}}','{{this.status}}')">Edit Department</button>
+                          onclick="UpdateForm('{{this.id}}','{{this.company}}','{{this.package}}','{{this.createDate}}','{{this.status}}')">Edit Companies</button>
 
                         <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
                           data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
@@ -159,44 +158,52 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="addRoleModalLabel">Add New Department</h5>
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Company</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form id="addForm" action="/Department/add" method="post">
-                  <div class="form-group">
-                    <label for="departmentName">Department Name:</label>
-                    <input type="text" class="form-control" id="departmentName" name="departmentName" placeholder="Enter Department Name">
-                  </div>
-                  {{!-- <div class="form-group">
-                    <label for="Company_Id">Company Id:</label>
-                    <input type="text" class="form-control" id="Company_Id" name="Company_Id" placeholder="Enter Company Id">
-                  </div> --}}
-                  <div class="form-group">
-                    <label for="headOfDepartment">Head of Department:</label>
-                    <input type="text" class="form-control" id="headOfDepartment" name="headOfDepartment" placeholder="Enter Head Of Department Name">
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description">
-                  </div>
-                  <div class="form-group">
-                      <label for="status">Status</label>
+                <form id="addForm" action="/CompanyRecord/add" method="post">
+
+                      <div class="form-group row">
+                        <label for="company" class="col-sm-3 col-form-label">Company:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="company" name="company"
+                            placeholder="company">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="package" class="col-sm-3 col-form-label">Package:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="package" name="package"
+                            placeholder="package">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="createDate" class="col-sm-3 col-form-label">Create Date:</label>
+                        <div class="col-sm-8">
+                          <input type="date" class="form-control" id="createDate" name="createDate"
+                            placeholder="createDate">
+                        </div>
+                      </div>
+
+                  <div class="form-group ">
+                      <label for="status">Status:</label>
                         <select class="form-control" name="status">
                           <option value="active">Active</option>
                           <option value="inactive">In-Active</option>
                         </select>
                       </div>
-                  <button type="submit" class="btn btn-primary" id="add">Add Department</button>
+                  
+                  <button type="submit" class="btn btn-primary" id="add">Add Company</button>
                 </form>
-              </div>
+                </div>
             </div>
           </div>
         </div>
-  {{!-- --}}
-
     <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
           aria-hidden="true">
@@ -209,7 +216,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="deleteForm" action="/Department/delete" method="post">
+                <form id="deleteForm" action="/CompanyRecord/delete" method="post">
                   <div class="form-group">
                     <input type="hidden" id="recordId" name="id" value="{{this.id}}">
                     <!-- Hidden input field to store record ID -->
@@ -234,44 +241,54 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="updateForm" action="/Department/update" method="post">
-                <div class="form-group">
-                    <label for="id">ID:</label>
-                    <input type="text" class="form-control" id="pre-id" name="id" placeholder="Enter ID">
-                  </div>
-                  <div class="form-group">
-                    <label for="departmentName">Department Name:</label>
-                    <input type="text" class="form-control" id="pre-departmentName" name="departmentName" placeholder="Enter Department Name">
-                  </div>
-                  {{!-- <div class="form-group">
-                    <label for="Company_Id">Company Id:</label>
-                    <input type="text" class="form-control" id="pre-Company_Id" name="Company_Id" placeholder="Enter Company Id">
-                  </div> --}}
-                  <div class="form-group">
-                    <label for="headOfDepartment">Head of Department:</label>
-                    <input type="text" class="form-control" id="pre-headOfDepartment" name="headOfDepartment" placeholder="Enter Head Of Department Name">
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="pre-description" name="description" placeholder="Enter Description">
-                  </div>
-                  <div class="form-group">
-                      <label for="status">Status</label>
-                        <select class="form-control" name="status">
+                <form id="addForm" action="/CompanyRecord/update" method="post">
+                <div class="form-group row">
+                        <label for="id" class="col-sm-3 col-form-label">ID:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-id" name="id"
+                            placeholder="id">
+                        </div>
+                      </div>
+                  <div class="form-group row">
+                        <label for="company" class="col-sm-3 col-form-label">Company:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-company" name="company"
+                            placeholder="company">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="package" class="col-sm-3 col-form-label">Package:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-package" name="package"
+                            placeholder="package">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="createDate" class="col-sm-3 col-form-label">Create Date:</label>
+                        <div class="col-sm-8">
+                          <input type="date" class="form-control" id="pre-createDate" name="createDate"
+                            placeholder="createDate">
+                        </div>
+                      </div>
+
+                  <div class="form-group ">
+                      <label for="status">Status:</label>
+                        <select class="form-control" id="pre-status" name="status">
                           <option value="active">Active</option>
                           <option value="inactive">In-Active</option>
                         </select>
                       </div>
-                  <button type="submit" class="btn btn-warning" id="upload-btn">Update Department</button>
+                  
+                  <button type="submit" class="btn btn-warning" id="add">update Company</button>
                 </form>
-              </div>
+                </div>
             </div>
           </div>
         </div>
-        {{!--  --}}
         <script>
-          
-            // Function to open the form
+             // Function to open the form
     function openForm() {
       document.getElementById("form-container").style.display = "block";
     }
@@ -288,25 +305,14 @@
       // Show the modal
       $('#deleteModal').modal('show');
     }
-
-    //function to prefill the update  form:
-   function UpdateForm(id,departmentName,headOfDepartment,description,status) {
-        // Fill the input fields with the data
-        document.getElementById('pre-id').value = id;
-        document.getElementById('pre-departmentName').value = departmentName;
-       // document.getElementById('pre-Company_Id').value =Company_Id ;
-        document.getElementById('pre-headOfDepartment').value = headOfDepartment;
-        document.getElementById('pre-description').value = description;
-        document.getElementById('pre-status').value = status;
-
-        // Show the modal containing the form
-        $('#updatePermissionModal').modal('show');
-      }
-      document.addEventListener('DOMContentLoaded',function(){
-        displayMessage('Department','3000')
-      })
+    function UpdateForm(id,company,package,createDate,status){
+        document.getElementById('pre-id').value= id;
+        document.getElementById('pre-company').value= company;
+        document.getElementById('pre-package').value= package;
+        document.getElementById('pre-createDate').value= createDate;
+        document.getElementById('pre-status').value= status;
+        $('#updatePermissionsModal').modal('show')
+    }
         </script>
-        
-        {{!-- <script src="/./javascript/role.js"></script> --}}
 </body>
 </html>
