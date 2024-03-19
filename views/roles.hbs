@@ -2,110 +2,69 @@
 <html lang="en">
 
 <head>
-
-    <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Star Admin2 </title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="../vendors/feather/feather.css">
-  <link rel="stylesheet" href="../vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="../vendors/select2/select2.min.css">
-  <link rel="stylesheet" href="../vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="../images/favicon.png"
-  
-  <link rel="stylesheet" href="../vendors/select2/select2.min.css">
-  <link rel="stylesheet" href="../vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
   <style>
-    /* Styling the anchor tag to look like a button */
-    .btn-dark {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+   /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
 
-    /* Styling the anchor tag when hovered */
-    .btn-dark:hover {
-      background-color: #45a049;
-    }
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
 
-    /* Styling the actions column */
-    .actions {
-      text-align: right;
-    }
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
 
-    select {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 
+  #form-container {
+    display: none;
+    /* Hide the form by default */
 
-    /* Styling the anchor tag to look like a button */
-    .new_data {
-      display: inline-block;
-      padding: 10px 20px;
-      /* Adjust padding as needed */
-      background-color: #4CAF50;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
+  }
 
-    /* Styling the anchor tag when hovered */
-    .new_data:hover {
-      background-color: #45a049;
-      /* Darker green */
-    }
+  .actions {
+    text-align: right;
+  }
 
-    /* CSS styles for the close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-
-    #form-container {
-      display: none;
-      /* Hide the form by default */
-
-
-    }
   </style>
- 
-
 </head>
 
 <body>
@@ -115,45 +74,42 @@
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Salary</h4>
+              <h4 class="card-title">Roles:</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
-                      Add New salary <span class="mdi mdi-currency-inr"></span></button>
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Role
+              </button>
                     <tr>
                       <th>Id:</th>
-                      <th>employee_name</th>
-                      <th>salary_type</th>
-                      <th>salaryAmount</th>
-                      <th>salaryCycle</th>
-                      <th class="actions">Actions</th>
+                      <th>Role-Name:</th>
+                      <th>Permissions-Name</th>
+                      <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each salary}}
+                    {{#each roles}}
                     <tr>
                       <td>{{this.id}}</td>
-                      <td>{{this.employee_name}}</td>
-                      <td>{{this.salary_type}}</td>
-                      <td>{{this.salaryAmount}}</td>
-                      <td>{{this.salaryCycle}}</td>
+                      <td>{{this.roleName}}</td>
+                      <td>{{this.permissions}}</td>
                       <td class="actions">
-                        <div class="dropdown">
-                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
-                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Action
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                            <a class="dropdown-item"
-                              onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
-                              data-toggle="modal" data-target="#updateUserModal">edit</a>
-                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteidModal"
-                              onclick="openDeleteModal('{{this.id}}')">Delete</a>
-                          </div>
-                        </div>
-                      </td>
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#updatePermissionsModal" id="update_data"
+                          onclick="UpdateForm('{{this.id}}')">Edit Role</button>
+
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -168,178 +124,220 @@
 
   <!-- add Modal -->
   <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addRoleModalLabel">salary info</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addForm">
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter Role Name">
+                  </div>
+                  <div id="checkboxContainer1" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="add">Add Role</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-          <form class="forms-sample" action="/Salary/addsalary" method="post">
-            <div class="form-group">
-              <label for="Employee_id">Employee Name</label>
-              <select class="form-select" id="Employee_id" name="Employee_id">
-                <option value="">Select Employee </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Single select box using select 2</label>
-              <select class="js-example-basic-single w-100">
-                <option value="AL">Alabama</option>
-                <option value="WY">Wyoming</option>
-                <option value="AM">America</option>
-                <option value="CA">Canada</option>
-                <option value="RU">Russia</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="salary_type">Select Type:</label>
-              <select class="form-select" id="salary_type" name="SalaryType_id">
-                <option value="">Select </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="salaryAmount">salaryAmount</label>
-              <input type="text" class="form-control" id="salaryAmount1" name="salaryAmount" placeholder="salaryAmount">
-            </div>
-            <div class="form-group">
-              <label for="salaryCycle">salaryCycle</label>
-              <input type="text" class="form-control" id="salaryCycle2" name="salaryCycle" placeholder="salaryCycle">
-            </div>
-            <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
-          </form>
-        </div>
-        <div id="toast" class="toast"></div>
-      </div>
-    </div>
-  </div>
   {{!-- --}}
 
   <!-- Delete Modal -->
-  <div class="modal fade" id="deleteidModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="deleteForm" action="/salary/deletesalary" method="post">
-            <div class="form-group">
-              <label for="id">Are you sure:</label>
-              <input type="hidden" id="recordid" name="id" value="{{this.id}}">
-              <p id="recordidDisplay"></p>
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="deleteForm" action="/role/delete" method="post">
+                  <div class="form-group">
+                    {{!-- <label for="id">Are you sure:</label> --}}
+                    <input type="hidden" id="recordId" name="id" value="{{this.id}}">
+                    <!-- Hidden input field to store record ID -->
+                    <p id="recordIdDisplay"></p> <!-- Paragraph to display record ID -->
+                  </div>
+                  <button type="submit" class="btn btn-danger" id="del">Delete</button>
+                </form>
+              </div>
             </div>
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Update Modal -->
-  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="updateUserModalLabel">Update salary</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="/salary/updatesalary" method="post">
-            <div class="form-group">
-              <input type="hidden" class="form-control" id="id" name="id">
-            </div>
-            <div class="form-group">
-              <label for="salaryAmount">salaryAmount:</label>
-              <input type="text" class="form-control" id="salaryAmount" name="salaryAmount" placeholder="salaryAmount">
-            </div>
-            <div class="form-group">
-              <label for="salaryCycle">salaryCycle:</label>
-              <input type="text" class="form-control" id="salaryCycle" name="salaryCycle" placeholder="salaryCycle">
-            </div>
-            <button type="submit" class="btn btn-warning">Update Employee</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
+          aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePermissionsModalLabel">Update Permissions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="uploadForm">
+                  <div class="form-group">
+                    <label for="id">Role ID:</label>
+                    <input type="text" class="form-control" id="id" name="id" placeholder="Enter Role ID">
+                  </div>
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="pre-name" name="roleName" placeholder="Enter Role Name">
+                  </div>
 
-
+                  <div id="checkboxContainer" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-warning" id="upload-btn">Update Role</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
   <script>
-    // Fetch data from the server and populate the dropdown
-    fetch('/employee/show')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        employeeData = data;
-        const employeeDropdown = document.getElementById('Employee-id');
-
-        // Function to filter options based on search input
-        function filterOptions(searchInput) {
-          const filteredData = data.filter(employee => employee.employeeName.toLowerCase().includes(searchInput.toLowerCase()));
-          employeeDropdown.innerHTML = ''; // Clear existing options
-          filteredData.forEach(employee => {
-            const option = document.createElement('option');
-            option.value = employee.id;
-            option.text = employee.employeeName;
-            employeeDropdown.appendChild(option);
-          });
-        }
-
-        // Populate initial options
-        data.forEach(employee => {
-          const option = document.createElement('option');
-          option.value = employee.id;
-          option.text = employee.employeeName;
-          employeeDropdown.appendChild(option);
-        });
-
-        // Add an event listener to the dropdown for validation and search
-        employeeDropdown.addEventListener('input', function () {
-          const searchInput = this.value;
-          filterOptions(searchInput);
-        });
-      })
-      .catch(error => console.error('Error fetching data:', error));
-
 
     document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
-      fetch('/salarytype/allsalarytype')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('salary_type');
-          data.forEach(Type => {
-            const option = document.createElement('option');
-            option.value = Type.id;
-            option.textContent = Type.salary_type;
-            roleDropdown.appendChild(option);
-          });
+      
+  
+    displayMessage("Hey!!!", '3000000');
+
+      
+      document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+        // Create an empty object to store form data
+        const formDataObject = {};
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+        let permissions = [];
+        // Loop through all checkboxes
+        document.getElementById('checkboxContainer').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+
+          if (checkbox.checked === true) {
+            permissions.push(checkbox.value.toUpperCase())
+          }
+        });
+        // Log the form data object to console (for testing)
+        console.log("permissions", permissions);
+        formDataObject['permissions'] = permissions;
+        console.log(formDataObject);
+
+        fetch('/role/Update', { // Replace '/api/role/update' with your actual API endpoint
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
         })
-        .catch(error => console.error('Error fetching data:', error));
+          .then(response => {
+            if (response.ok) {
+              showToast('Update successful');
+              window.location.href = '/role';
+            } else {
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+      .catch (error => {
+          
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
     });
+    //----------------------------
+    document.getElementById('addForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+         var formData = new FormData(this);
+         // Create an empty object to store form data
+        const formDataObject = {};
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+        let permissions = [];
+        // Loop through all checkboxes
+        document.getElementById('checkboxContainer1').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
 
-    function openDeleteModal(recordid) {
-      document.getElementById('recordid').value = recordid;
-      document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
-      $('#deleteidModal').modal('show');
-    }
-
-
+          if (checkbox.checked === true) {
+            permissions.push(checkbox.value.toUpperCase())
+          }
+        });
+        // Log the form data object to console (for testing)
+        console.log("permissions", permissions);
+        formDataObject['permissions'] = permissions;
+        console.log(formDataObject);
+        
+    fetch('/role/add', { 
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            
+            if (response.ok) {
+              showToast('Add successful');
+              window.location.href = '/role';
+            } else {
+              
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  
+                  showToast(data.message);
+                } else {
+                  showToast('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+      .catch (error => {
+          
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
+    }); 
+});
+  </script>
+  <script>
     // Function to open the form
     function openForm() {
       document.getElementById("form-container").style.display = "block";
@@ -349,46 +347,146 @@
     function closeForm() {
       document.getElementById("form-container").style.display = "none";
     }
-
-
-    function UpdateForm(id, salaryAmount, salaryCycle) {
-      document.getElementById('id').value = id;
-      document.getElementById('salaryAmount').value = salaryAmount;
-      document.getElementById('salaryCycle').value = salaryCycle;
-      $('#updateUserModal').modal('show');
-    };
-
-
+    //-------------------for add model--------
+    let allPermissions = [];
     document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
-      fetch('/employee/show')
+      // Request to fetch checkbox data
+      fetch('/role/dynamicpermission')
         .then(response => response.json())
         .then(data => {
-          const roleDropdown = document.getElementById('Employee_id');
-          data.forEach(drop => {
-            const option = document.createElement('option');
-            option.value = drop.id;
-            option.textContent = drop.employeeName;
-            roleDropdown.appendChild(option);
+          console.log(data);
+          // Get the container where checkboxes will be appended
+          const checkboxContainer = document.getElementById('checkboxContainer1');
+
+          // Iterate through the data and create checkboxes
+          data.forEach(checkbox => {
+            // Create checkbox input element
+            const checkboxElement = document.createElement('input');
+            checkboxElement.type = 'checkbox';
+            checkboxElement.id = checkbox_${checkbox.id};
+            checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+            checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+            // Create label for the checkbox
+            const label = document.createElement('label');
+            label.setAttribute('for', checkbox_${checkbox.id});
+            label.textContent = checkbox.permissionName;
+
+            // Append checkbox and label to container
+            checkboxContainer.appendChild(checkboxElement);
+            checkboxContainer.appendChild(label);
+
+            // Append line break for better formatting
+            checkboxContainer.appendChild(document.createElement('br'));
           });
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => {
+          console.error('Error fetching checkbox data:', error);
+        });
     });
 
+    function openDeleteModal(recordId) {
+      // Set the record ID in the form and display it in the paragraph
+      document.getElementById('recordId').value = recordId;
+      document.getElementById('recordIdDisplay').innerText = 'Are you sure want to delete: ' + recordId;
+      // Show the modal
+      $('#deleteModal').modal('show');
+    }
+
+
+    // Function to fill the form fields with data from the selected row
 
 
   </script>
- {{!-- <script src="../vendors/js/vendor.bundle.base.js"></script> --}}
-  
-  <script src="../vendors/typeahead.js/typeahead.bundle.min.js"></script>
-  <script src="../vendors/select2/select2.min.js"></script>
- 
 
-  <!-- Custom js for this page-->
-  <script src="../js/file-upload.js"></script>
-  <script src="../js/typeahead.js"></script>
-  <script src="../js/select2.js"></script>
-  <!-- End custom js for this page-->
+  <script>
+    //-----------------------for update model---------------
+    document.addEventListener('DOMContentLoaded', function () {
+      // Request to fetch checkbox data
+      fetch('/role/dynamicpermission')
+        .then(response => response.json())
+        .then(data => {
+          // Get the container where checkboxes will be appended
+          const checkboxContainer = document.getElementById('checkboxContainer');
+
+          // Iterate through the data and create checkboxes
+          data.forEach(checkbox => {
+            // Create checkbox input element
+            const checkboxElement = document.createElement('input');
+            checkboxElement.type = 'checkbox';
+            checkboxElement.id = checkbox_${checkbox.id};
+            // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
+            checkboxElement.value = checkbox.id; // Set value attribute if needed
+
+
+            // Create label for the checkbox
+            const label = document.createElement('label');
+            label.setAttribute('for', checkbox_${checkbox.id});
+            label.textContent = checkbox.permissionName;
+
+            // Append checkbox and label to container
+            checkboxContainer.appendChild(checkboxElement);
+            checkboxContainer.appendChild(label);
+
+            // Append line break for better formatting
+            checkboxContainer.appendChild(document.createElement('br'));
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching checkbox data:', error);
+        });
+    });
+  </script>
+
+  <script>
+    var myButton = document.getElementById('update_data');
+    //myButton.addEventListener('click', function () {
+    function UpdateForm(row_id) {
+
+      //const row_id = myButton.data_id;
+      //var row_id = myButton.getAttribute('data_id');
+
+      fetch(/role/roles-edit-prefilled/${row_id})
+        .then(response => response.json())
+        .then(data => {
+
+          // Get form elements by their IDs
+          var idInput = document.getElementById('id');
+          var role_nameInput = document.getElementById('pre-name');
+
+          // Assuming data is an object with properties like 'name', 'email', 'age'
+          // You can adjust this part according to your actual data structure
+          idInput.value = data.id;
+          role_nameInput.value = data.roleName;
+          const permissionToCheck = data.Permission_id.split(",");
+          // Get the container where checkboxes are appended
+          const checkboxContainer = document.getElementById('checkboxContainer');
+
+          // Find all checkbox input elements within the checkboxContainer
+          const checkboxes = checkboxContainer.querySelectorAll('input[type="checkbox"]');
+
+          // Iterate over each checkbox
+          checkboxes.forEach(function (checkbox) {
+
+            // Set the checked property to true
+            // Check if the value of the checkbox exists in the array of permissions to be checked
+            if (permissionToCheck.includes(checkbox.value)) {
+              // If the checkbox value exists in the array, set its checked attribute to true
+              checkbox.checked = true;
+            }
+          });
+          console.log('data :', data);
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+        });
+    }
+  </script>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
-
-</html>

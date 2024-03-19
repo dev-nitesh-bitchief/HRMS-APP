@@ -32,11 +32,13 @@ router.post('/add', upload.single('docs'), (req, res) => {
     const { Employee_id, documentName } = req.body;
     console.log(Employee_id);
     console.log(documentName);
+
     const file = req.file; 
     console.log(file);
 
     // Save the uploaded file with filename
     const fileName = file.filename;
+
     const filePath = path.join(__dirname, '..', 'docs', fileName);
     // // Read and write the file to server
     fs.writeFileSync(filePath, fs.readFileSync(file.path));
