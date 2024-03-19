@@ -34,20 +34,25 @@ router.get('/salarytype', function (req, res) {
 });
 
 
-router.get('/salarytypewithamount', function (req, res) {
-  //show all users
+router.get('/salarytypewithamount/:salary_id', function (req, res) {
+  // Extract salary_id from the request parameters
+  const salary_id = req.params.salary_id;
 
-  connection.query("select * from SalaryDetails", function (err, result) {
+  // Execute SQL query to fetch salary details based on the provided salary_id
+  connection.query("SELECT * FROM SalaryDetails WHERE salary_id = ?", [salary_id], function (err, result) {
     if (err) {
-      console.error('failed: ' + err.stack);
-      return;
+      console.error('Failed to execute query: ' + err.stack);
+      return res.status(500).json({ error: 'Failed to fetch salary details' });
     }
 
+    // Check if result is empty
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Salary details not found for provided salary_id' });
+    }
 
+    // Send the result back as JSON response
     res.status(200).json({ result });
-
-  });  
-
+  });
 });
 
 
