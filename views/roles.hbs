@@ -364,14 +364,14 @@
             // Create checkbox input element
             const checkboxElement = document.createElement('input');
             checkboxElement.type = 'checkbox';
-            checkboxElement.id = `checkbox_${checkbox.id}`;
+            checkboxElement.id = checkbox_${checkbox.id};
             checkboxElement.name = 'permissions[]'; // Set name attribute if needed
             checkboxElement.value = checkbox.id; // Set value attribute if needed
 
 
             // Create label for the checkbox
             const label = document.createElement('label');
-            label.setAttribute('for', `checkbox_${checkbox.id}`);
+            label.setAttribute('for', checkbox_${checkbox.id});
             label.textContent = checkbox.permissionName;
 
             // Append checkbox and label to container
@@ -416,14 +416,14 @@
             // Create checkbox input element
             const checkboxElement = document.createElement('input');
             checkboxElement.type = 'checkbox';
-            checkboxElement.id = `checkbox_${checkbox.id}`;
+            checkboxElement.id = checkbox_${checkbox.id};
             // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
             checkboxElement.value = checkbox.id; // Set value attribute if needed
 
 
             // Create label for the checkbox
             const label = document.createElement('label');
-            label.setAttribute('for', `checkbox_${checkbox.id}`);
+            label.setAttribute('for', checkbox_${checkbox.id});
             label.textContent = checkbox.permissionName;
 
             // Append checkbox and label to container
@@ -448,7 +448,7 @@
       //const row_id = myButton.data_id;
       //var row_id = myButton.getAttribute('data_id');
 
-      fetch(`/role/roles-edit-prefilled/${row_id}`)
+      fetch(/role/roles-edit-prefilled/${row_id})
         .then(response => response.json())
         .then(data => {
 

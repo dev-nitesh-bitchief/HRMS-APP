@@ -209,6 +209,6 @@ router.post('/updatesalary', async (req, res) => {
   });
 
 
-
-
+  
   module.exports = router;
+
