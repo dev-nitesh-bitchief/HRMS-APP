@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .next_btn {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #b39500;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            margin-left: 350px;
+        }
+
+        .previous_btn {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #b30000;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-container {
+            width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        h2 {
+            color: #2f8d46;
+        }
+
+        #form {
+            position: relative;
+        }
+
+        #form fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .finish {
+            text-align: center;
+        }
+
+        #form fieldset:not(:first-of-type) {
+            display: none;
+        }
+
+        #form .previous-step,
+        .next-step {
+            width: 100px;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px 10px 0px;
+            float: right;
+        }
+
+        .form,
+        .previous-step {
+            background: #616161;
+        }
+
+        .form,
+        .next-step {
+            background: #2f8d46;
+        }
+
+        #form .previous-step:hover,
+        #form .previous-step:focus {
+            background-color: #000000;
+        }
+
+        #form .next-step:hover,
+        #form .next-step:focus {
+            background-color: #2f8d46;
+        }
+
+        .text {
+            color: #2f8d46;
+            font-weight: normal;
+        }
+
+        #progressbar {
+            margin-bottom: 1px;
+            overflow: hidden;
+            color: lightgray;
+        }
+
+        #progressbar .active {
+            color: #2f8d46;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 15px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 100;
+        }
+
+        #progressbar #step1:before {
+            content: "1";
+        }
+
+        #progressbar #step2:before {
+            content: "2";
+        }
+
+        #progressbar #step3:before {
+            content: "3";
+        }
+
+        #progressbar #step4:before {
+            content: "4";
+        }
+
+        #progressbar li:before {
+            width: 30px;
+            height: 30px;
+            line-height: 25px;
+            display: block;
+            font-size: 20px;
+            color: #ffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px;
+        }
+
+        #progressbar li:after {
+            content: "";
+            width: 100%;
+            height: 1px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1;
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #03dcf0;
+        }
+
+        .progress {
+            height: 20px;
+        }
+
+        .progress-bar {
+            background-color: #03dcf0;
+
+        }
+
+        #progressbar {
+            justify-content: center;
+        }
+
+        .modal-custom {
+            max-width: 85%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <a href="/employee-onboarding/new">Add Employee</a>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Expense Details</h3>
+                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add Employee</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="AddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-custom">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="col-12 col-sm-9 col-md-7 col-lg-12 text-center p-0 mb-2">
+                                <div class="px-0 pt-4 pb-0 ml-2 mb-3">
+                                    <div id="center">
+                                        <ul id="progressbar">
+                                            <li class="active" id="step1">
+                                                <strong>Personal Information </strong>
+                                            </li>
+                                            <li id="step2"><strong>Banking Details</strong></li>
+                                            <li id="step3">
+                                                <strong>Emergency Contact Information</strong>
+                                            </li>
+                                            <li id="step4"><strong>Submit</strong></li>
+                                        </ul>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-body">
+                            <!-- Your form content here -->
+                            <div class="form-container">
+                                <!-- Place your form content here -->
+                                <!-- This is your existing form content -->
+                                <form id="form">
+
+                                    <br />
+                                    <fieldset>
+                                        <legend>Personal Information</legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="firstName">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="firstName"
+                                                    placeholder="Enter Your First Name ">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="lastName">Last Name </label>
+                                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                                    placeholder="Enter Your Last Name ">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="gender">Gender</label>
+                                                <input type="radio" id="checkbox1" name="checkboxGroup" value="option1">
+                                                <label for="checkbox1">Male</label>
+                                                <input type="radio" id="checkbox2" name="checkboxGroup" value="option2">
+                                                <label for="checkbox2">Female</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="dob">DOB</label>
+                                                <input type="date" class="form-control" id="dob" name="dob"
+                                                    placeholder="Enter your DOB">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="phoneNumber">Phone Number </label>
+                                                <input type="tel" class="form-control" id="phoneNumber"
+                                                    name="phoneNumber" placeholder="Enter your Phone Number">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Enter your email">
+                                            </div>
+                                        </div>
+                                        <input type="button" name="next-step" class="next-step" value="Next" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Banking Details</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="bankName">Bank Name </label>
+                                                <input type="text" class="form-control" id="bankName" name="bankName"
+                                                    placeholder="Enter Bank Name" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="accountNumber">A/C No.</label>
+                                                <input type="text" class="form-control" id="accountNumber"
+                                                    name="accountNumber" placeholder="Enter Account Number" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="accountHolderName">Account Holder Name</label>
+                                                <input type="email" class="form-control" id="accountHolderName"
+                                                    name="accountHolderName" placeholder="Enter A/C Holder Name"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="branchAddress">Branch Address</label>
+                                                <input type="text" class="form-control" id="branchAddress"
+                                                    name="branchAddress" placeholder="Enter Branch Address" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="ifscCode">A/C No.</label>
+                                                <input type="text" class="form-control" id="ifscCode" name="ifscCode"
+                                                    placeholder="Enter IFSC Code " required>
+                                            </div>
+                                        </div>
+                                        <input type="button" name="next-step" class="next-step" value="Next" />
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Emergency Contact Information</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="emergencyName">Name </label>
+                                                <input type="text" class="form-control" id="emergencyName"
+                                                    name="emergencyName" placeholder="Enter Name" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="emergencyRelation">Relation</label>
+                                                <input type="text" class="form-control" id="emergencyRelation"
+                                                    name="emergencyRelation" placeholder="Enter Relation" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="emergencyPhoneNumber">Phone Number</label>
+                                                <input type="text" class="form-control" id="emergencyPhoneNumber"
+                                                    name="emergencyPhoneNumber" placeholder="Enter A/C Holder Name "
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="emergencyEmail">Email</label>
+                                                <input type="text" class="form-control" id="emergencyEmail"
+                                                    name="emergencyEmail" placeholder="Enter Email Address">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="emergencyAddress">Address</label>
+                                                <input type="text" class="form-control" id="emergencyAddress"
+                                                    name="emergencyAddress" placeholder="Enter Address " required>
+                                            </div>
+                                        </div>
+                                        <input type="button" name="next-step" class="next-step" value="Final" />
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="finish">
+                                            <h2 class="text text-center">
+                                                <strong>FINISHED</strong>
+                                            </h2>
+                                        </div>
+                                        {{!-- <input type="button" name="next-step" class="next-step"
+                                            value="Final Step" />
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous Step" /> --}}
+                                        {{!-- <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous Step" /> --}}
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- <div class="modal fade" id="AddModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel">Add Employee</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul id="progressbar">
+                                        <li class="active" id="step1">
+                                            <strong>Personal Information </strong>
+                                        </li>
+                                        <li id="step2"><strong>Banking Details</strong></li>
+                                        <li id="step3">
+                                            <strong>Emergency Contact Information</strong>
+                                        </li>
+                                        <li id="step4"><strong>Submit</strong></li>
+                                    </ul>
+                                    <div class="progress">
+                                        <div class="progress-bar"></div>
+                                    </div>
+                                    <form class="forms-sample" action="/Expense/add" method="Post" id="multi-page-form"
+                                        enctype="multipart/form-data">
+                                        <section id="page1" class="page">
+                                            <h2>Personal Details</h2>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="firstName">First Name</label>
+                                                        <input type="text" class="form-control" id="firstName"
+                                                            name="firstName" placeholder="Enter Your First Name ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="lastName">Last Name </label>
+                                                        <input type="text" class="form-control" id="lastName"
+                                                            name="lastName" placeholder="Enter Your Last Name ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="gender">Gender</label>
+                                                        <input type="checkbox" id="checkbox1" name="checkboxGroup"
+                                                            value="option1">
+                                                        <label for="checkbox1">Male</label>
+                                                        <input type="checkbox" id="checkbox2" name="checkboxGroup"
+                                                            value="option2">
+                                                        <label for="checkbox2">Female</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="dob">DOB</label>
+                                                        <input type="date" class="form-control" id="dob" name="dob"
+                                                            placeholder="Enter your DOB">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="phoneNumber">Phone Number </label>
+                                                        <input type="tel" class="form-control" id="phoneNumber"
+                                                            name="phoneNumber" placeholder="Enter your Phone Number">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email"
+                                                            placeholder="Enter your email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" onclick="nextPage('page2')"
+                                                class="next_btn">Next</button>
+                                        </section>
+                                        <section id="page2" class="page" style="display:none;">
+                                            <h2>Banking Details</h2>
+                                            <div class="form-group">
+                                                <label for="bankName">Bank Name</label>
+                                                <input type="text" class="form-control" id="bankName" name="bankName"
+                                                    placeholder="Enter Bank Name ">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="accountNumber">Account Number </label>
+                                                <input type="text" class="form-control" id="accountNumber"
+                                                    name="accountNumber" placeholder="Enter Account Number">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="accountHolderName">Account Number </label>
+                                                <input type="text" class="form-control" id="accountHolderName"
+                                                    name="accountHolderName" placeholder="Enter Account Holder Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="branchAddress">Branch Address </label>
+                                                <input type="text" class="form-control" id="branchAddress"
+                                                    name="branchAddress" placeholder="Enter Branch Address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ifscCode">Ifsc Code</label>
+                                                <input type="text" class="form-control" id="ifscCode" name="ifscCode"
+                                                    placeholder="Enter Ifsc Code ">
+                                            </div>
+                                            <button type="button" onclick="previousPage('page1')"
+                                                class="previous_btn">Previous</button>
+                                            <button type="button" onclick="nextPage('page3')"
+                                                class="next_btn">Next</button>
+                                        </section>
+                                        <section id="page3" class="page" style="display:none;">
+                                            <h2>Emergency Contact Information </h2>
+                                            <div class="form-group">
+                                                <label for="emergencyName">Full Name</label>
+                                                <input type="text" class="form-control" id="emergencyName"
+                                                    name="emergencyName" placeholder="Enter Full Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="emergencyRelation">Relation</label>
+                                                <input type="number" class="form-control" id="emergencyRelation"
+                                                    name="emergencyRelation" placeholder="Enter Relation">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="emergencyPhoneNumber">Phone Number </label>
+                                                <input type="tel" class="form-control" id="emergencyPhoneNumber"
+                                                    name="emergencyPhoneNumber" placeholder="Mobile Number ">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="emergencyEmail">Email</label>
+                                                <input type="email" class="form-control" id="emergencyEmail"
+                                                    name="emergencyEmail" placeholder="Enter Email Address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="emergencyAddress">Email</label>
+                                                <input type="text" class="form-control" id="emergencyAddress"
+                                                    name="emergencyAddress" placeholder="Enter Email Address">
+                                            </div>
+                                            <button type="button" onclick="previousPage('page2')"
+                                                class="previous_btn">Previous</button>
+                                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                </div>
+                                </section>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                {{!-- <div class="form-container">
+                    <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+                        <div class="px-0 pt-4 pb-0 mt-3 mb-3">
+                            <form id="form">
+                                <div id="center">
+                                    <ul id="progressbar">
+                                        <li class="active" id="step1">
+                                            <strong>Personal Information </strong>
+                                        </li>
+                                        <li id="step2"><strong>Banking Details</strong></li>
+                                        <li id="step3">
+                                            <strong>Emergency Contact Information</strong>
+                                        </li>
+                                        <li id="step4"><strong>Submit</strong></li>
+                                    </ul>
+                                </div>
+                                <br />
+                                <fieldset>
+                                    <legend>Personal Information</legend>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="firstName">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                                placeholder="Enter Your First Name ">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="lastName">Last Name </label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                                placeholder="Enter Your Last Name ">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="gender">Gender</label>
+                                            <input type="checkbox" id="checkbox1" name="checkboxGroup" value="option1">
+                                            <label for="checkbox1">Male</label>
+                                            <input type="checkbox" id="checkbox2" name="checkboxGroup" value="option2">
+                                            <label for="checkbox2">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="dob">DOB</label>
+                                            <input type="date" class="form-control" id="dob" name="dob"
+                                                placeholder="Enter your DOB">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="phoneNumber">Phone Number </label>
+                                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                                                placeholder="Enter your Phone Number">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Enter your email">
+                                        </div>
+                                    </div>
+                                    <input type="button" name="next-step" class="next-step" value="Next Step" />
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Emergency Contact Information</legend>
+                                    <input type="button" name="next-step" class="next-step" value="Next Step" />
+                                    <input type="button" name="previous-step" class="previous-step"
+                                        value="Previous Step" />
+                                </fieldset>
+                                <fieldset>
+                                    <h2>Welcome To GFG Step 3</h2>
+                                    <input type="button" name="next-step" class="next-step" value="Final Step" />
+                                    <input type="button" name="previous-step" class="previous-step"
+                                        value="Previous Step" />
+                                </fieldset>
+                                <fieldset>
+                                    <div class="finish">
+                                        <h2 class="text text-center">
+                                            <strong>FINISHED</strong>
+                                        </h2>
+                                    </div>
+                                    <input type="button" name="previous-step" class="previous-step"
+                                        value="Previous Step" />
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div> --}}
+</body>
+<script>
+    /* function nextPage(nextPageId) {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.display = 'none';
+        document.getElementById(nextPageId).style.display = 'block';
+        updateProgress();
+    }
+
+    function previousPage(prevPageId) {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.display = 'none';
+        document.getElementById(prevPageId).style.display = 'block';
+        updateProgress();
+    }
+
+    function submitForm() {
+        // Implement form submission logic here if needed
+        document.getElementById("multi-page-form").submit();
+    }
+
+    $('#AddModal').on('show.bs.modal', function () {
+        // Reset the form to the first page
+        document.getElementById('page1').style.display = 'block';
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.display = 'none';
+    });
+    function generateProgressBarSteps() {
+        var totalPages = document.querySelectorAll('.page').length;
+        var progressBar = document.getElementById('progress-bar');
+        progressBar.innerHTML = '';
+
+        for (var i = 0; i < totalPages; i++) {
+            var step = document.createElement('div');
+            step.className = 'progress-step';
+            step.textContent = i + 1;
+            progressBar.appendChild(step);
+        }
+    }
+    function updateProgress() {
+        var totalPages = document.querySelectorAll('.page').length;
+        console.log(totalPages);
+        var currentPage = document.querySelector('.page[style*="display: block"]');
+        console.log(currentPage);
+        var currentPageIndex = Array.from(document.querySelectorAll('.page')).indexOf(currentPage);
+        console.log(currentPageIndex);
+
+        var progress = ((currentPageIndex + 1) / totalPages) * 100;
+
+        // Update progress bar width
+        var progressBar = document.querySelector('.progress-bar');
+        progressBar.style.width = progress + "%";
+
+        // Update progress bar text
+        var progressText = progressBar.querySelector('.progress-text');
+        //progressText.textContent = Math.round(progress) + "%"; 
+        progressText.textContent = "Step " + (currentPageIndex + 1);
+    } */
+    $(document).ready(function () {
+        var currentPage, nextPage, previousPage;
+        var opacity;
+        var current = 1;
+        var steps = $("fieldset").length;
+
+        setProgressBar(current);
+
+        $(".next-step").click(function () {
+
+            currentPage = $(this).parent();
+            nextPage = $(this).parent().next();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(nextPage)).addClass("active");
+
+            nextPage.show();
+            currentPage.animate({ opacity: 0 }, {
+                step: function (now) {
+                    opacity = 1 - now;
+
+                    currentPage.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    nextPage.css({ 'opacity': opacity });
+                },
+                duration: 500
+            });
+            setProgressBar(++current);
+        });
+
+        $(".previous-step").click(function () {
+
+            currentPage = $(this).parent();
+            previousPage = $(this).parent().prev();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(currentPage)).removeClass("active");
+
+            previousPage.show();
+
+            currentPage.animate({ opacity: 0 }, {
+                step: function (now) {
+                    opacity = 1 - now;
+
+                    currentPage.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    previousPage.css({ 'opacity': opacity });
+                },
+                duration: 500
+            });
+            setProgressBar(--current);
+        });
+
+        function setProgressBar(currentStep) {
+            var percent = parseFloat(100 / steps) * currentStep;
+            percent = percent.toFixed();
+            $(".progress-bar")
+                .css("width", percent + "%")
+        }
+        $(".submit").click(function () {
+            return false;
+        })
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
