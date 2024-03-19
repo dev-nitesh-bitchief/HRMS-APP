@@ -6,8 +6,6 @@ var db = require('../connection/db');
 
 
 
-
-
 router.post('/allocate', (req, res) => {
     const { Employee_id, Leave_type_id, Month_id, leavesQuantity, comments, allocatedBy } = req.body;
 
@@ -62,9 +60,6 @@ router.get('/show', (req, res) => {
 
 
 
-
-
-
 router.post('/search', (req, res) => {
 
     const { Employee_id } = req.body;
@@ -111,13 +106,10 @@ router.post('/delete', (req, res) => {
 
 
 
-
 router.post('/edit', (req, res) => {
     // const id = req.body.id;
 
     const { id, Leave_type_id, leavesQuantity, comments, allocatedBy } = req.body;
-
-
 
     // Construct the SQL UPDATE query dynamically based on the provided columns
     let sql = 'UPDATE Leave_allocation SET ';
@@ -138,8 +130,6 @@ router.post('/edit', (req, res) => {
         sql += 'allocatedBy  = ?, ';
         updateValues.push(allocatedBy);
     }
-
-
 
 
     // Remove the trailing comma and space
@@ -163,8 +153,6 @@ router.post('/edit', (req, res) => {
 
 
 });
-
-
 
 
 
