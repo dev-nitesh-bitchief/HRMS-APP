@@ -32,14 +32,16 @@ router.post('/add', upload.single('docs'), (req, res) => {
     const { Employee_id, documentName } = req.body;
     console.log(Employee_id);
     console.log(documentName);
-    const docs = req.file; 
-    console.log(docs);
+
+    const file = req.file; 
+    console.log(file);
 
     // Save the uploaded file with filename
-    const fileName = docs?docs.filename:null;
+    const fileName = file.filename;
+
     const filePath = path.join(__dirname, '..', 'docs', fileName);
     // // Read and write the file to server
-    fs.writeFileSync(filePath, fs.readFileSync(docs.path));
+    fs.writeFileSync(filePath, fs.readFileSync(file.path));
 
     const data = [Employee_id, documentName, fileName];
     const sql = 'INSERT INTO Document (Employee_id, documentName, docs) VALUES (?, ?, ?)';

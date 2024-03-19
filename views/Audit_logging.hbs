@@ -9,94 +9,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Styling the anchor tag to look like a button */
-        #new_data {
-            display: inline-block;
-            padding: 5px 20px;
-            /* Adjust padding as needed */
-            background-color: #4CAF50;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-        #delete_data {
-            display: inline-block;
-            padding: 5px 20px;
-            margin-left: 20px;
-            /* Adjust padding as needed */
-            background-color: #af9e4c;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-        #update_data {
-            display: inline-block;
-            padding: 5px 20px;
-            margin-left: 20px;
-            /* Adjust padding as needed */
-            background-color: #4c91af;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-
-        /* Styling the anchor tag when hovered */
-        .new_data:hover {
-            background-color: #45a049;
-            /* Darker green */
-        }
-
-
-        /* CSS styles for the close button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-
-
-        /* Additional custom styles */
-        .popup-form {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            z-index: 9999;
-        }
+       
+    
     </style>
 </head>
 
@@ -150,7 +64,7 @@
 
       
                                                
-                                                <a type="button" id="delete_data" data-toggle="modal"
+                                                <a type="button" id="delete_data" class="btn btn-danger" data-toggle="modal"
                                                     data-target="#DeleteModal" data-req-id="{{this.id}}">Delete</a>
 
                                             </td>
@@ -186,7 +100,7 @@
                                 <!-- Hidden input field to store the req_id -->
                                 <input type="hidden" id="deleteReqId" name="req_id">
                                 {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
-                                <button id="delete_data" type="submit">Yes</button>
+                                <button  class="btn btn-danger" type="submit">Yes</button>
                             </form>
                         </div>
                     </div>

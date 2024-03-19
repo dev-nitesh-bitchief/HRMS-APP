@@ -36,6 +36,7 @@ var attendancerecordRouter = require('./routes/attendancerecord')
 
 
 
+
 var role = require('./routes/Role');
 var docs = require('./routes/Document');
 
@@ -46,6 +47,12 @@ var Department = require('./routes/Department')
 
 
 
+var Department = require('./routes/Department')
+
+var role = require('./routes/Role');
+var docs = require('./routes/Document');
+
+
 var eworkInfo = require('./routes/emp-work-info');
 var employee = require('./routes/Employee_onboard');
 
@@ -53,7 +60,17 @@ var holiday = require('./routes/public_holiday')
 
 var feedback = require('./routes/Feedback');
 var permission = require('./routes/Permission');
+
 var subscription = require('./routes/Subscription');
+
+
+var subscription = require('./routes/Subscription');
+
+
+var CompanyRecord = require('./routes/CompanyRecord');
+var Company = require('./routes/Company');
+
+
 
 
 
