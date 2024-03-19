@@ -1,4 +1,4 @@
-
+{{!-- 
   <title>Feedback Form</title>
 <style>
 /* styles.css */
@@ -95,63 +95,245 @@ button[type="submit"]:hover {
 
   <script>
     // script.js
-    document.addEventListener('DOMContentLoaded', function () {
+    //document.addEventListener('DOMContentLoaded', function () {
       debugger
-      showToast('feedback');
-    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const formData = new FormData(this); // Get form data
+      display('feedback');
+    //document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+       // event.preventDefault();
+      //  const formData = new FormData(this); // Get form data
 
         // Create an empty object to store form data
-        const formDataObject = {};
+       // const formDataObject = {};
 
         // Iterate over FormData entries and store them in the object
-        for (let [key, value] of formData.entries()) {
+       // for (let [key, value] of formData.entries()) {
           // If the key does not exist, simply assign the value to the key
           formDataObject[key] = value;
         }
 
         // Now you can use formDataObject to access form data
-        console.log(formDataObject);
+      //  console.log(formDataObject);
 
-        fetch('/feedback/add', {
+       // fetch('/feedback/add', {
           method: 'POST',
           headers: {
             "content-Type": "application/json"
           },
-          body: JSON.stringify(formDataObject)
+       //   body: JSON.stringify(formDataObject)
         })
-          .then(response => {
+       //   .then(response => {
             debugger
             if (response.ok) {
-              alert('submit successful');
-              window.location.href = '/feedback';
+          //    alert('submit successful');
+            //  window.location.href = '/feedback';
             } else {
               debugger
-              response.json().then(data => {
-                console.log(data);
+        //      response.json().then(data => {
+         //       console.log(data);
                 // Display an error message if login fails
                 if (!data.success) {
                   debugger
-                  alert(data.message);
+             //     alert(data.message);
                 } else {
-                  alert('An error occurred. Please try again later.');
+              //    alert('An error occurred. Please try again later.');
                 }
-              }).catch(error => {
+        //      }).catch(error => {
                 debugger
-                alert('An error occurred. Please try again later.');
+         //       alert('An error occurred. Please try again later.');
               });
             }
           })
-          .catch(error => {
+       //   .catch(error => {
             debugger
             // Handle any errors that occur during the API request
-            console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+          //  console.error('Error:', error);
+        //    alert('An error occurred. Please try again later.');
           });
       });
       
     });
   </script>
 </body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* styles.css */
+    .modal-dialog {
+      max-width: 500px;
+    }
+    /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
+
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
+
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #form-container {
+    display: none;
+    /* Hide the form by default */
+
+  }
+  </style>
+</head>
+<body>
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Feedback form:</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#feedbackModal">
+                Open Feedback Form
+              </button>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalLabel">Feedback Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="feedbackForm">
+          <div class="form-group">
+            <label for="Employee_id">Employee ID:</label>
+            <input type="text" id="Employee_id" name="Employee_id" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="feedbackType">Feedback Type:</label>
+            <select id="feedbackType" name="feedbackType" class="form-control" required>
+              <option value="satisfaction">Satisfaction</option>
+              <option value="engagement">Engagement</option>
+              <option value="suggestions">Suggestions</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="feedbackDate">Feedback Date:</label>
+            <input type="date" id="feedbackDate" name="feedbackDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="feedbackDescription">Feedback Description:</label>
+            <textarea id="feedbackDescription" name="feedbackDescription" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="feedbackMethod">Feedback Method:</label>
+            <select id="feedbackMethod" name="feedbackMethod" class="form-control" required>
+              <option value="survey">Survey</option>
+              <option value="suggestionBox">Suggestion Box</option>
+              <option value="interview">Interview</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    displayMessage('Feedback','2000')
+    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+
+      const formDataObject = {};
+      for (let [key, value] of formData.entries()) {
+        formDataObject[key] = value;
+      }
+
+      fetch('/feedback/add', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formDataObject)
+      })
+      .then(response => {
+        if (response.ok) {
+          $('#feedbackModal').modal('hide');
+          alert('Submit successful');
+          window.location.href = '/feedback';
+        } else {
+          response.json().then(data => {
+            if (!data.success) {
+              alert(data.message);
+            } else {
+              alert('An error occurred. Please try again later.');
+            }
+          }).catch(error => {
+            alert('An error occurred. Please try again later.');
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      });
+    });
+  });
+</script>
+
+</body>
 </html>
+

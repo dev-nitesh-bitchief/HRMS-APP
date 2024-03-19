@@ -31,22 +31,6 @@ var salarytypeRouter = require('./routes/salarytype');
 var attendanceRouter = require('./routes/Attendance')
 var attendancerecordRouter = require('./routes/attendancerecord')
 
-
-
-
-
-
-
-var role = require('./routes/Role');
-var docs = require('./routes/Document');
-
-
-
-
-var Department = require('./routes/Department')
-
-
-
 var Department = require('./routes/Department')
 
 var role = require('./routes/Role');
@@ -63,8 +47,6 @@ var permission = require('./routes/Permission');
 
 var subscription = require('./routes/Subscription');
 
-
-var subscription = require('./routes/Subscription');
 
 
 var CompanyRecord = require('./routes/CompanyRecord');
