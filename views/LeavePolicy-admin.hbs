@@ -104,12 +104,12 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Activity logs</h3>
+                            <h3 class="card-title">Leave Policies</h3>
 
-                            {{!-- <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Apply leave</a> --}}
+                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add Policy</a>
 
                             <div class="table-responsive">
                                 <table class="table">
@@ -117,17 +117,8 @@
                                         <tr>
 
                                             <th>id</th>
-                                            <th>user</th>
-                                            <th>Activity type</th>
-                                            <th>Resource name</th>
-                                            <th>operation</th>
-                                            <th>Database table name</th>
-                                            <th>Entered values</th>
-                                            <th>IP Address</th>
-                                            <th>Location</th>
-                                            <th>Browser details</th>
-                                            <th>Date-Time</th>
-                                            <th>Action</th>
+                                            <th>Policy</th>
+                                            <th>Description</th>
 
                                         </tr>
                                     </thead>
@@ -135,23 +126,25 @@
 
                                         {{#each data}}
                                         <tr>
+
                                             <td>{{this.id}}</td>
-                                            <td>{{this.Username}}</td>
-                                            <td>{{this.activityType}}</td>
-                                            <td>{{this.resourceName}}</td>
-                                            <td>{{this.operation}}</td>
-                                            <td>{{this.databaseTableName}}</td>
-                                            <td>{{this.enteredValues}}</td>
-                                            <td>{{this.ipAddress}}</td>
-                                            <td>{{this.location}}</td>
-                                            <td>{{this.browserDetails}}</td>
-                                            <td>{{this.timestamp}}</td>
+                                            <td>{{this.policyName}}</td>
+                                            <td>{{this.description}}</td>
+
                                             <td>
 
-      
-                                               
+
+                                                <!-- Button to trigger the modal -->
                                                 <a type="button" id="delete_data" data-toggle="modal"
                                                     data-target="#DeleteModal" data-req-id="{{this.id}}">Delete</a>
+
+
+                                                <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.id}}','{{this.typeName}}','{{this.description}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
 
                                             </td>
 
@@ -163,13 +156,53 @@
                             </div>
                         </div>
                     </div>
-
-                    
                 </div>
-
             </div>
 
-             <!-- Delete modal -->
+
+            <!-- ADD data modal -->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Policy</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Leave-policy/add" method="post">
+
+                                <div class="form-group">
+                                    <label for="policy name">Policy name</label>
+                                    <input type="text" class="form-control" id="policy_Name" name="policyName"
+                                        placeholder="">
+                                </div>
+                                <div class="form-group">
+                                   
+
+                                    <label for="description">Description:</label><br>
+                                    <textarea class="form-control" id="description" name="description" rows="4" cols="35"></textarea><br>
+                                   
+                                </div>
+
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+
+
+                            </form>
+
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Delete modal -->
             <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -181,7 +214,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/Audit-logging/delete" method="post">
+                            <form action="/Leave-type/delete" method="post">
                                 <label for="id">Are you sure you want to delete?</label>
                                 <!-- Hidden input field to store the req_id -->
                                 <input type="hidden" id="deleteReqId" name="req_id">
@@ -210,17 +243,69 @@
                     });
                 });
 
-
-
-
-
-                
-
             </script>
 
 
 
-            
+
+
+
+            <!-- update modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Update leave type</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Leave-type/edit" method="post">
+
+
+                                <div class="form-group">
+
+
+                                    <input type="hidden" class="form-control" id="id_" name="id" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="typeName">Type name</label>
+                                    <input type="text" class="form-control" id="typeName_" name="typeName"
+                                        placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label><br>
+                                    <textarea class="form-control" id="description_" name="description" rows="4" cols="35"></textarea><br>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                {{!-- <button class="btn btn-light">Cancel</button> --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script>
+                function UpdateRequest(id, typeName, description) {
+
+                    document.getElementById('id_').value = id;
+                    document.getElementById('typeName_').value = typeName;
+                    document.getElementById('description_').value = description;
+
+                    $('#UpdateModal').modal('show');
+                };
+
+            </script>
+
+
 
             <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

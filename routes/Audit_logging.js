@@ -72,8 +72,7 @@ router.get('/show', (req, res) => {
             res.status(500).json('Error Fetching data');
             return;
         }
-        console.log('Data fetched successfully');
-        console.log(result);
+       
         // res.status(200).json(result);
         res.render('Audit_logging' ,{data : result});
         return;

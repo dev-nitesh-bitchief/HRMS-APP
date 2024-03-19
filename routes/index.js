@@ -10,7 +10,7 @@ const secretKey = '1234';
 
 
 
-var db= require('../connection/db');
+var db = require('../connection/db');
 var path = require('path');
 
 
@@ -52,15 +52,15 @@ const authenticateUser = (req, res, next) => {
 
 
 
-router.get('/main'  ,(req,res)=>{
-  res.render('main');
+router.get('/home', (req, res) => {
+  res.render('Home');
 })
 
-router.get('/',(req,res)=>{
-  res.render('login' , {layout : 'emptylayout'});
+router.get('/', (req, res) => {
+  res.render('login', { layout: 'emptylayout' });
 })
 
-router.get('/dashboard',  (req, res) => {
+router.get('/dashboard', (req, res) => {
 
   res.render('dashboard');
 
@@ -82,11 +82,11 @@ router.post('/login', (req, res) => {
 
   // module.exports = { user_name };
 
-  name = user_name ;
+  name = user_name;
   // module.exports =  { name }  ;
 
   localStorage.setItem('username', name);
-            
+
 
 
   // Validate the input
@@ -132,16 +132,16 @@ router.post('/login', (req, res) => {
           console.log(payload);
           console.log(result);
           global.token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-        
-            // Set the exported user_name value
 
-            // module.exports.userName = userName;
+          // Set the exported user_name value
 
-           
-           
-            
+          // module.exports.userName = userName;
 
-          res.redirect('/main');
+
+
+
+
+          res.redirect('/home');
 
         } else {
           // The password is wrong
@@ -163,7 +163,7 @@ router.post('/login', (req, res) => {
 
 function destroyToken() {
   global.token = null; // Clear the token
- 
+
 
 
 }
@@ -179,7 +179,7 @@ router.get('/logout', (req, res) => {
 // });
 
 
-router.get('/',(req,res)=>{
+router.get('/', (req, res) => {
   res.render('user')
 })
 
@@ -190,13 +190,13 @@ router.get('/',(req,res)=>{
 
 
 
-module.exports = router ;
+module.exports = router;
 
 
 
 
 
-   
+
 
 
 

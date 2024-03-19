@@ -122,13 +122,20 @@
             /* White text color */
             border: none;
             /* Remove border */
-            padding: 2px 10px;
+            padding: 3px 15px;
             /* Add padding */
             cursor: pointer;
             /* Add pointer cursor */
             border-radius: 5px;
             /* Add border radius */
 
+            margin-top: 30px;
+
+
+        }
+
+        .sub-dropdown {
+            display: none;
         }
     </style>
 </head>
@@ -151,10 +158,14 @@
                                 <form class="forms-sample" action="/Leave-balance/search" method="post">
                                     <div class="row_">
                                         <div class="search_bar">
-                                            <label for="id">Employee :</label>
-                                            <select id="Employee_s" name="Employee_id">
-                                                <option value="">Select </option>
-                                            </select>
+                                           
+                                                <label for="id">Employee :</label>
+                                                <select class="form-select" id="Employee_s" name="Employee_id">
+                                                    <option value="">Select </option>
+                                                </select>
+                                           
+                                           
+
                                             <script>
                                                 debugger
                                                 // Fetch data from the server and populate the dropdown
@@ -248,41 +259,83 @@
                         </div>
                         <div class="modal-body">
                             <!-- Form inside the popup -->
-                           
+
 
                             <form class="forms-sample" action="/Leave-balance/add" method="post">
-
-
-
                                 <div class="form-group">
-                                    <label for="id">Employee :</label>
-                                    <select id="Employee_id" name="Employee_id" required>
-                                        <option value="">Select </option>
+                                    <label for="main-dropdown">Select category:</label>
+                                    <select class="form-select" id="main-dropdown" onchange="toggleSubDropdown()">
+                                        <option value="">Select</option>
+                                        <option value="department">Department</option>
+                                        <option value="employee">Employee</option>
                                     </select>
+                                </div>
 
-                                    <script>
-                                        debugger
-                                        // Fetch data from the server and populate the dropdown
-                                        fetch('/Leave-balance/employee')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                const roleDropdown = document.getElementById('Employee_id');
-                                                data.forEach(employee => {
-                                                    const option = document.createElement('option');
-                                                    option.value = employee.id;
-                                                    option.textContent = employee.fullName;
-                                                    roleDropdown.appendChild(option);
-                                                });
-                                            })
-                                            .catch(error => console.error('Error fetching data:', error));
-                                    </script>
+                                <div id="department-dropdown" class="sub-dropdown">
+                                    <div class="form-group">
+                                        <label for="id">Department :</label>
+                                        <select class="form-select" id="department_id" name="department_id">
+                                            <option value="">Select </option>
+                                        </select>
 
+                                        <script>
+                                            debugger
+                                            // Fetch data from the server and populate the dropdown
+                                            fetch('/Leave-balance/department')
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    const roleDropdown = document.getElementById('department_id');
+                                                    data.forEach(department => {
+                                                        const option = document.createElement('option');
+                                                        option.value = department.id;
+                                                        option.textContent = department.departmentName;
+                                                        roleDropdown.appendChild(option);
+                                                    });
+                                                })
+                                                .catch(error => console.error('Error fetching data:', error));
+                                        </script>
+                                    </div>
 
                                 </div>
 
+                                <div id="employee-dropdown" class="sub-dropdown">
+
+                                    <div class="form-group">
+                                        <label for="id">Employee :</label>
+                                        <select class="form-select" id="Employee_id" name="Employee_id">
+                                            <option value="">Select </option>
+                                        </select>
+
+                                        <script>
+                                            debugger
+                                            // Fetch data from the server and populate the dropdown
+                                            fetch('/Leave-balance/employee')
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    const roleDropdown = document.getElementById('Employee_id');
+                                                    data.forEach(employee => {
+                                                        const option = document.createElement('option');
+                                                        option.value = employee.id;
+                                                        option.textContent = employee.fullName;
+                                                        roleDropdown.appendChild(option);
+                                                    });
+                                                })
+                                                .catch(error => console.error('Error fetching data:', error));
+                                        </script>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
                                 <div class="form-group">
                                     <label for="Leave_type_id">Leave type:</label>
-                                    <select id="Leave_type_id" name="Leave_type_id" required>
+                                    <select class="form-select" id="Leave_type_id" name="Leave_type_id" required>
                                         <option value="">Select </option>
                                     </select>
 
@@ -308,12 +361,12 @@
 
                                 <div class="form-group">
                                     <label for="id">Month :</label>
-                                    <select id="Month_id" name="Month_id" required>
+                                    <select class="form-select" id="Month_id" name="Month_id" required>
                                         <option value="">Select </option>
                                     </select>
 
                                     <script>
-                                        debugger
+
                                         // Fetch data from the server and populate the dropdown
                                         fetch('/Leave-balance/month')
                                             .then(response => response.json())
@@ -353,6 +406,25 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                function toggleSubDropdown() {
+                    var mainDropdown = document.getElementById("main-dropdown");
+                    var departmentDropdown = document.getElementById("department-dropdown");
+                    var employeeDropdown = document.getElementById("employee-dropdown");
+
+                    if (mainDropdown.value === "department") {
+                        departmentDropdown.style.display = "block";
+                        employeeDropdown.style.display = "none";
+                    } else if (mainDropdown.value === "employee") {
+                        departmentDropdown.style.display = "none";
+                        employeeDropdown.style.display = "block";
+                    } else {
+                        departmentDropdown.style.display = "none";
+                        employeeDropdown.style.display = "none";
+                    }
+                }
+            </script>
 
 
 
@@ -449,11 +521,13 @@
 
             <script>
                 function UpdateRequest(balance_id, totalLeaves, leavesTaken) {
-                    debugger
-                    console.log(balance_id);
+
+                    console.log('balance id :', balance_id);
+                    console.log('total leaves : ', totalLeaves);
+                    console.log('taken leaves :', leavesTaken);
                     document.getElementById('id_').value = balance_id;
 
-                    document.getElementById('toatl_leaves').value = totalLeaves;
+                    document.getElementById('total_leaves').value = totalLeaves;
                     document.getElementById('leaves_taken').value = leavesTaken;
 
 
