@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <style>
+    /* Styling the anchor tag to look like a button */
+    .new_data {
+      display: inline-block;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      background-color: #4CAF50;
+      /* Button background color */
+      color: white;
+      /* Button text color */
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+    }
+
+    /* Styling the anchor tag when hovered */
+    .new_data:hover {
+      background-color: #45a049;
+      /* Darker green */
+    }
+
+    /* CSS styles for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #form-container {
+      display: none;
+      /* Hide the form by default */
+
+    }
+
+    .actions {
+      text-align: right;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #09a833;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+
+    }
+
+    .hidden {
+      display: none;
+    }
+    .modal-custom {
+    max-width: 65%; /* Adjust the width as needed */
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Employee work Details:</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                      data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                      Add New Employee Details
+                    </button>
+                    <tr>
+                      <th>ID</th>
+                      <th>Employee Id</th>
+                      <th>Phone</th>
+                      <th>Manager</th>
+                      <th>Coach</th>
+                      <th>Approveoff</th>
+                      <th>work location</th>
+                      <th>Timezone</th>
+                      <th>language</th>
+                      <th>PassportNumber</th>
+                      <th>Place of birth</th>
+                      <th>country of birth</th>
+                      <th>visa Number</th>
+                      <th>visa Expiration Date</th>
+                      <th>workPermit</th>
+                      <th class="actions">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>{{this.e_id}}</td>
+                      <td>{{this.Employee_id}}</td>
+                      <td>{{this.workPhone}}</td>
+                      <td>{{this.manager}}</td>
+                      <td>{{this.coach}}</td>
+                      <td>{{this.approveOff}}</td>
+                      <td>{{this.workLocation}}</td>
+                      <td>{{this.timeZone}}</td>
+                      <td>{{this.language}}</td>
+                      <td>{{this.passportNumber}}</td>
+                      <td>{{this.placeOfBirth}}</td>
+                      <td>{{this.countryOfBirth}}</td>
+                      <td>{{this.visaNumber}}</td>
+                      <td>{{this.visaExpirationDate}}</td>
+                      <td>{{this.workPermitNumber}}</td>
+                      <td class="actions">
+                        <div class="dropdown">
+                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Action
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                            <button type="button" class="dropdown-item btn-rounded btn-fw" data-toggle="modal"
+                              data-target="#updateUserModal"
+                              onclick="Update('{{this.e_id}}','{{this.Employee_id}}','{{this.workPhone}}', '{{this.manager}}', '{{this.coach}}','{{this.approveOff}}','{{this.workLocation}}','{{this.timeZone}}','{{this.language}}','{{this.passportNumber}}','{{this.placeOfBirth}}','{{this.countryOfBirth}}','{{this.visaNumber}}','{{this.visaExpirationDate}}','{{this.workPermitNumber}}')">Update
+                              Employee
+                            </button>
+
+                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#deleteModal"
+                              onclick="openDeleteModal('{{this.e_id}}')">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addRoleModalLabel">Add Employee Details </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{!-- <div class="col-12 grid-margin"> --}}
+            {{!-- <div class="card"> --}}
+              {{!-- <div class="card-body"> --}}
+                <h4 class="card-title">Employee Work info</h4>
+                <form class="form-sample" action="/ework/add" method="post">
+                  {{!-- <p class="card-description">
+                    Employee Work info
+                  </p> --}}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="Employee_id" class="col-sm-3 col-form-label">Employee ID:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="Employee_id" name="Employee_id"
+                            placeholder="Employee-id">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workPhone" class="col-sm-3 col-form-label">WorkPhone</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="workPhone" name="workPhone"
+                            placeholder="workPhone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="manager" class="col-sm-3 col-form-label">Manager</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="manager" name="manager" placeholder="Manager">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="coach" class="col-sm-3 col-form-label">Coach</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="coach" name="coach" placeholder="coach">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="approveOff" class="col-sm-3 col-form-label">Approve Off</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="approveOff" name="approveOff"
+                            placeholder="approveOff">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workLocation" class="col-sm-3 col-form-label">WorkLocation</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="workLocation" name="workLocation"
+                            placeholder="workLocation">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="timeZone" class="col-sm-3 col-form-label">Time Zone</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="timeZone" name="timeZone" placeholder="timeZone">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="language" class="col-sm-3 col-form-label">Language</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="language" name="language" placeholder="language">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="passportNumber" class="col-sm-3 col-form-label">Passport No.</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="passportNumber" name="passportNumber"
+                            placeholder="passportNumber">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="placeOfBirth" class="col-sm-3 col-form-label">P.O.B</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth"
+                            placeholder="placeOfBirth">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="countryOfBirth" class="col-sm-3 col-form-label">C.O.B</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="countryOfBirth" name="countryOfBirth"
+                            placeholder="countryOfBirth">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="visaNumber" class="col-sm-3 col-form-label">Visa Number</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="visaNumber" name="visaNumber"
+                            placeholder="visaNumber">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="visaExpirationDate" class="col-sm-3 col-form-label">Visa Expiration</label>
+                        <div class="col-sm-8">
+                          <input type="Date" class="form-control" id="visaExpirationDate" name="visaExpirationDate"
+                            placeholder="visaExpirationDate">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workPermitNumber" class="col-sm-3 col-form-label">Work Permit</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="workPermitNumber" name="workPermitNumber"
+                            placeholder="workPermitNumber">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                </form>
+              {{!-- </div> --}}
+            {{!-- </div> --}}
+          {{!-- </div> --}}
+          {{!-- <form class="forms-sample" action="/ework/add" method="post">
+            <div class="form-group">
+              <label for="e_id">ID:</label>
+              <input type="text" class="form-control" id="e_id" name="e_id" placeholder="ID">
+            </div>
+            <div class="form-group">
+              <label for="Employee_id">Employee ID:</label>
+              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee-id">
+            </div>
+            <div class="form-group">
+              <label for="workPhone">workPhone</label>
+              <input type="text" class="form-control" id="workPhone" name="workPhone" placeholder="workPhone">
+            </div>
+            <div class="form-group">
+              <label for="manager">Manager</label>
+              <input type="text" class="form-control" id="manager" name="manager" placeholder="Manager">
+            </div>
+            <div class="form-group">
+              <label for="coach">coach</label>
+              <input type="text" class="form-control" id="coach" name="coach" placeholder="coach">
+            </div>
+            <div class="form-group">
+              <label for="approveOff">approveOff</label>
+              <input type="text" class="form-control" id="approveOff" name="approveOff" placeholder="approveOff">
+            </div>
+            <div class="form-group">
+              <label for="workLocation">workLocation</label>
+              <input type="text" class="form-control" id="workLocation" name="workLocation" placeholder="workLocation">
+            </div>
+            <div class="form-group">
+              <label for="timeZone">timeZone</label>
+              <input type="text" class="form-control" id="timeZone" name="timeZone" placeholder="timeZone">
+            </div>
+            <div class="form-group">
+              <label for="language">language</label>
+              <input type="text" class="form-control" id="language" name="language" placeholder="language">
+            </div>
+            <div class="form-group">
+              <label for="passportNumber">passportNumber</label>
+              <input type="text" class="form-control" id="passportNumber" name="passportNumber"
+                placeholder="passportNumber">
+            </div>
+            <div class="form-group">
+              <label for="placeOfBirth">placeOfBirth</label>
+              <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth" placeholder="placeOfBirth">
+            </div>
+            <div class="form-group">
+              <label for="countryOfBirth">countryOfBirth</label>
+              <input type="text" class="form-control" id="countryOfBirth" name="countryOfBirth"
+                placeholder="countryOfBirth">
+            </div>
+            <div class="form-group">
+              <label for="visaNumber">visaNumber</label>
+              <input type="text" class="form-control" id="visaNumber" name="visaNumber" placeholder="visaNumber">
+            </div>
+            <div class="form-group">
+              <label for="visaExpirationDate">visaExpirationDate</label>
+              <input type="date" class="form-control" id="visaExpirationDate" name="visaExpirationDate"
+                placeholder="visaExpirationDate">
+            </div>
+            <div class="form-group">
+              <label for="workPermitNumber">workPermitNumber</label>
+              <input type="text" class="form-control" id="workPermitNumber" name="workPermitNumber"
+                placeholder="workPermitNumber">
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Submit</button>
+          </form> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{!-- --}}
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="deleteForm" action="/ework/delete" method="post">
+            <div class="form-group">
+              {{!-- <label for="username">Are you sure:</label> --}}
+              <input type="hidden" id="e_id" name="e_id" value="{{this.e_id}}">
+              <!-- Hidden input field to store record ID -->
+              <p id="idDisplay"></p> <!-- Paragraph to display record ID -->
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateUserModalLabel">Update employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Employee Details</h4>
+                <form class="form-sample" action="/ework/update" method="post">
+                  <p class="card-description">
+                    Employee Work info
+                  </p>
+                  <div class="col-md-6">
+                        <div class="form-group row">
+                          <label for="e_id" class="col-sm-3 col-form-label">ID:</label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control" id="pre-e_id" name="e_id"
+                            placeholder="ID">
+                          </div>
+                        </div>
+                      </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="Employee_id" class="col-sm-3 col-form-label">Employee ID:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-Employee_id" name="Employee_id"
+                            placeholder="Employee-id">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workPhone" class="col-sm-3 col-form-label">WorkPhone</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-workPhone" name="workPhone"
+                            placeholder="workPhone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="manager" class="col-sm-3 col-form-label">Manager</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-manager" name="manager" placeholder="Manager">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="coach" class="col-sm-3 col-form-label">Coach</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-coach" name="coach" placeholder="coach">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="approveOff" class="col-sm-3 col-form-label">Approve Off</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-approveOff" name="approveOff"
+                            placeholder="approveOff">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workLocation" class="col-sm-3 col-form-label">WorkLocation</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-workLocation" name="workLocation"
+                            placeholder="workLocation">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="timeZone" class="col-sm-3 col-form-label">Time Zone</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-timeZone" name="timeZone" placeholder="timeZone">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="language" class="col-sm-3 col-form-label">Language</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-language" name="language" placeholder="language">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="passportNumber" class="col-sm-3 col-form-label">Passport No.</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-passportNumber" name="passportNumber"
+                            placeholder="passportNumber">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="placeOfBirth" class="col-sm-3 col-form-label">P.O.B</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-placeOfBirth" name="placeOfBirth"
+                            placeholder="placeOfBirth">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="countryOfBirth" class="col-sm-3 col-form-label">C.O.B</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-countryOfBirth" name="countryOfBirth"
+                            placeholder="countryOfBirth">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="visaNumber" class="col-sm-3 col-form-label">Visa Number</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-visaNumber" name="visaNumber"
+                            placeholder="visaNumber">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="visaExpirationDate" class="col-sm-3 col-form-label">Visa Expiration</label>
+                        <div class="col-sm-8">
+                          <input type="Date" class="form-control" id="pre-visaExpirationDate" name="visaExpirationDate"
+                            placeholder="visaExpirationDate">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="workPermitNumber" class="col-sm-3 col-form-label">Work Permit</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-workPermitNumber" name="workPermitNumber"
+                            placeholder="workPermitNumber">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
+
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
+
+    function openDeleteModal(id) {
+      // Set the record ID in the form and display it in the paragraph
+      document.getElementById('e_id').value = id;
+      document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
+      // Show the modal
+      $('#deleteModal').modal('show');
+    }
+
+
+    //-----------------------------------
+    // Function to fill the form fields with data from the selected row
+    function Update(e_id, Employee_id, workPhone, manager, coach, approveOff, workLocation, timeZone, language, passportNumber, placeOfBirth, countryOfBirth, visaNumber, visaExpirationDate, workPermitNumber) {
+      debugger
+      // Fill the input fields with the data
+      document.getElementById('pre-e_id').value = e_id;
+      document.getElementById('pre-Employee_id').value = Employee_id;
+      document.getElementById('pre-workPhone').value = workPhone;
+      document.getElementById('pre-manager').value = manager;
+      document.getElementById('pre-coach').value = coach;
+      debugger
+      document.getElementById('pre-approveOff').value = approveOff;
+      document.getElementById('pre-workLocation').value = workLocation;
+      document.getElementById('pre-timeZone').value = timeZone;
+      document.getElementById('pre-language').value = language;
+      document.getElementById('pre-passportNumber').value = passportNumber;
+      document.getElementById('pre-placeOfBirth').value = placeOfBirth;
+      document.getElementById('pre-countryOfBirth').value = countryOfBirth;
+      document.getElementById('pre-visaNumber').value = visaNumber;
+      document.getElementById('pre-visaExpirationDate').value = visaExpirationDate;
+      document.getElementById('pre-workPermitNumber').value = workPermitNumber;
+
+      debugger
+      // Show the modal containing the form
+      $('#updateUserModal').modal('show');
+    }
+
+    //-----------------------------------
+
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>

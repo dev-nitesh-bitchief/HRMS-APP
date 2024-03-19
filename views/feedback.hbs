@@ -1,0 +1,157 @@
+
+  <title>Feedback Form</title>
+<style>
+/* styles.css */
+/* styles.css */
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(7, 7, 7, 0.1);
+  background-color: #f4f5f7;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+input[type="number"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #007bff;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+</style>
+
+<body>
+  <div class="container">
+    <h2>Feedback Form</h2>
+    <form id="feedbackForm">
+      <div class="form-group">
+        <label for="Employee_id">Employee ID:</label>
+        <input type="text" id="Employee_id" name="Employee_id" required>
+      </div>
+      <div class="form-group">
+        <label for="feedbackType">Feedback Type:</label>
+        <select id="feedbackType" name="feedbackType" required>
+          <option value="satisfaction">Satisfaction</option>
+          <option value="engagement">Engagement</option>
+          <option value="suggestions">Suggestions</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="feedbackDate">Feedback Date:</label>
+        <input type="date" id="feedbackDate" name="feedbackDate" required>
+      </div>
+      <div class="form-group">
+        <label for="feedbackDescription">Feedback Description:</label>
+        <textarea id="feedbackDescription" name="feedbackDescription" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="feedbackMethod">Feedback Method:</label>
+        <select id="feedbackMethod" name="feedbackMethod" required>
+          <option value="survey">Survey</option>
+          <option value="suggestionBox">Suggestion Box</option>
+          <option value="interview">Interview</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // script.js
+    document.addEventListener('DOMContentLoaded', function () {
+      debugger
+      showToast('feedback');
+    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this); // Get form data
+
+        // Create an empty object to store form data
+        const formDataObject = {};
+
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+
+        // Now you can use formDataObject to access form data
+        console.log(formDataObject);
+
+        fetch('/feedback/add', {
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              alert('submit successful');
+              window.location.href = '/feedback';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  alert(data.message);
+                } else {
+                  alert('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                alert('An error occurred. Please try again later.');
+              });
+            }
+          })
+          .catch(error => {
+            debugger
+            // Handle any errors that occur during the API request
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+          });
+      });
+      
+    });
+  </script>
+</body>
+</html>

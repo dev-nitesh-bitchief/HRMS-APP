@@ -33,15 +33,22 @@ router.post('/add', (req, res) => {
             console.error('Error', err);
             return res.status(500).send("Internal server error");
         }
-        // return res.status(201).json({ result });
-        return res.redirect('/role');
+        return res.status(201).json({ result });
+        // return res.redirect('/role');
     });
+});
+router.post('/roleUpdate', (req, res) => {
+    const formData = req.body;
+    console.log(formData)
+    
 });
 
 
 router.post('/update', (req, res) => {
+    console.log(req.body)
     const { id, roleName, permissions } = req.body;
     
+    console.log(id,roleName,permissions)
     const permissions1=[permissions]
     // Convert array of permissions to comma-separated string
     const Permission_id = permissions1.join(',');
@@ -82,11 +89,13 @@ router.post('/update', (req, res) => {
     db.query(sql, updateValues, (err, result) => {
         if (err) {
             console.error('Error updating data:', err);
-            return res.status(500).send('Error updating data');
+            return res.status(200).json({ success: false, message: 'Data updation failed', result });
+            // return res.status(500).send('Error updating data');
         }
         
         // Return success response with updated data
         return res.status(200).json({ success: true, message: 'Data updated successfully', result });
+        // return res.redirect('/role');
     });
 });
 
@@ -112,7 +121,8 @@ router.post('/delete',(req,res)=>{
             console.error('error',err);
             return res.status(500).send("Internal serevr error");
         }
-        return res.status(200).json({result});
+        // return res.status(200).json({result});
+        return res.redirect('/role');
     });
 });
 
@@ -151,25 +161,6 @@ router.get('/dynamicpermission' , (req,res)=>{
   
     // Define the API URL
     const apiUrl = 'http://localhost:3000/api/show';
-  
-    // Function to fetch data from the API
-    async function fetchData() {
-      try {
-        // Make a GET request to the API
-        const response = await axios.get(apiUrl);
-  
-        // Log the data received from the API
-        // console.log('Data from the API:', response.data);
-        return res.json(response.data);
-      } catch (error) {
-        // Log any errors that occur during the API request
-        console.error('Error fetching data:', error.message);
-      }
-    }
-  
-    // Call the fetchData function to initiate the API request
-    fetchData();
-  
   })
 
 
@@ -184,4 +175,5 @@ router.get('/dynamicpermission' , (req,res)=>{
         return res.status(200).json(result);
     });
 });  
+
 module.exports=router;

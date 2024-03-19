@@ -5,15 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var bodyParser = require('body-parser');
-var exphbs = require("express-handlebars")
+var hbs = require("express-handlebars")
 var session = require('express-session');
-
-
-
-
-
-
-
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,10 +15,7 @@ var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
 var attendancerecordRouter = require('./routes/attendancerecord')
-
-
-
-
+var Department =require('./routes/Department')
 var role=require('./routes/Role');
 var docs= require('./routes/Document');
 
@@ -37,16 +27,8 @@ var holiday = require('./routes/public_holiday')
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
-
-var holiday = require('./routes/public_holiday');
-
-
-
-
-
-
-
-
+var CompanyRecord = require('./routes/CompanyRecord');
+var Company = require('./routes/Company');
 
 var expense_category = require('./routes/expense_category');
 
@@ -63,25 +45,19 @@ var Leave_allocation = require('./routes/Leave_allocation');
 var Audit_logging = require('./routes/Audit_logging');
 var Payroll = require('./routes/Payroll');
 
-
-
-
-
-
-
-
-// var loginRouter = require('./routes/login');
-
-
 var app = express();
 
+// view engine setup
 
+// Set up Handlebars as the view engine
+app.engine('hbs', hbs.engine({ extname: 'hbs', defaultLayout: 'main' }));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine','hbs');
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -99,13 +75,9 @@ app.use(session({
 }))
 
 
-
-
-
-
 app.use('/', indexRouter);
 
-app.use(express.static('design'));
+// app.use(express.static('design'));
 
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
@@ -113,9 +85,9 @@ app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance',attendanceRouter)
 app.use('/attendancerecord',attendancerecordRouter)
-// app.use('/login',loginRouter)
-
-
+app.use('/Department',Department);
+app.use('/CompanyRecord',CompanyRecord);
+app.use('/Company',Company);
 
 app.use('/role',role);
 app.use('/ework',eworkInfo);
@@ -124,12 +96,6 @@ app.use('/permission',permission);
 app.use('/subscription',subscription);
 app.use('/docs',docs);
 app.use('/feedback',feedback);
-
-
-
-
-
-// app.use('/leave', leave);
 
 app.use('/Leave', Leave_request);
 app.use('/Leave-policy', Leave_policy);
@@ -143,13 +109,6 @@ app.use('/Payroll',Payroll);
 
 
 app.use('/leaveType-dropdown' , Leave_request);
-
-
-
-
-
-app.use('/holiday',holiday);
-
 
 
 

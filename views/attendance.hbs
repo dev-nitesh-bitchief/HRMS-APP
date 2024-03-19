@@ -1,0 +1,147 @@
+<title>Employee Check-In/Check-Out</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+    .container {
+        max-width: 735px;
+        margin: 30px auto;
+        padding: 33px;
+        background-color: #d6d9d4a6;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        max-height: 62vh;
+    }
+    .container h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 40px;
+        font-size: 2.125rem;
+    }
+    .card {
+        border: none;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #5169d2;
+        color: #fff;
+        text-align: center;
+        min-height: 40vh;
+    }
+    .card h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    .card p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        line-height: 2.0rem;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+    }
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #007bff;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin: 0 10px;
+    }
+    .btn:hover {
+        background-color: #e6e6e6;
+    }
+    .fas {
+        margin-right: 5px;
+    }
+</style>
+
+<body>
+
+<div class="container">
+    <h1>Employee Check-In/Check-Out</h1>
+    <div class="card">
+        <h2>Employee Name</h2>
+        <p>Want to Check-In</p>
+        <p>Today's Work hours: 0:00 AM - 0:00 PM</p>
+        <div class="button-container">
+            <button id="attendanceBtn" class="btn"><i class="fas fa-sign-in-alt"></i> Check-In</button>
+            {{!-- <button class="btn"><i class="fas fa-sign-out-alt"></i> Check-Out</button> --}}
+        </div>
+        <p>Check-In/Check-Out</p>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const attendanceBtn = document.getElementById('attendanceBtn');
+  let isCheckIn = true; // Variable to track whether it's check-in or check-out
+  
+  attendanceBtn.addEventListener('click', async () => {
+    try {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+
+      const position = await getCurrentPosition();
+      const { latitude, longitude } = position.coords;
+      
+      let action; // Action type (check-in or check-out)
+      if (isCheckIn) {
+        action = 'checkIn';
+      } else {
+        action = 'checkOut';
+      }
+      
+      const requestData = {
+        
+        [action]: formattedDate,
+        [action + 'Latitude']: latitude,
+        [action + 'Longitude']: longitude
+      };
+      
+      await fetch(`/attendance/${action}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
+      
+      if (isCheckIn) {
+        alert('Check-in successful!');
+        attendanceBtn.textContent = 'Check Out';
+      } else {
+        alert('Check-out successful!');
+        attendanceBtn.textContent = 'Check In';
+      }
+      
+      isCheckIn = !isCheckIn; // Toggle check-in/check-out
+      
+    } catch (error) {
+      console.error('Error:', error);
+      if (isCheckIn) {
+        alert('Failed to check in. Please try again.');
+      } else {
+        alert('Failed to check out. Please try again.');
+      }
+    }
+  });
+
+  function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+});
+</script>
+</body>
+
+ 
