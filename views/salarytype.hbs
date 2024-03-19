@@ -104,18 +104,21 @@
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.salary_type}}</td>
-                      <td class="actions">
-                        <button type="button" class="btn btn-success btn-rounded btn-fw"
-                          onclick="UpdateForm('{{this.id}}','{{this.salary_type}}')"
-                          data-toggle="modal" data-target="#updateUserModal">
-                          Edit
-                          <i class="ti-file btn-icon-append"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal"
-                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">
-                          Delete
-                          <i class="ti-reload btn-icon-prepend"></i>
-                        </button>
+                       <td class="actions">
+                        <div class="dropdown">
+                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Action
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                            <a class="dropdown-item"
+                              onclick="UpdateForm('{{this.id}}','{{this.salary_type}}')"
+                              data-toggle="modal" data-target="#updateUserModal" id="UpdateSalaryData">edit</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteidModal"
+                              onclick="openDeleteModal('{{this.id}}')">Delete</a>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                     {{/each}}
