@@ -1,3 +1,27 @@
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../designvendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../designvendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../designvendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../designvendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../designvendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../images/favicon.png" />
 <style>
   /* Styling the anchor tag to look like a button */
   .new_data {
@@ -108,8 +132,22 @@
                       <td>{{this.visaNumber}}</td>
                       <td>{{this.visaExpirationDate}}</td>
                       <td>{{this.workPermitNumber}}</td>
-                      
-                      <td class="actions"> <!-- Button to trigger the modal -->
+                      <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item btn btn-success btn-rounded btn-fw" data-toggle="modal" data-target="#updateUserModal"
+    onclick="Update('{{this.e_id}}','{{this.Employee_id}}','{{this.workPhone}}', '{{this.manager}}', '{{this.coach}}','{{this.approveOff}}','{{this.workLocation}}','{{this.timeZone}}','{{this.language}}','{{this.passportNumber}}','{{this.placeOfBirth}}','{{this.countryOfBirth}}','{{this.visaNumber}}','{{this.visaExpirationDate}}','{{this.workPermitNumber}}')">Update Employee
+</button>
+
+                        <button type="button" class="dropdown-item" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.e_id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
+                      {{!-- <td class="actions"> <!-- Button to trigger the modal -->
                         <button type="button" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#deleteModal"
                           onclick="openDeleteModal('{{this.e_id}}')"> <span class="mdi mdi-account-minus"></span>
                           Delete Record
@@ -120,7 +158,7 @@
    <span class="mdi mdi-account-convert"></span> Update Employee
 </button>
 
-                      </td>
+                      </td> --}}
                     </tr>
                     {{/each}}
                   </tbody>
@@ -325,8 +363,7 @@
     </div>
   </div>
         <script>
-          document.addEventListener('DOMContentLoaded', function () {
-    showToast('employee');
+          
           // Function to open the form
           function openForm() {
             document.getElementById("form-container").style.display = "block";
@@ -375,7 +412,7 @@
 
 //-----------------------------------
    
-});
+
 </script>
 
  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

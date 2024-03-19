@@ -54,19 +54,12 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
-
-.hidden {
-  display: none;
-}
-
-
-
 </style>
 
 <body>
   <div class="container">
     <h2>Feedback Form</h2>
-    <form id="feedbackForm" action="/feedback/add" method="post">
+    <form id="feedbackForm">
       <div class="form-group">
         <label for="Employee_id">Employee ID:</label>
         <input type="text" id="Employee_id" name="Employee_id" required>
@@ -98,13 +91,67 @@ button[type="submit"]:hover {
       </div>
       <button type="submit">Submit</button>
     </form>
-    <div id="successMessage" class="hidden">Thank you for your feedback!</div>
   </div>
 
   <script>
     // script.js
+    document.addEventListener('DOMContentLoaded', function () {
+      debugger
+      showToast('feedback');
+    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this); // Get form data
 
+        // Create an empty object to store form data
+        const formDataObject = {};
 
+        // Iterate over FormData entries and store them in the object
+        for (let [key, value] of formData.entries()) {
+          // If the key does not exist, simply assign the value to the key
+          formDataObject[key] = value;
+        }
+
+        // Now you can use formDataObject to access form data
+        console.log(formDataObject);
+
+        fetch('/feedback/add', {
+          method: 'POST',
+          headers: {
+            "content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              alert('submit successful');
+              window.location.href = '/feedback';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  alert(data.message);
+                } else {
+                  alert('An error occurred. Please try again later.');
+                }
+              }).catch(error => {
+                debugger
+                alert('An error occurred. Please try again later.');
+              });
+            }
+          })
+          .catch(error => {
+            debugger
+            // Handle any errors that occur during the API request
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+          });
+      });
+      
+    });
   </script>
 </body>
 </html>

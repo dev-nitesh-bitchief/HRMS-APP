@@ -30,13 +30,16 @@ router.get('/', (req, res) => {
 // Create a document
 router.post('/add', upload.single('docs'), (req, res) => {
     const { Employee_id, documentName } = req.body;
-    const docs = req.file; 
+    console.log(Employee_id);
+    console.log(documentName);
+    const file = req.file; 
+    console.log(file);
 
     // Save the uploaded file with filename
-    const fileName = docs ? docs.filename : null;
+    const fileName = file.filename;
     const filePath = path.join(__dirname, '..', 'docs', fileName);
     // // Read and write the file to server
-    fs.writeFileSync(filePath, fs.readFileSync(docs.path));
+    fs.writeFileSync(filePath, fs.readFileSync(file.path));
 
     const data = [Employee_id, documentName, fileName];
     const sql = 'INSERT INTO Document (Employee_id, documentName, docs) VALUES (?, ?, ?)';
@@ -45,8 +48,8 @@ router.post('/add', upload.single('docs'), (req, res) => {
             console.error('error', err);
             return res.status(500).send("Internal server error");
         }
-        return res.status(201).json( result );
-        //  res.redirect('/doc');
+        return res.status(201).json(result);
+        //  res.redirect('/docs');
     });
 });
 
