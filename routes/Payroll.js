@@ -422,11 +422,11 @@ async function calculateAbsentDays(employeeId, year, month) {
         const attendanceDates = await getAttendanceData(employeeId, year, month);
         const approvedLeaves = await getApprovedLeaves(employeeId, year, month);
         
-        console.log('Dates:', dates);
-        console.log("Working Days (Excluding Sundays):", workingDays.length);
-        console.log('Holidays:', holidays.length);
-        console.log('Attendance Dates:', attendanceDates.length);
-        console.log('Approved Leaves:', approvedLeaves.length);
+        // console.log('Dates:', dates);
+        // console.log("Working Days (Excluding Sundays):", workingDays.length);
+        // console.log('Holidays:', holidays.length);
+        // console.log('Attendance Dates:', attendanceDates.length);
+        // console.log('Approved Leaves:', approvedLeaves.length);
 
         // Convert dates to ISO strings for comparison
         const holidayStrings = holidays.map(date => date.toISOString().split('T')[0]);
@@ -440,8 +440,10 @@ async function calculateAbsentDays(employeeId, year, month) {
                 !approvedLeaveStrings.includes(dateString);
         });
 
-        console.log('Absent Days:', absentDays);
+        // console.log('Absent Days:', absentDays);
         console.log('Number of Absent Days:', absentDays.length);
+
+       
     } catch (error) {
         console.error('Error:', error);
     } finally {

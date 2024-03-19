@@ -80,7 +80,7 @@
 
                             <h3 class="card-title">Employee Info</h3>
 
-                            <form class="forms-sample">
+                            <form class="forms-sample" action="">
                                 <div class="row_">
                                     <div class="search_bar">
 
@@ -125,20 +125,20 @@
                                 Horizontal form layout
                             </p> --}}
 
-                            <div class="table-responsive">
+                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-
-
+                                           
+                                           
                                             <th>Employee name</th>
                                             <th>Month-year</th>
                                             <th>Salary</th>
-                                            <th>Expense claim</th>
+                                            {{!-- <th>Expense claim</th> --}}
                                             <th>absent Deduction</th>
                                             <th>Net pay</th>
                                             <th>status</th>
-                                            <th>Created on</th>
+                                            {{!-- <th>Created on</th> --}}
                                             <th>Action</th>
 
                                         </tr>
@@ -147,26 +147,25 @@
 
                                         {{#each data}}
                                         <tr>
-
+                                           
                                             <td>{{this.employeeName}}</td>
                                             <td>{{this.month}} - {{this.year}}</td>
                                             <td>{{this.netSalary}}</td>
-                                            <td>{{this.expenseClaim}}</td>
+                                            {{!-- <td>{{this.expenseClaim}}</td> --}}
                                             <td>{{this.absentDeduction}}</td>
                                             <td>{{this.netPay}}</td>
                                             <td>{{this.status}}</td>
-                                            <td>{{this.dateCreated}}</td>
-
+                                            {{!-- <td>{{this.dateCreated}}</td> --}}
+                                           
                                             <td>
 
 
                                                 <!-- Button to trigger the modal -->
                                                 <a type="button" id="delete_data" data-toggle="modal"
-                                                    data-target="#DeleteModal"
-                                                    data-req-id="{{this.Payroll_id}}">Delete</a>
+                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
 
-
-                                                <a type="button" id="update_data"
+                                                
+                                                 <a type="button" id="update_data"
                                                     onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
                                                     data-toggle="modal" data-target="#editModal">
                                                     Edit
@@ -181,7 +180,7 @@
 
                                 </table>
                             </div>
-
+                            
                         </div>
                     </div>
                 </div>
@@ -241,7 +240,7 @@
                 yearDropdown.appendChild(option);
             }
         }
-        // Example usage: populate the dropdown with years from 2000 to 2050
+      // Example usage: populate the dropdown with years from 2000 to 2050
         populateYearDropdown(2020, 2025);
 
 
@@ -258,16 +257,16 @@
         });
 
 
+        
 
 
+        
 
 
+        
 
-
-
-
-
-
+       
+        
 
 
     </script>

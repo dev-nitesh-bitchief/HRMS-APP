@@ -1,16 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* Styling the anchor tag to look like a button */
-       
-    
+        /* CSS styles for the close button */
     </style>
 </head>
 
@@ -18,18 +13,17 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Activity logs</h3>
 
-                            {{!-- <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Apply leave</a> --}}
-
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                        <tr>
 
+
+                                        <tr>
                                             <th>id</th>
                                             <th>user</th>
                                             <th>Activity type</th>
@@ -49,6 +43,7 @@
 
                                         {{#each data}}
                                         <tr>
+
                                             <td>{{this.id}}</td>
                                             <td>{{this.Username}}</td>
                                             <td>{{this.activityType}}</td>
@@ -62,84 +57,73 @@
                                             <td>{{this.timestamp}}</td>
                                             <td>
 
-      
-                                               
-                                                <a type="button" id="delete_data" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#DeleteModal" data-req-id="{{this.id}}">Delete</a>
+                                                <a type="button" id="delete_data" class="btn btn-danger btn-sm"
+                                                    data-toggle="modal" data-target="#DeleteModal"
+                                                    data-req-id="{{this.id}}">Delete</a>
 
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
                     </div>
-
-                    
-                </div>
-
-            </div>
-
-             <!-- Delete modal -->
-            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/Audit-logging/delete" method="post">
-                                <label for="id">Are you sure you want to delete?</label>
-                                <!-- Hidden input field to store the req_id -->
-                                <input type="hidden" id="deleteReqId" name="req_id">
-                                {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
-                                <button  class="btn btn-danger" type="submit">Yes</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
-
-
-            <script>
-                $(document).ready(function () {
-                    // Event listener for when the delete modal is shown
-                    $('#DeleteModal').on('show.bs.modal', function (event) {
-                        // Extract the req_id from the button that triggered the modal
-                        const button = $(event.relatedTarget);
-                        const reqId = button.data('req-id');
-
-                        // Set the req_id as the value of the hidden input field
-                        $('#deleteReqId').val(reqId);
-
-                        // Display the req_id in the modal for reference (optional)
-                        $('#requestIdDisplay').text(reqId);
-                    });
-                });
+        </div>
+    </div>
 
 
 
+    <!-- Delete modal -->
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/Audit-logging/delete" method="post">
+                        <label for="id">Are you sure you want to delete?</label>
+                        <!-- Hidden input field to store the req_id -->
+                        <input type="hidden" id="deleteReqId" name="req_id">
+                        {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
+                        <button class="btn btn-danger" type="submit">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-                
+    <script>
+        $(document).ready(function () {
+            // Event listener for when the delete modal is shown
+            $('#DeleteModal').on('show.bs.modal', function (event) {
+                // Extract the req_id from the button that triggered the modal
+                const button = $(event.relatedTarget);
+                const reqId = button.data('req-id');
 
-            </script>
+                // Set the req_id as the value of the hidden input field
+                $('#deleteReqId').val(reqId);
+
+                // Display the req_id in the modal for reference (optional)
+                $('#requestIdDisplay').text(reqId);
+            });
+        });
+    </script>
 
 
 
-            
-
-            <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
