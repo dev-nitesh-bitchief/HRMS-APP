@@ -15,7 +15,10 @@ var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
 var attendancerecordRouter = require('./routes/attendancerecord')
+
+
 var Department =require('./routes/Department')
+
 var role=require('./routes/Role');
 var docs= require('./routes/Document');
 
@@ -27,8 +30,11 @@ var holiday = require('./routes/public_holiday')
 var feedback =require('./routes/Feedback');
 var permission = require('./routes/Permission');
 var subscription= require('./routes/Subscription');
+
+
 var CompanyRecord = require('./routes/CompanyRecord');
 var Company = require('./routes/Company');
+
 
 var expense_category = require('./routes/expense_category');
 
@@ -85,9 +91,11 @@ app.use('/salarytype', salarytypeRouter);
 
 app.use('/attendance',attendanceRouter)
 app.use('/attendancerecord',attendancerecordRouter)
+
 app.use('/Department',Department);
 app.use('/CompanyRecord',CompanyRecord);
 app.use('/Company',Company);
+
 
 app.use('/role',role);
 app.use('/ework',eworkInfo);
@@ -135,4 +143,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app;
