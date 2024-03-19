@@ -1,4 +1,7 @@
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +28,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="/images/favicon.png" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
- 
+
 </head>
 
 <body>
@@ -395,7 +398,7 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="/home">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Home</span>
@@ -423,18 +426,19 @@
                 <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-type/show">Leave type</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-policy/show">Leave Policies</a></li>
-                 <li class="nav-item"> <a class="nav-link" href="/Payroll/show">Payroll</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Payroll/show">Payroll</a></li>
+
 
               </ul>
             </div>
           </li>
 
-          
+
 
 
 
           <li class="nav-item nav-category">Features</li>
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
               aria-controls="attendance">
               <i class="menu-icon mdi mdi-account-check"></i>
@@ -466,6 +470,19 @@
             </div>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="menu-icon mdi mdi-table"></i>
+              <span class="menu-title">Role Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/role">User-roles</a></li>
+              </ul>
+            </div>
+          </li>
+
 
 
           <li class="nav-item">
@@ -484,17 +501,11 @@
             </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/index">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
 
-          <li class="nav-item nav-category">Forms and Datas</li>
+
+
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#company" aria-expanded="false"
-              aria-controls="company">
+            <a class="nav-link" data-bs-toggle="collapse" href="#company" aria-expanded="false" aria-controls="company">
               <i class="menu-icon mdi mdi-layers-outline"></i>
               <span class="menu-title">Companies</span>
               <i class="menu-arrow"></i>
@@ -520,8 +531,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#form" aria-expanded="false"
-              aria-controls="form">
+            <a class="nav-link" data-bs-toggle="collapse" href="#form" aria-expanded="false" aria-controls="form">
               <i class="menu-icon mdi mdi-card-text-outline"></i>
               <span class="menu-title">Department </span>
               <i class="menu-arrow"></i>
@@ -569,18 +579,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-              <i class="menu-icon mdi mdi-table"></i>
-              <span class="menu-title">Role Management</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="tables">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/role">User-roles</a></li>
-              </ul>
-            </div>
-          </li>
+
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#permissions" aria-expanded="false"
@@ -650,7 +649,7 @@
         </ul>
       </nav>
       {{{body}}}
-      
+
 
 
       <!-- plugins:js -->
@@ -686,4 +685,3 @@
 </body>
 
 </html>
-

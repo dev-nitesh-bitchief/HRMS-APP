@@ -2,101 +2,11 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-    /* Styling the anchor tag to look like a button */
-    #new_data {
-      display: inline-block;
-      padding: 5px 20px;
-      /* Adjust padding as needed */
-      background-color: #4CAF50;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
-
-    #delete_data {
-      display: inline-block;
-      padding: 5px 20px;
-      margin-left: 20px;
-      /* Adjust padding as needed */
-      background-color: #af9e4c;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
-
-    #update_data {
-      display: inline-block;
-      padding: 5px 20px;
-      margin-left: 20px;
-      /* Adjust padding as needed */
-      background-color: #4c91af;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
-
-
-    /* Styling the anchor tag when hovered */
-    .new_data:hover {
-      background-color: #45a049;
-      /* Darker green */
-    }
-
-
     /* CSS styles for the close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
 
 
-
-    /* Additional custom styles */
-    .popup-form {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 5px;
-      z-index: 9999;
-    }
   </style>
 </head>
 
@@ -104,21 +14,20 @@
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="row">
-        {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+        <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Leave policies</h3>
-             
-              {{!-- <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add data </a> --}}
-
+              <h3 class="card-title">Leave Policies :</h3>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
+
+
                     <tr>
                       <th>id</th>
                       <th>Policy</th>
                       <th>Description</th>
-                     
+
 
                     </tr>
                   </thead>
@@ -126,19 +35,13 @@
 
                     {{#each data}}
                     <tr>
+
+
                       <td>{{this.id}}</td>
                       <td>{{this.policyName}}</td>
                       <td>{{this.description}}</td>
-                     
-                       {{!-- <td><a id="delete_data" type="button" data-toggle="modal" data-target="#DeleteModal"
-                          onclick="openDeleteModal('{{this.user_name}}')">Delete
-                        </a>
-                        <a type="button" class="editBtn" id="update_data" data-toggle="modal"
-                          data-target="#editModal" data-role-id="{{this.role_id}}"
-                          data-user-name="{{this.user_name}}">Edit
-                        </a>
-                        
-                      </td> --}}
+
+
 
                     </tr>
                     {{/each}}
@@ -148,154 +51,15 @@
             </div>
           </div>
         </div>
-       
-        </div>
+      </div>
+    </div>
+  </div>
 
 
-         <!-- ADD data modal -->
-        <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Add data</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <!-- Form inside the popup -->
-                <form class="forms-sample" action="/employee_data" method="post">
-                                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <label for="contact">Contact no.</label>
-                  <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact no.">
-                </div>
-                <div class="form-group">
-                  <label for="age">Age</label>
-                  <input type="text" class="form-control" id="age" name="age" placeholder="age">
-                </div>
-                <div class="form-group">
-                  <label for="blood_group">Blood group</label>
-                  <input type="text" class="form-control" id="blood_group" name="blood_group" placeholder="Blood group">
-                </div>
-                <div class="form-group">
-                  <label for="address">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" placeholder="Address">
-                </div>
-               
-                <button type="submit" class="btn btn-primary me-2">Submit</button>
-               
-                  
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-         <!-- Delete modal -->
-        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form action="/" method="post">
-                  <label for="id">Are you sure , you want to delete</label>
-                  <input type="hidden" id="recordId" name="user_name" value="{{this.name}}">
-                  {{!-- <p id="recordIdDisplay"></p> --}}
-                  <p>user : {{this.name}}</p>
-                  <button id="delete_data" type="submit">yes</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{!-- <script>function openDeleteModal(username) {
-            // Set the record ID in the form and display it in the paragraph
-            document.getElementById('recordId').value = username;
-            document.getElementById('recordIdDisplay').innerText = 'user : ' + username;
-            // Show the modal
-            $('#DeleteModal').modal('show');
-          }</script> --}}
-
-
-
-
-       <!-- update modal -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Update data</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <!-- Form inside the popup -->
-                <form class="forms-sample" action="/" method="post">
-                  <div class="form-group">
-                    <label for="user_name">User name</label>
-                    <input type="text" class="form-control" id="user_name" name="user_name" placeholder="role name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="id">Role id</label>
-                    <input type="text" class="form-control" id="role_id" name="role_id" placeholder="role id" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary me-2">Submit</button>
-                  {{!-- <button class="btn btn-light">Cancel</button> --}}
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <script>
-          // Get the edit button and the modal form
-          const editBtn = document.querySelector('.editBtn');
-          const editModal = document.getElementById('editModal');
-
-          // Add event listener to the edit button
-          editBtn.addEventListener('click', function () {
-            // Get role_id and role_name attributes from the button
-            const roleId = this.getAttribute('data-role-id');
-            const roleName = this.getAttribute('data-user-name');
-
-            // Prefill the form fields with role_id and role_name
-            editModal.querySelector('#role_id').value = roleId;
-            editModal.querySelector('#user_name').value = roleName;
-          });
-
-        </script>
-
-
-
-
-
-       
-
-
-
-         <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
