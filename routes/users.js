@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection/db')
 var bcrypt = require('bcrypt')
-const authorizeUser = require('./login')
-const authenticateUser = require('./login')
+
 
 
 /* GET users listing. */

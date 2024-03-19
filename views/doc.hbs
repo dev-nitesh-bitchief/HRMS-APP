@@ -36,7 +36,7 @@
 <body>
     <div class="container">
         <h1>Upload Documents</h1>
-        <form id="uploadForm"  enctype="multipart/form-data">
+        <form id="uploadForm">
             <div class="form-group">
                 <label for="Employee_id">Employee ID:</label>
                 <input type="text" class="form-control" id="Employee_id" name="Employee_id">
@@ -47,78 +47,60 @@
             </div>
             <div class="form-group">
                 <label for="docs">Upload Documents:</label>
-                <input type="file" class="form-control-file" id="docs" name="docs">
+                <input type="file" class="form-control" id="docs" name="docs">
             </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary"><span class="mdi mdi-arrow-up-bold"></span> Upload</button>
         </form>
     </div>
 
-    <div id="toast" class="hidden">document uploaded!</div>
+    <div id="toast" class="hidden"></div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4"></script>
     <script>
          document.addEventListener('DOMContentLoaded', function () {
-         });
+          alert('hello')
             document.getElementById('uploadForm').addEventListener('submit', function (event) {
                 event.preventDefault();
-                debugger
                 var formData = new FormData(this);
+                
 
                 fetch('/docs/add', {
                     method: 'POST',
-                    body: formData
+                    
+          body:formData
                 })
                     .then(response => {
-                        debugger
-                        if (!response.ok) {
-                            throw new Error('Error uploading documents');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        debugger
-                        console.log(data);
-                        alert('Documents uploaded successfully');
-
-                    })
-                    .catch(error => {
-                        debugger
-                        console.error('Error uploading documents:', error);
-                        alert('An error occurred while uploading documents');
-                    });
-            });
-        // Function to show toast notification
-        function showToast() {
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000); // Hide after 3 seconds
-            }
-        }
-        // Check if data updated flag is set in session storage
-        window.addEventListener('load', () => {
-            if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('documentuploaded')) {
-                showToast();
-                // Remove the flag from session storage to prevent showing the toast again on subsequent page loads
-                sessionStorage.removeItem('documentuploaded');
-            }
-        });
-        // Handle form submission
-        const uploadForm = document.getElementById('uploadForm');
-        if (uploadForm) {
-            uploadForm.addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevent form submission
-                // Update data
-                // For demonstration purposes, let's just set a flag indicating data update
-                if (typeof sessionStorage !== 'undefined') {
-                    sessionStorage.setItem('documentuploaded', 'true');
+            debugger
+            if (response.ok) {
+              alert('Add successful');
+              window.location.href = '/docs';
+            } else {
+              debugger
+              response.json().then(data => {
+                console.log(data);
+                // Display an error message if login fails
+                if (!data.success) {
+                  debugger
+                  alert(data.message);
+                } else {
+                  alert('An error occurred. Please try again later.');
                 }
-                // Reload the page to show toast notification
-                location.reload();
+              }).catch(error => {
+                debugger
+                showToast('An error occurred. Please try again later.');
+              });
+            }
+          })
+          .catch(error => {
+            debugger
+            // Handle any errors that occur during the API request
+            console.error('Error:', error);
+            showToast('An error occurred. Please try again later.');
+          });
             });
-        }
+           // showToast('document added!')
+      
+         });
     </script>
 
 </body>

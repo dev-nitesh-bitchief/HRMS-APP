@@ -6,112 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {{!--
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
     <style>
         /* Styling the anchor tag to look like a button */
-        #new_data {
-            display: inline-block;
-            padding: 5px 20px;
-            /* Adjust padding as needed */
-            background-color: #4CAF50;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-        .delete_btn {
-            background-color: #b30000;
-            /* Red background */
-            border: none;
-            /* No border */
-            color: white;
-            /* White text */
-            padding: 10px 20px;
-            /* Padding */
-            text-align: center;
-            /* Center text */
-            text-decoration: none;
-            /* No underline */
-            display: inline-block;
-            /* Display as inline block */
-            font-size: 16px;
-            /* Font size */
-            cursor: pointer;
-            /* Cursor on hover */
-            border-radius: 5px;
-            /* Rounded corners */
-            transition-duration: 0.4s;
-            /* Transition duration */
-        }
-
-        #update_btn {
-            background-color: #004080;
-            /* Red background */
-            border: none;
-            /* No border */
-            color: white;
-            /* White text */
-            padding: 10px 20px;
-            /* Padding */
-            text-align: center;
-            /* Center text */
-            text-decoration: none;
-            /* No underline */
-            display: inline-block;
-            /* Display as inline block */
-            font-size: 16px;
-            /* Font size */
-            cursor: pointer;
-            /* Cursor on hover */
-            border-radius: 5px;
-            /* Rounded corners */
-            transition-duration: 0.4s;
-            /* Transition duration */
-        }
-
-
-        /* Styling the anchor tag when hovered */
-        .new_data:hover {
-            background-color: #45a049;
-            /* Darker green */
-        }
-
-
-        /* CSS styles for the close button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-
-
-        /* Additional custom styles */
-        .popup-form {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            z-index: 9999;
+        .actions {
+            text-align: right;
         }
     </style>
 </head>
@@ -123,7 +29,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Holiday list </h3>
-                        <a id="new_data" type="button" data-toggle="modal" data-target="#HolidayModal">Add Holiday
+                        <button id="new_data" type="button" data-toggle="modal" data-target="#HolidayModal"
+                            class="btn btn-primary btn-rounded btn-fw">Add Holiday </button>
                         </a>
                         <div class="table-responsive">
                             <table class="table">
@@ -140,23 +47,28 @@
                                         <td>{{this.holidayDate}}</td>
                                         <td>{{this.holidayName}}</td>
                                         <td>{{this.stateNames}}</td>
-                                        <td>
-                                            {{!-- <a class="delete_btn" type="button" data-toggle="modal"
-                                                data-target="#DeleteModal"
-                                                onclick="openDeleteModal('{{this.id}}')">Delete
-                                            </a> --}}
-                                            <button type="button" id="delete_btn" class="delete_btn"
-                                                onclick="DeleteHoliday('{{this.id}}')" data-toggle="modal"
-                                                data-target="#DeleteModal">
-                                                Delete
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </button>
-                                            <button type="button" id="update_btn"
-                                                onclick="UpdateHoliday('{{this.id}}','{{this.holidayName}}','{{this.holidayDate}}')"
-                                                data-toggle="modal" data-target="#UpdateModal">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </button>
+                                        <td class="actions">
+                                            <div class="dropdown">
+                                                <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                                    id="dropdownMenuSizeButton3" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                                                    <button type="button" id="update_btn"
+                                                        onclick="UpdateHoliday('{{this.id}}','{{this.holidayName}}','{{this.holidayDate}}')"
+                                                        data-toggle="modal" data-target="#UpdateModal"
+                                                        class="dropdown-item  btn-rounded btn-fw">
+                                                        Edit
+                                                    </button>
+                                                    <button type="button" id="delete_btn"
+                                                        class="dropdown-item  btn-rounded btn-fw"
+                                                        onclick="DeleteHoliday('{{this.id}}')" data-toggle="modal"
+                                                        data-target="#DeleteModal">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -280,7 +192,6 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-
         fetch('/dynamic-states')
             .then(response => response.json())
             .then(data => {
@@ -295,7 +206,6 @@
             })
             .catch(error => console.error('Error fetching data:', error));
     });
-
 
     document.addEventListener('DOMContentLoaded', function () {
         const roleDropdown = document.getElementById('multipleSelect');
@@ -341,21 +251,6 @@
     });
 
 
-    /*  document.addEventListener('DOMContentLoaded', function () {
-          fetch('/dynamic-states')
-              .then(response => response.json())
-              .then(data => {
-                  console.log(data);
-                  const roleDropdown = document.getElementById('multipleSelect_update');
-                  data.forEach(state => {
-                      const option = document.createElement('option');
-                      option.value = state.id;
-                      option.textContent = state.stateName;
-                      roleDropdown.appendChild(option);
-                  });
-              })
-              .catch(error => console.error('Error fetching data:', error));
-      }); */
 
     function UpdateHoliday(id, holidayName, holidayDate) {
         document.getElementById('id_').value = id;

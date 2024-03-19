@@ -6,85 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* CSS for Approve Button */
-        #new_data {
-            display: inline-block;
-            padding: 5px 20px;
-            /* Adjust padding as needed */
-            background-color: #4CAF50;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-        .delete_btn {
-            background-color: #b30000;
-            /* Red background */
-            border: none;
-            /* No border */
-            color: white;
-            /* White text */
-            padding: 10px 20px;
-            /* Padding */
-            text-align: center;
-            /* Center text */
-            text-decoration: none;
-            /* No underline */
-            display: inline-block;
-            /* Display as inline block */
-            font-size: 16px;
-            /* Font size */
-            cursor: pointer;
-            /* Cursor on hover */
-            border-radius: 5px;
-            /* Rounded corners */
-            transition-duration: 0.4s;
-            /* Transition duration */
-        }
-
-        #update_btn {
-            background-color: #004080;
-            /* Red background */
-            border: none;
-            /* No border */
-            color: white;
-            /* White text */
-            padding: 10px 20px;
-            /* Padding */
-            text-align: center;
-            /* Center text */
-            text-decoration: none;
-            /* No underline */
-            display: inline-block;
-            /* Display as inline block */
-            font-size: 16px;
-            /* Font size */
-            cursor: pointer;
-            /* Cursor on hover */
-            border-radius: 5px;
-            /* Rounded corners */
-            transition-duration: 0.4s;
-            /* Transition duration */
-        }
-
-
-
-        /* Styling the anchor tag when hovered */
-        .new_data:hover {
-            background-color: #45a049;
-            /* Darker green */
-        }
-
-
         /* CSS styles for the close button */
         .close {
             color: #aaa;
@@ -99,6 +28,10 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        .actions {
+            text-align: right;
+        }
     </style>
 </head>
 
@@ -110,8 +43,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Expense Type Details </h3>
-                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add Expense
-                            </a>
+                            <button id="new_data" type="button" data-toggle="modal" data-target="#AddModal"
+                                class="btn btn-primary btn-rounded btn-fw">Add Expense
+                            </button>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -123,18 +57,28 @@
                                         {{#each data}}
                                         <tr>
                                             <td>{{this.expenseType}}</td>
-                                            <td>
-                                                <button class="delete_btn" type="button" data-toggle="modal"
-                                                    data-target="#DeleteModal"
-                                                    onclick="DeleteExpenseType('{{this.id}}')">
-                                                    Delete
-                                                </button>
-                                                <button type="button" id="update_btn"
-                                                    onclick="UpdateExpenseType('{{this.id}}','{{this.expenseType}}')"
-                                                    data-toggle="modal" data-target="#UpdateModal">
-                                                    Edit
-                                                    <i class="ti-file btn-icon-append"></i>
-                                                </button>
+                                            <td class="actions">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                                        id="dropdownMenuSizeButton3" data-bs-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuSizeButton3">
+                                                        <button class="dropdown-item  btn-rounded btn-fw" type="button"
+                                                            id="update_btn"
+                                                            onclick="UpdateExpenseType('{{this.id}}','{{this.expenseType}}')"
+                                                            data-toggle="modal" data-target="#UpdateModal">
+                                                            Edit
+                                                        </button>
+                                                        <button class="dropdown-item  btn-rounded btn-fw" type="button"
+                                                            data-toggle="modal" data-target="#DeleteModal"
+                                                            onclick="DeleteExpenseType('{{this.id}}')">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         {{/each}}

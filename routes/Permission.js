@@ -19,6 +19,7 @@ router.get('/',(req,res)=>{
 
 router.post('/add',(req,res)=>{
     const {id,permissionName}=req.body;
+    console.log(req.body);
     const data=[id,permissionName];
     const sql='INSERT INTO permission(id,permissionName)VALUES(?,?)';
     db.query(sql,data,(err,result)=>{
@@ -26,7 +27,7 @@ router.post('/add',(req,res)=>{
             console.error('error',err);
             return res.status(500).send("Internal serevr error");
         }
-        return res.status(201).json({result});
+        return res.status(201).json(result);
     });
 });
 

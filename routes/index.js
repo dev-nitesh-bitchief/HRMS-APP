@@ -1,11 +1,28 @@
 var express = require('express');
+
 var router = express.Router();
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
+
+
 const secretKey = "$1234";
 const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+
+var bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+
+
+
+
+var db = require('../connection/db');
+var path = require('path');
+
+
 
 var db = require('../connection/db');
 // Import the LocalStorage class from the node-localstorage package
@@ -89,6 +106,26 @@ const authenticateUser = (req, res, next) => {
 
 };
 
+
+
+
+
+router.get('/home', (req, res) => {
+  res.render('Home');
+})
+
+router.get('/', (req, res) => {
+  res.render('login', { layout: 'emptylayout' });
+})
+
+router.get('/dashboard', (req, res) => {
+
+  res.render('dashboard');
+
+})
+
+
+
 var name;
 
 router.post('/login', (req, res) => {
@@ -103,11 +140,21 @@ router.post('/login', (req, res) => {
   // global.userNAME = user_name;
 
   // module.exports = { user_name };
+
   name = user_name;
   console.log('name is ', name);
   // module.exports =  { name }  ;
 
   localStorage.setItem('username', name);
+
+
+  name = user_name;
+  // module.exports =  { name }  ;
+
+  localStorage.setItem('username', name);
+
+
+
 
   // Validate the input
   if (!user_name || !password) {
@@ -155,6 +202,10 @@ router.post('/login', (req, res) => {
 
           // module.exports.userName = userName;
 
+
+
+
+
           res.redirect('/home');
 
         } else {
@@ -170,6 +221,7 @@ router.post('/login', (req, res) => {
 });
 function destroyToken() {
   global.token = null; // Clear the token
+
 }
 
 router.get('/logout', (req, res) => {
@@ -179,4 +231,35 @@ router.get('/logout', (req, res) => {
   console.log('value of name is ', name);
   res.redirect('/');
 });
+
 module.exports = router;
+
+/* GET home page. */
+// router.get('/', (req, res) => {
+//   res.render("login", { layout: 'empty' });
+// });
+
+
+router.get('/', (req, res) => {
+  res.render('user')
+})
+
+
+
+
+
+
+
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+

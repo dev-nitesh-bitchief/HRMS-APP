@@ -16,11 +16,13 @@
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "node-localstorage": "^3.0.5",
     "nodemon": "^3.1.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "toastify-js": "^1.12.0"
   }
 }

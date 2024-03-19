@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <style>
+   /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
+
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
+
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #form-container {
+    display: none;
+    /* Hide the form by default */
+
+  }
+
+  .actions {
+    text-align: right;
+  }
+
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #09a833;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+
+  }
+
+  .hidden {
+    display: none;
+  }
+  .search-box {
+  position: relative;
+}
+
+.search-box input[type="text"] {
+  padding-right: 30px;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.search-box .search-icon i {
+  font-size: 20px;
+}
+
+  </style>
+</head>
+<body>
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Department:</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    
+              <div class="search-box">
+          <input type="text" class="form-control" placeholder="Search...">
+          <span class="search-icon"><i class="mdi mdi-magnify"></i></span>
+        </div>
+        </div>
+                    <tr>
+                      <th>Id:</th>
+                      <th>Department-Name:</th>
+                      {{!-- <th>Company ID:</th> --}}
+                      <th>Head of Department</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each dp}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.departmentName}}</td>
+                      {{!-- <td>{{this.Company_Id}}</td> --}}
+                      <td>{{this.headOfDepartment}}</td>
+                      <td>{{this.description}}</td>
+                      <td>{{this.status}}</td>
+                      
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

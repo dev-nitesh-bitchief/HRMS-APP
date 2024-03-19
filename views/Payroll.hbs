@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the anchor tag to look like a button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        #delete_data {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #af9e4c;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        #update_data {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #4c91af;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+        /* Additional custom styles */
+        .popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Payroll Management</h3>
+
+                            <a id="new_data" type="button" href="/Payroll/create">Create Payroll</a>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                           
+                                           
+                                            <th>Employee name</th>
+                                            <th>Month-year</th>
+                                            <th>Salary</th>
+                                            <th>Expense claim</th>
+                                            <th>absent Deduction</th>
+                                            <th>Net pay</th>
+                                            <th>status</th>
+                                            <th>Created on</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+                                           
+                                            <td>{{this.employeeName}}</td>
+                                            <td>{{this.month}} - {{this.year}}</td>
+                                            <td>{{this.netSalary}}</td>
+                                            <td>{{this.expenseClaim}}</td>
+                                            <td>{{this.absentDeduction}}</td>
+                                            <td>{{this.netPay}}</td>
+                                            <td>{{this.status}}</td>
+                                            <td>{{this.dateCreated}}</td>
+                                           
+                                            <td>
+
+
+                                                <!-- Button to trigger the modal -->
+                                                <a type="button" id="delete_data" data-toggle="modal"
+                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
+
+                                                
+                                                 <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+             <!-- Delete modal -->
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Payroll/delete" method="post">
+                                <label for="id">Are you sure you want to delete?</label>
+                                <!-- Hidden input field to store the req_id -->
+                                <input type="hidden" id="deleteReqId" name="Payroll_id">
+                                {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
+                                <button id="delete_data" type="submit">Yes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                $(document).ready(function () {
+                    // Event listener for when the delete modal is shown
+                    $('#DeleteModal').on('show.bs.modal', function (event) {
+                        // Extract the req_id from the button that triggered the modal
+                        const button = $(event.relatedTarget);
+                        const payId = button.data('req-id');
+
+                        // Set the req_id as the value of the hidden input field
+                        $('#deleteReqId').val(payId);
+
+                        // Display the req_id in the modal for reference (optional)
+                       // $('#requestIdDisplay').text(payId);
+                    });
+                });
+
+            </script>
+
+
+          
+
+
+
+
+
+
+          
+
+           
+
+           
+           
+           
+           
+
+
+            <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

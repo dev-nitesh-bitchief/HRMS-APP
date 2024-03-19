@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <style>
+   /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
+
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
+
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #form-container {
+    display: none;
+    /* Hide the form by default */
+
+  }
+
+  .actions {
+    text-align: right;
+  }
+  .search-box {
+  position: relative;
+}
+
+.search-box input[type="text"] {
+  padding-right: 30px;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.search-box .search-icon i {
+  font-size: 20px;
+}
+.modal-custom{
+    max-width: 60%;
+}
+  </style>
+</head>
+
+<body>
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Companies:</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Company
+              </button>
+              <div class="search-box">
+          <input type="text" class="form-control" placeholder="Search...">
+          <span class="search-icon"><i id="search" class="mdi mdi-magnify"></i></span>
+        </div>
+        </div>
+                    <tr>
+                      <th>Id:</th>
+                      <th>Company-Name</th>
+                      <th>Address</th>
+                      <th>city</th>
+                      <th>state</th>
+                      <th>country</th>
+                      <th>Pin code</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                      <th>Website</th>
+                      <th>CEO</th>
+                      <th>Description</th>
+                      <th>social Media Links</th>
+                      <th>GSTIN</th>
+                      <th>Package</th>
+                      <th>Status</th>
+                      <th class="actions">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each company}}
+                    <tr>
+                      <td>{{this.id}}</td>
+                      <td>{{this.companyName}}</td>
+                      <td>{{this.address}}</td>
+                      <td>{{this.city}}</td>
+                      <td>{{this.state}}</td>
+                      <td>{{this.country}}</td>
+                      <td>{{this.postalCode}}</td>
+                      <td>{{this.phone}}</td>
+                      <td>{{this.email}}</td>
+                      <td>{{this.website}}</td>
+                      <td>{{this.ceo}}</td>
+                      <td>{{this.description}}</td>
+                      <td>{{this.socialMediaLinks}}</td>
+                      <td>{{this.gstin}}</td>
+                      <td>{{this.package}}</td>
+                      <td>{{this.status}}</td>
+                      <td class="actions">
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#updatePermissionsModal" id="update_data"
+                          onclick="UpdateForm('{{this.id}}','{{this.companyName}}','{{this.address}}','{{this.city}}','{{this.state}}','{{this.country}}','{{this.postalCode}}','{{this.phone}}','{{this.email}}','{{this.website}}','{{this.ceo}}','{{this.socialMediaLinks}}','{{this.gstin}}','{{this.package}}','{{this.description}}','{{this.status}}')">Edit Company</button>
+
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- add Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-custom" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Company</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addForm" action="/Company/add" method="post">
+                  <div class="row">
+                    {{!-- <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="id" class="col-sm-3 col-form-label">ID:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="id" name="id"
+                            placeholder="id">
+                        </div>
+                      </div>
+                    </div> --}}
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="companyName" class="col-sm-3 col-form-label">Company Name:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="companyName" name="companyName"
+                            placeholder="Company Name">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="address" class="col-sm-3 col-form-label">Address:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="address" name="address"
+                            placeholder="Address">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="city" class="col-sm-3 col-form-label">City:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="city" name="city"
+                            placeholder="City">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="state" class="col-sm-3 col-form-label">State:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="state" name="state"
+                            placeholder="state">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="country" class="col-sm-3 col-form-label">Country:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="country" name="country"
+                            placeholder="country">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="postalCode" class="col-sm-3 col-form-label">Postal Code:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="postalCode" name="postalCode"
+                            placeholder="postalCode">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="phone" class="col-sm-3 col-form-label">Phone:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="phone" name="phone"
+                            placeholder="Phone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-3 col-form-label">Email:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="email" name="email"
+                            placeholder="Email">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="website" class="col-sm-3 col-form-label">Website:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="website" name="website"
+                            placeholder="website">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="ceo" class="col-sm-3 col-form-label">CEO:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="ceo" name="ceo"
+                            placeholder="CEO">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Description">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="socialMediaLinks" class="col-sm-3 col-form-label">Social Media Links:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="socialMediaLinks" name="socialMediaLinks"
+                            placeholder="socialMediaLinks">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="gstin" class="col-sm-3 col-form-label">GSTIN:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="gstin" name="gstin"
+                            placeholder="GSTIN">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                      <label for="status">Status:</label>
+                        <select class="form-control" name="status">
+                          <option value="active">Active</option>
+                          <option value="inactive">In-Active</option>
+                        </select>
+                      </div>
+                  
+                  <button type="submit" class="btn btn-primary" id="add">Add Company</button>
+                </form>
+                </div>
+            </div>
+          </div>
+        </div>
+    <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="deleteForm" action="/Company/delete" method="post">
+                  <div class="form-group">
+                    <input type="hidden" id="recordId" name="id" value="{{this.id}}">
+                    <!-- Hidden input field to store record ID -->
+                    <p id="recordIdDisplay"></p> <!-- Paragraph to display record ID -->
+                  </div>
+                  <button type="submit" class="btn btn-danger" id="del">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!--  --}}
+         <!-- Update Modal -->
+  <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
+          aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-custom" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePermissionsModalLabel">Update Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addForm" action="/Company/update" method="post">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="id" class="col-sm-3 col-form-label">ID:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-id" name="id"
+                            placeholder="id">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="companyName" class="col-sm-3 col-form-label">companyName</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-companyName" name="companyName"
+                            placeholder="companyName">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="address" class="col-sm-3 col-form-label">Address:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-address" name="address"
+                            placeholder="Address">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="city" class="col-sm-3 col-form-label">City</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-city" name="city"
+                            placeholder="City">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="state" class="col-sm-3 col-form-label">State:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-state" name="state"
+                            placeholder="state">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="country" class="col-sm-3 col-form-label">Country</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-country" name="country"
+                            placeholder="country">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="postalCode" class="col-sm-3 col-form-label">Postal Code:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-postalCode" name="postalCode"
+                            placeholder="postalCode">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="phone" class="col-sm-3 col-form-label">Phone</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-phone" name="phone"
+                            placeholder="Phone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-3 col-form-label">Email:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-email" name="email"
+                            placeholder="Email">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="website" class="col-sm-3 col-form-label">Website</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-website" name="website"
+                            placeholder="website">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="ceo" class="col-sm-3 col-form-label">CEO:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-ceo" name="ceo"
+                            placeholder="CEO">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-description" name="description"
+                            placeholder="Description">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="socialMediaLinks" class="col-sm-3 col-form-label">Social Media Links:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-socialMediaLinks" name="socialMediaLinks"
+                            placeholder="socialMediaLinks">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label for="gstin" class="col-sm-3 col-form-label">GSTIN</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="pre-gstin" name="gstin"
+                            placeholder="GSTIN">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                      <label for="status">Status</label>
+                        <select class="form-control" name="status">
+                          <option value="active">Active</option>
+                          <option value="inactive">In-Active</option>
+                        </select>
+                      </div>
+                  
+                  <button type="submit" class="btn btn-warning" id="add">update Company</button>
+                </form>
+                </div>
+            </div>
+          </div>
+        </div>
+        <script>
+             // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
+
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
+
+    function openDeleteModal(recordId) {
+      // Set the record ID in the form and display it in the paragraph
+      document.getElementById('recordId').value = recordId;
+      document.getElementById('recordIdDisplay').innerText = 'Are you sure want to delete: ' + recordId;
+      // Show the modal
+      $('#deleteModal').modal('show');
+    }
+   function UpdateForm(id, companyName, address, city, state, country, postalCode, phone, email, website, ceo, description, socialMediaLinks, gstin, package, status) {
+    document.getElementById('pre-id').value = id;
+    document.getElementById('pre-companyName').value = companyName;
+    document.getElementById('pre-address').value = address;
+    document.getElementById('pre-city').value = city;
+    document.getElementById('pre-state').value = state;
+    document.getElementById('pre-country').value = country;
+    document.getElementById('pre-postalCode').value = postalCode;
+    document.getElementById('pre-phone').value = phone;
+    document.getElementById('pre-email').value = email;
+    document.getElementById('pre-website').value = website;
+    document.getElementById('pre-ceo').value = ceo;
+    document.getElementById('pre-description').value = description;
+    document.getElementById('pre-socialMediaLinks').value = socialMediaLinks;
+    document.getElementById('pre-gstin').value = gstin;
+    document.getElementById('pre-package').value = package;
+    document.getElementById('pre-status').value = status;
+        $('#updatePermissionModal').modal('show');
+}
+    
+        </script>
+</body>
+</html>

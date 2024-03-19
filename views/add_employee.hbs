@@ -22,18 +22,6 @@
             color: #2f8d46;
         }
 
-            {
-                {
-                !-- #form {
-                    text-align: center;
-                    position: relative;
-                }
-
-                --
-            }
-        }
-
-
         #form fieldset {
             background: white;
             border: 0 none;
@@ -98,7 +86,7 @@
 
         #progressbar {
             overflow: hidden;
-            color: lightgrey;
+            color: lightgray;
             width: 100%;
         }
 
@@ -276,11 +264,7 @@
                                 <fieldset>
                                     <div class="col-12 grid-margin">
                                         <div class="card-body">
-                                            {{!-- <h4 class="card-title">Personal Information</h4> --}}
                                             <form class="form-sample">
-                                                {{!-- <p class="card-description">
-                                                    Personal info
-                                                </p> --}}
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -288,8 +272,8 @@
                                                                 Name</label>
                                                             <div>
                                                                 <input type="text" class="form-control" id="firstName"
-                                                                    name="firstName"
-                                                                    placeholder="Enter Your First Name" />
+                                                                    name="firstName" placeholder="Enter Your First Name"
+                                                                    required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -316,7 +300,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="dob">Date of
@@ -346,7 +329,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="bloodGroup">Blood Group
@@ -379,14 +361,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="aadharNumber">Aadhar
                                                                 Card</label>
                                                             <div>
-                                                                <input class="form-control" type="number"
+                                                                <input class="form-control" type="text"
                                                                     name="aadharNumber" id="aadharNumber"
                                                                     placeholder="Enter Aadhar Number ">
                                                             </div>
@@ -397,7 +377,7 @@
                                                             <label for="panCardNumber">PAN Card
                                                             </label>
                                                             <div>
-                                                                <input class="form-control" type="number"
+                                                                <input class="form-control" type="text"
                                                                     name="panCardNumber" id="panCardNumber"
                                                                     placeholder="Enter PAN Number">
                                                             </div>
@@ -408,7 +388,7 @@
                                                             <label for="drivingLicenseNumber">Driving
                                                                 License</label>
                                                             <div>
-                                                                <input class="form-control" type="number"
+                                                                <input class="form-control" type=""
                                                                     name="drivingLicenseNumber"
                                                                     id="drivingLicenseNumber"
                                                                     placeholder="Enter Driving License Number">
@@ -416,104 +396,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{!-- <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="currentAddress">Current
-                                                                Address
-                                                            </label>
-                                                            <div>
-                                                                <input class="form-control" type="number"
-                                                                    name="currentAddress" id="currentAddress"
-                                                                    placeholder="Enter Current Address">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="permanentAddress">PermanentAddress
-                                                            </label>
-                                                            <div>
-                                                                <input class="form-control" type="number"
-                                                                    name="permanentAddress" id="permanentAddress"
-                                                                    placeholder="Enter Permanent Address">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p class="card-description">
-                                                    Family Details
-                                                </p>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="fatherName">Father
-                                                                Name </label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="fatherName" id="fatherName" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="motherName">Mother
-                                                                Name </label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="motherName" id="motherName" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="fatherName">Father
-                                                                Mobile No. </label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="fatherMobileNumber" id="fatherMobileNumber" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="motherName">
-                                                                Mother Mobile No.</label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="motherMobileNumber" id="motherMobileNumber" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="fatherName">Father
-                                                                Occupation</label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="fatherOccupation" id="fatherOccupation" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="motherName">
-                                                                Mother Occupation</label>
-                                                            <div>
-                                                                <input type="text" class="form-control"
-                                                                    name="motherOccupation" id="motherOccupation" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div> --}}
-                                    </div>
-                                    <input type="button" name="next-step" class="next-step" value="Next" />
+                                        </div>
+                                        <input type="button" name="next-step" class="next-step" value="Next" />
                                 </fieldset>
                                 <fieldset>
                                     <div class="col-12 grid-margin">
@@ -544,8 +428,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="10thyearOfPassing">Year of
@@ -990,120 +872,19 @@
             </div>
         </div>
 </body>
-
-{{!--
-
-<body>
-
-
-    <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="AddModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl custom-xl-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="AddModalLabel">Multi-Step Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0  mb-2">
-                        <div class="px-0 pt-4 pb-0 mt-3 mb-3">
-                            <div class="form-container">
-                                <form id="form">
-                                    <div id="center">
-                                        <ul id="progressbar">
-                                            <li class="active" id="step1">
-                                                <strong>Personal Information </strong>
-                                            </li>
-                                            <li id="step2"><strong>Banking Details</strong></li>
-                                            <li id="step3">
-                                                <strong>Emergency Contact Information</strong>
-                                            </li>
-                                            <li id="step4"><strong>Submit</strong></li>
-                                        </ul>
-                                    </div>
-                                    <br />
-                                    <fieldset>
-                                        <legend>Personal Information</legend>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="firstName">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" name="firstName"
-                                                    placeholder="Enter Your First Name ">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="lastName">Last Name </label>
-                                                <input type="text" class="form-control" id="lastName" name="lastName"
-                                                    placeholder="Enter Your Last Name ">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="gender">Gender</label>
-                                                <input type="checkbox" id="checkbox1" name="checkboxGroup"
-                                                    value="option1">
-                                                <label for="checkbox1">Male</label>
-                                                <input type="checkbox" id="checkbox2" name="checkboxGroup"
-                                                    value="option2">
-                                                <label for="checkbox2">Female</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="dob">DOB</label>
-                                                <input type="date" class="form-control" id="dob" name="dob"
-                                                    placeholder="Enter your DOB">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="phoneNumber">Phone Number </label>
-                                                <input type="tel" class="form-control" id="phoneNumber"
-                                                    name="phoneNumber" placeholder="Enter your Phone Number">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="email">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email"
-                                                    placeholder="Enter your email">
-                                            </div>
-                                        </div>
-                                        <input type="button" name="next-step" class="next-step" value="Next Step" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Emergency Contact Information</legend>
-                                        <input type="button" name="next-step" class="next-step" value="Next Step" />
-                                        <input type="button" name="previous-step" class="previous-step"
-                                            value="Previous Step" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <h2>Welcome To GFG Step 3</h2>
-                                        <input type="button" name="next-step" class="next-step" value="Final Step" />
-                                        <input type="button" name="previous-step" class="previous-step"
-                                            value="Previous Step" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <div class="finish">
-                                            <h2 class="text text-center">
-                                                <strong>FINISHED</strong>
-                                            </h2>
-                                        </div>
-                                        <input type="button" name="previous-step" class="previous-step"
-                                            value="Previous Step" />
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-</body> --}}
-
 <script>
-    /*  function goToStep(step) {
-          // Hide all fieldsets
-          if (step.)
-              $("fieldset").hide();
-          // Show the fieldset corresponding to the step
-          $("fieldset:nth-child(" + (step) + ")").show();
-      } */
 
+    /* function goToStep(step) {
+       
+
+        if (typeof step === 'number' && step >= 1 && step <= 6) {
+            $("fieldset").hide();
+            // Show the fieldset corresponding to the step
+            $("fieldset:nth-child(" + (step) + ")").show();
+        } else {
+            console.error("Invalid step number:", step);
+        }
+    } */
     /* document.addEventListener('DOMContentLoaded', function () {
          console.log('Inside DD Function');
          fetch('/employee-onboarding/dynamic-department')
@@ -1120,7 +901,49 @@
              })
              .catch(error => console.error('Error fetching data:', error));
      }); */
+    function areFieldsFilled(fieldset) {
+        var allFieldsFilled = true;
 
+        // Iterate through each input element within the fieldset
+        $(fieldset).find(':input[required]').each(function () {
+            // Check if the input is empty or not
+            if ($(this).val() === '') {
+                // If any input field is empty, set the flag to false
+                allFieldsFilled = false;
+                // Exit the loop early if any field is empty
+                return false;
+            }
+        });
+
+        return allFieldsFilled;
+    }
+    function goToStep(step) {
+        // Function to check if all fields in a fieldset are filled
+
+
+        if (typeof step === 'number' && step >= 1 && step <= 6) {
+            // Find the fieldset corresponding to the current step
+            var currentFieldset = $("fieldset:nth-child(" + step + ")");
+
+            // Check if all fields in the current fieldset are filled
+            if (areFieldsFilled(currentFieldset)) {
+                // All fields in the current fieldset are filled
+                console.log('All fields in the current fieldset are filled.');
+
+                // Hide all fieldsets
+                $("fieldset").hide();
+                // Show the fieldset corresponding to the step
+                currentFieldset.show();
+            } else {
+                // Some fields in the current fieldset are not filled
+                alert('Some fields in the current fieldset are not filled.');
+
+                // Optionally, display an error message or handle the incomplete form
+            }
+        } else {
+            console.error("Invalid step number:", step);
+        }
+    }
 
 
     $(document).ready(function () {
@@ -1131,28 +954,52 @@
 
         setProgressBar(current);
 
+
         $(".next-step").click(function () {
-            currentPage = $(this).parent();
-            nextPage = $(this).parent().next();
+            // Function to check if all fields in a fieldset are filled
+            function areFieldsFilled(fieldset) {
+                var allFieldsFilled = true;
+                // Iterate through each input element within the fieldset
+                $(fieldset).find(':input[required]').each(function () {
+                    // Check if the input is empty or not
+                    if ($(this).val() === '') {
+                        // If any input field is empty, set the flag to false
+                        allFieldsFilled = false;
+                        // Exit the loop early if any field is empty
+                        return false;
+                    }
+                });
+                return allFieldsFilled;
+            }
+            // Find the closest fieldset which represents the current page
+            var currentPage = $(this).closest('fieldset');
+            var nextPage = currentPage.next();
 
-            $("#progressbar li").eq($("fieldset")
-                .index(nextPage)).addClass("active");
-
-            nextPage.show();
-            currentPage.animate({ opacity: 0 }, {
-                step: function (now) {
-                    opacity = 1 - now;
-
-                    currentPage.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    nextPage.css({ 'opacity': opacity });
-                },
-                duration: 500
-            });
-            setProgressBar(++current);
+            // Check if all fields in the current fieldset are filled
+            if (areFieldsFilled(currentPage)) {
+                // All fields in the current fieldset are filled
+                // Proceed to the next step
+                $("#progressbar li").eq($("fieldset").index(nextPage)).addClass("active");
+                currentPage.hide();
+                nextPage.show();
+                currentPage.animate({ opacity: 0 }, {
+                    step: function (now) {
+                        opacity = 1 - now;
+                        currentPage.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        nextPage.css({ 'opacity': opacity });
+                    },
+                    duration: 500
+                });
+                setProgressBar(++current);
+            } else {
+                // Some fields in the current fieldset are not filled
+                alert('Please Filled the this page before heading to next page');
+            }
         });
+
 
         $(".previous-step").click(function () {
 
@@ -1162,6 +1009,7 @@
             $("#progressbar li").eq($("fieldset")
                 .index(currentPage)).removeClass("active");
 
+            currentPage.hide();
             previousPage.show();
 
             currentPage.animate({ opacity: 0 }, {

@@ -406,7 +406,7 @@ JOIN
             row.purchaseDate = `${purchase_year}-${purchase_month}-${purchase_day}`;
         });
         console.log('Data fetched successfully');
-        res.render('admin-expense', { data: result });
+        res.render('admin_expense', { data: result });
         // res.status(200).json(result);
         return;
     });

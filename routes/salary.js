@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection/db')
 
-const authenticateUser = require('./login');
+
 router.get('/', function(req, res){
     //show all users
    
