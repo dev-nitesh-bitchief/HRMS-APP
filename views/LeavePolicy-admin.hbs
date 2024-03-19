@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <style>
+        /* CSS styles for the close button */
+
+
+        .actions {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Leave Policies :</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+
+                                        <a type="button" class="btn btn-primary " data-toggle="modal"
+                                            data-target="#AddModal">Add Policy</a>
+                                        <tr>
+
+                                            <th>id</th>
+                                            <th>Policy</th>
+                                            <th>Description</th>
+                                            <th class="actions">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+
+                                            <td>{{this.id}}</td>
+                                            <td>{{this.policyName}}</td>
+                                            <td>{{this.description}}</td>
+
+                                            <td class="actions">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                                        id="dropdownMenuSizeButton3" data-bs-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuSizeButton3">
+
+
+
+
+                                                        <button type="button" id="update_data"
+                                                            class="dropdown-item  btn-rounded btn-fw"
+                                                            onclick="UpdateRequest('{{this.id}}','{{this.typeName}}','{{this.description}}')"
+                                                            data-toggle="modal" data-target="#editModal">
+                                                            Edit
+                                                            <i class="ti-file btn-icon-append"></i>
+                                                        </button>
+
+
+                                                        <button type="button" id="delete_data"
+                                                            class="dropdown-item  btn-rounded btn-fw"
+                                                            data-toggle="modal" data-target="#DeleteModal"
+                                                            data-req-id="{{this.id}}">Delete</button>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Pending  -->
+
+
+
+
+    <!-- ADD data modal -->
+    <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Policy</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form inside the popup -->
+                    <form class="forms-sample" action="/Leave-policy/add" method="post">
+
+                        <div class="form-group">
+                            <label for="policy name">Policy name</label>
+                            <input type="text" class="form-control" id="policy_Name" name="policyName" placeholder="">
+                        </div>
+                        <div class="form-group">
+
+
+                            <label for="description">Description:</label><br>
+                            <textarea class="form-control" id="description" name="description" rows="4"
+                                cols="35"></textarea><br>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Delete modal -->
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/Leave-policy/delete" method="post">
+                        <label for="id">Are you sure you want to delete?</label>
+                        <!-- Hidden input field to store the req_id -->
+                        <input type="hidden" id="deleteReqId" name="req_id">
+                        {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
+                        <button class="btn btn-danger" type="submit">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            // Event listener for when the delete modal is shown
+            $('#DeleteModal').on('show.bs.modal', function (event) {
+                // Extract the req_id from the button that triggered the modal
+                const button = $(event.relatedTarget);
+                const reqId = button.data('req-id');
+
+                // Set the req_id as the value of the hidden input field
+                $('#deleteReqId').val(reqId);
+
+                // Display the req_id in the modal for reference (optional)
+                $('#requestIdDisplay').text(reqId);
+            });
+        });
+
+    </script>
+
+
+
+
+
+    <!-- update modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Update leave type</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form inside the popup -->
+                    <form class="forms-sample" action="/Leave-policy/edit" method="post">
+
+
+                        <div class="form-group">
+
+
+                            <input type="hidden" class="form-control" id="id_" name="id" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="typeName">Type name</label>
+                            <input type="text" class="form-control" id="typeName_" name="typeName" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label><br>
+                            <textarea class="form-control" id="description_" name="description" rows="4"
+                                cols="35"></textarea><br>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        {{!-- <button class="btn btn-light">Cancel</button> --}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function UpdateRequest(id, typeName, description) {
+
+            document.getElementById('id_').value = id;
+            document.getElementById('typeName_').value = typeName;
+            document.getElementById('description_').value = description;
+
+            $('#UpdateModal').modal('show');
+        };
+
+    </script>
+
+
+
+    <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

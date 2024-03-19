@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+    {{!--
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* CSS for Approve Button */
+
+        .approveRequest {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        /* CSS for Reject Button */
+
+        .rejectRequest {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #af594c;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Expense Details</h3>
+                            <button type="button" data-toggle="modal" data-target="#AddModal"
+                                class="btn btn-primary btn-rounded btn-fw">Add Expense</button>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee Name</th>
+                                            <th>Item</th>
+                                            <th>Purchase From </th>
+                                            <th>Purchase Date</th>
+                                            <th>Expense Category</th>
+                                            <th>Payment Method</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Bill</th>
+                                            <th>Submission Date</th>
+                                            {{!-- <th>Approval Status</th> --}}
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.employee_name}}</td>
+                                            <td>{{this.item}}</td>
+                                            <td>{{this.purchaseFrom}}</td>
+                                            <td>{{this.purchaseDate}}</td>
+                                            <td>{{this.expense_category}}</td>
+                                            <td>{{this.payment_method}}</td>
+                                            <td>{{this.description}}</td>
+                                            <td>{{this.amount}}</td>
+                                            <td><a href="download/{{this.id}}">Download bill</a></td>
+                                            <td>{{this.submissionDate}}</td>
+                                            {{!-- <td>{{this.approvalStatus}}</td> --}}
+                                            <td>
+                                                <button class="approveRequest" data-req-id="{{this.expense_id}}">
+                                                    Approve </button>
+
+                                                <button class="rejectRequest" data-req-id="{{this.expense_id}}">
+                                                    Reject </button>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADD data modal -->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Add Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Expense/add" method="Post"
+                                enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="Employee_id">Select
+                                        Employee </label>
+                                    <select class="form-select" id="Employee_id" name="Employee_id">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item">Item</label>
+                                    <input type="text" class="form-control" id="item" name="item"
+                                        placeholder="Item Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="purchaseFrom">Purchase
+                                        From</label>
+                                    <input type="text" class="form-control" id="purchaseFrom" name="purchaseFrom"
+                                        placeholder="Purchase From">
+                                </div>
+                                <div class="form-group">
+                                    <label for="purchaseDate">Purchase
+                                        Date</label>
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate"
+                                        placeholder="Purchase Date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Expense_category_id">Select
+                                        Expense
+                                        Category</label>
+                                    <select class="form-select" id="Expense_category_id" name="Expense_category_id">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Payment_method_id">Select
+                                        Payment Method </label>
+                                    <select class="form-select" id="Payment_method_id" name="Payment_method_id">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <input type="text" class="form-control" id="description" name="description"
+                                        placeholder="Description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" name="amount"
+                                        placeholder="amount">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bill">Bill</label>
+                                    <input type="file" class="form-control" id="bill" name="bill"
+                                        placeholder="Upload File">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    // Function to handle the action (accept/reject)
+                    function handleAction(action, button) {
+
+                        const reqId = $(button).data('req-id');
+                        console.log(reqId);
+
+                        // Data to be sent in the POST request
+                        const requestData = { req_id: reqId };
+
+                        // Make AJAX POST request to the API
+                        $.ajax({
+                            url: "/Expense/status-" + action, // Endpoint for accept/reject
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(requestData),
+                            success: function (response) {
+                                console.log("Response:", response);
+                                if (response.success) {
+                                    // Replace the button with the appropriate message
+                                    const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
+                                    $(button).parent().html('<p>' + message + '</p>');
+                                    window.location.href = '/Expense/show';
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error:", xhr.status, error);
+                            }
+                        });
+                    }
+
+                    // Click event handler for Accept button
+                    $(".approveRequest").click(function () {
+                        handleAction('approve', this);
+                    });
+
+                    // Click event handler for Reject button
+                    $(".rejectRequest").click(function () {
+                        handleAction('reject', this);
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('/Expense/dynamic-options-expense-category')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Expense_category_id');
+                            data.forEach(expense_category => {
+                                console.log('data under fetch is ', data);
+                                const option = document.createElement('option');
+                                option.value = expense_category.id;
+                                option.textContent = expense_category.expenseType;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+
+                    fetch('/Expense/dynamic-options-payment-method')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Payment_method_id');
+                            data.forEach(payment_method => {
+                                const option = document.createElement('option');
+                                option.value = payment_method.id;
+                                option.textContent = payment_method.methodName;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+
+                    fetch('/Expense/dynamic-employee-field')
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("data from dynamic employee ", data);
+                            const roleDropdown = document.getElementById('Employee_id');
+                            data.forEach(employee => {
+                                console.log("data inside employee ", employee);
+                                const option = document.createElement('option');
+                                option.value = employee.id;
+                                option.textContent = employee.employeeName;
+                                console.log("employee name is ", employee.employeeName);
+                                console.log('employee id is ', employee.id);
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                });
+
+                $.get("/Expense/getRequestStatus", function (requestStatuses) {
+                    debugger
+                    // Loop through each request on the page
+                    $(".approveRequest, .rejectRequest").each(function () {
+                        const reqId = $(this).data('req-id');
+                        const status = requestStatuses[reqId];
+                        // Check if status is 'Accepted' or 'Rejected'
+                        if (status === 'Approved') {
+                            $(this).parent().html('<p>Request is Approved</p>');
+                        } else if (status === 'Rejected') {
+                            $(this).parent().html('<p>Request is rejected</p>');
+                        }
+                    });
+                });
+                // Fetch request statuses
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

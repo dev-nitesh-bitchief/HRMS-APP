@@ -2,6 +2,14 @@ var express = require('express');
 var router = express.Router();
 var db = require('../connection/db');
 
+router.get('/', (req, res) => {
+    res.render('employee_onboarding');
+})
+
+router.get('/new', (req, res) => {
+    res.render('add_employee');
+})
+
 router.post('/add', (req, res) => {
 
     const { firstName, lastName, gender, dob, phoneNumber, email, bloodGroup, religion, maritalStatus, aadharNumber, panCardNumber, drivingLicenseNumber, fatherName, fatherOccupation, fatherPhoneNumber, motherName, motherOccupation, motherPhoneNumber, currentAddress, permanentAddress, emergencyName, emergencyRelation, emergencyPhoneNumber, emergencyEmail, emergencyAddress, tenthSchoolName, tenthBoardName, tenthYearofGraduation, tenthMarks, twelfthSchoolName, twelfthBoardName, twelfthYearofGraduation, twelfthMarks, ugInstituteName, ugCourseName, ugYearOfGraduation, ugMarks, pgInstituteName, pgCourseName, pgYearOfGraduation, pgMarks, furtherStudies, jobPosition, department, dateOfJoining, previousCompany, previousPositionField, previousReason, bankName, accountNumber, accountHolderName, branchAddress, ifscCode, image, signImage } = req.body;
@@ -112,8 +120,8 @@ router.post('/update', (req, res) => {
     });
 });
 
-router.get('/show',(req,res)=>{
-    const sqlQuery = "SELECT id,CONCAT(firstName, ' ', lastName) AS employeeName FROM Employee";
+router.get('/show', (req, res) => {
+    const sqlQuery = `SELECT id,CONCAT(firstName, ' ', lastName) AS employeeName FROM Employee`;
     db.query(sqlQuery, (err, result) => {
         if (err) {
             console.error('Error while Fetching data: ' + err.stack);
@@ -124,4 +132,17 @@ router.get('/show',(req,res)=>{
     });
 });
 
+router.get('/dynamic-department', (req, res) => {
+    console.log('Inside Dynamic Department Route');
+    const sqlQuery = 'SELECT * FROM Department';
+    db.query(sqlQuery, (err, result) => {
+        if (err) {
+            console.error('Error while Fetching data: ' + err.stack);
+            res.status(500).send('Error while fetching data');
+            return;
+        }
+        console.log(result);
+        res.status(200).json(result);
+    });
+});
 module.exports = router;

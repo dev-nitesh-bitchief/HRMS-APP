@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the anchor tag to look like a button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-right: 100px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+
+        .row_ {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            /* Align items vertically */
+        }
+
+        .search_bar {
+            margin-right: 100px;
+        }
+
+
+
+        .go_button {
+            background-color: #007bff;
+            /* Blue background color */
+            color: white;
+            /* White text color */
+            border: none;
+            /* Remove border */
+            padding: 3px 15px;
+            /* Add padding */
+            cursor: pointer;
+            /* Add pointer cursor */
+            border-radius: 5px;
+            /* Add border radius */
+
+            margin-top: 30px;
+
+
+        }
+
+
+
+        #hiddenForm {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h3 class="card-title">Employee Info</h3>
+
+                            <form class="forms-sample" action="">
+                                <div class="row_">
+                                    <div class="search_bar">
+
+                                        <label for="id">Employee :</label>
+                                        <select class="form-select" id="Employee_" name="Employee_id" required>
+                                            <option value="">Select </option>
+                                        </select>
+
+
+                                    </div>
+                                    <div class="search_bar">
+
+                                        <label for="month">Month :</label>
+                                        <select class="form-select" id="Month_" name="month" required>
+                                            <option value="">Select </option>
+                                        </select>
+
+                                    </div>
+                                    <div class="search_bar">
+
+                                        <label for="year">Year :</label>
+                                        <select class="form-select" id="year_" name="year" required>
+                                            <option value="">Select </option>
+                                        </select>
+
+                                    </div>
+
+                                    <a type="button" class="go_button" id="goButton">Go</a>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 grid-margin stretch-card" id="hiddenForm">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Payroll Info</h4>
+                            {{!-- <p class="card-description">
+                                Horizontal form layout
+                            </p> --}}
+
+                             <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                           
+                                           
+                                            <th>Employee name</th>
+                                            <th>Month-year</th>
+                                            <th>Salary</th>
+                                            {{!-- <th>Expense claim</th> --}}
+                                            <th>absent Deduction</th>
+                                            <th>Net pay</th>
+                                            <th>status</th>
+                                            {{!-- <th>Created on</th> --}}
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+                                           
+                                            <td>{{this.employeeName}}</td>
+                                            <td>{{this.month}} - {{this.year}}</td>
+                                            <td>{{this.netSalary}}</td>
+                                            {{!-- <td>{{this.expenseClaim}}</td> --}}
+                                            <td>{{this.absentDeduction}}</td>
+                                            <td>{{this.netPay}}</td>
+                                            <td>{{this.status}}</td>
+                                            {{!-- <td>{{this.dateCreated}}</td> --}}
+                                           
+                                            <td>
+
+
+                                                <!-- Button to trigger the modal -->
+                                                <a type="button" id="delete_data" data-toggle="modal"
+                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
+
+                                                
+                                                 <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+
+        fetch('/Leave-balance/employee')
+            .then(response => response.json())
+            .then(data => {
+                const roleDropdown = document.getElementById('Employee_');
+                data.forEach(employee => {
+                    const option = document.createElement('option');
+                    option.value = employee.id;
+                    option.textContent = employee.fullName;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+
+        fetch('/Leave-balance/month')
+            .then(response => response.json())
+            .then(data => {
+                const roleDropdown = document.getElementById('Month_');
+                data.forEach(month => {
+                    const option = document.createElement('option');
+                    option.value = month.id;
+                    option.textContent = month.monthName;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+
+        // Get the dropdown element
+        const yearDropdown = document.getElementById("year_");
+
+        // Function to populate the dropdown with years
+        function populateYearDropdown(startYear, endYear) {
+            for (let year = startYear; year <= endYear; year++) {
+                // Create an option element
+                const option = document.createElement("option");
+                option.text = year;
+                option.value = year;
+
+                // Append the option to the dropdown
+                yearDropdown.appendChild(option);
+            }
+        }
+      // Example usage: populate the dropdown with years from 2000 to 2050
+        populateYearDropdown(2020, 2025);
+
+
+
+
+
+
+
+
+        // Function to show the hidden form when Go button is clicked
+        document.getElementById('goButton').addEventListener('click', function () {
+            document.getElementById('hiddenForm').style.display = 'block';
+
+        });
+
+
+        
+
+
+        
+
+
+        
+
+       
+        
+
+
+    </script>
+
+
+
+
+    <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

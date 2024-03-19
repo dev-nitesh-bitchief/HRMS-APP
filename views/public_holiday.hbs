@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../design/images/favicon.png" />
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Public Holidays</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Name</th>
+                                            <th>Related States</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.holidayDate}}</td>
+                                            <td>{{this.holidayName}}</td>
+                                            <td>{{this.state}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

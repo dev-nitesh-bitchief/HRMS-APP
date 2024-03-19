@@ -2,14 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* Styling the anchor tag to look like a button */
-        #new_data {
+        #accept_button {
             display: inline-block;
             padding: 5px 20px;
             /* Adjust padding as needed */
@@ -25,7 +20,7 @@
             cursor: pointer;
         }
 
-        #reject_data {
+        #reject_button {
             display: inline-block;
             padding: 5px 20px;
             margin-left: 20px;
@@ -41,62 +36,6 @@
             /* Rounded corners */
             cursor: pointer;
         }
-
-        #update_data {
-            display: inline-block;
-            padding: 5px 20px;
-            margin-left: 20px;
-            /* Adjust padding as needed */
-            background-color: #4c91af;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-
-        /* Styling the anchor tag when hovered */
-        .new_data:hover {
-            background-color: #45a049;
-            /* Darker green */
-        }
-
-
-        /* CSS styles for the close button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-
-
-        /* Additional custom styles */
-        .popup-form {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            z-index: 9999;
-        }
     </style>
 </head>
 
@@ -104,17 +43,14 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Leave application</h3>
-
-                            {{!-- <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add data
-                            </a> --}}
-
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
+
                                         <tr>
 
                                             <th>Employee name</th>
@@ -129,6 +65,7 @@
                                             <th>Action</th>
 
                                         </tr>
+
                                     </thead>
                                     <tbody>
 
@@ -146,18 +83,13 @@
 
                                             <td>
 
+                                                <button type="button" id="accept_button" class="acceptRequest"
+                                                    data-req-id="{{this.req_id}}">Accept</button>
 
-
-
-                                                <a type="button" id="new_data" class="acceptRequest"
-                                                    data-req-id="{{this.req_id}}">Accept</a>
-
-                                                <a type="button" id="reject_data" class="rejectRequest"
-                                                    data-req-id="{{this.req_id}}">Reject</a>
-
+                                                <button type="button" id="reject_button" class="rejectRequest"
+                                                    data-req-id="{{this.req_id}}">Reject</button>
 
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -166,88 +98,82 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
 
-            
 
 
-            <script>
-                $(document).ready(function () {
-                    // Function to handle the action (accept/reject)
-                    function handleAction(action, button) {
-                        const reqId = $(button).data('req-id');
+    <script>
 
-                        // Data to be sent in the POST request
-                        const requestData = { req_id: reqId };
+        $(document).ready(function () {
+            // Function to handle the action (accept/reject)
+            function handleAction(action, button) {
+                const reqId = $(button).data('req-id');
 
-                        // Make AJAX POST request to the API
-                        $.ajax({
-                            url: "/Leave/status-" + action, // Endpoint for accept/reject
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify(requestData),
-                            success: function (response) {
-                                console.log("Response:", response);
-                                if (response.success) {
-                                    // Replace the button with the appropriate message
-                                    const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
-                                    $(button).parent().html('<p>' + message + '</p>');
-                                    
-                                     window.location.href = '/Leave/show-to-approver';
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", xhr.status, error);
-                            }
-                        });
-                    }
+                // Data to be sent in the POST request
+                const requestData = { req_id: reqId };
 
-                    // Click event handler for Accept button
-                    $(".acceptRequest").click(function () {
-                        handleAction('approve', this);
-                    });
+                // Make AJAX POST request to the API
+                $.ajax({
+                    url: "/Leave/status-" + action, // Endpoint for accept/reject
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        console.log("Response:", response);
+                        if (response.success) {
+                            // Replace the button with the appropriate message
+                            const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
+                            $(button).parent().html('<p>' + message + '</p>');
 
-                    // Click event handler for Reject button
-                    $(".rejectRequest").click(function () {
-                        handleAction('reject', this);
-                    });
-                });
-
-                // Fetch request statuses
-                $.get("/Leave/getRequestStatus", function (requestStatuses) {
-                    // Loop through each request on the page
-                    $(".acceptRequest, .rejectRequest").each(function () {
-                        const reqId = $(this).data('req-id');
-                        const status = requestStatuses[reqId];
-
-                        // Check if status is 'Accepted' or 'Rejected'
-                        if (status === 'Approved') {
-                            $(this).parent().html('<p>Request is Approved</p>');
-                        } else if (status === 'Rejected') {
-                            $(this).parent().html('<p>Request is rejected</p>');
+                            window.location.href = '/Leave/show-to-approver';
                         }
-                    });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", xhr.status, error);
+                    }
                 });
+            }
 
-            </script>
+            // Click event handler for Accept button
+            $(".acceptRequest").click(function () {
+                handleAction('approve', this);
+            });
+
+            // Click event handler for Reject button
+            $(".rejectRequest").click(function () {
+                handleAction('reject', this);
+            });
+        });
+
+
+        // Fetch request statuses
+        $.get("/Leave/getRequestStatus", function (requestStatuses) {
+            // Loop through each request on the page
+            $(".acceptRequest, .rejectRequest").each(function () {
+                const reqId = $(this).data('req-id');
+                const status = requestStatuses[reqId];
+
+                // Check if status is 'Accepted' or 'Rejected'
+                if (status === 'Approved') {
+                    $(this).parent().html('<p>Request is Approved</p>');
+                } else if (status === 'Rejected') {
+                    $(this).parent().html('<p>Request is rejected</p>');
+                }
+            });
+        });
+
+    </script>
 
 
 
-
-
-
-
-
-
-
-
-
-            <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </body>
 
 </html>
