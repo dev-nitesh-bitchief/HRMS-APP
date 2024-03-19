@@ -286,6 +286,8 @@ LEFT JOIN
                 browserDetails: Browser_details
             });
 
+            console.log('date :', result);
+
             res.render('LeaveApproval', { data: result });
             return;
 
@@ -305,7 +307,7 @@ LEFT JOIN
                 res.status(500).json('Error deleted data');
                 return;
             }
-            console.log('Data deleted successfully');
+           
             // res.status(200).json('Data deleted successfully');
 
             var IP_address = localStorage.getItem('IP_address');
@@ -373,6 +375,7 @@ LEFT JOIN
 
         // Add the id value to the updateValues array
         updateValues.push(id_);
+        
 
         db.query(sql, updateValues, (err, result) => {
             if (err) {
@@ -380,8 +383,27 @@ LEFT JOIN
                 res.status(500).json('Internal Server Error');
                 return;
             }
-            console.log('request updated successfully');
+           
             // res.status(200).json('Request updated successfully');
+
+            var IP_address = localStorage.getItem('IP_address');
+            var Location = localStorage.getItem('Location');
+            var Browser_details = localStorage.getItem('Browser_details');
+
+            const values = updateValues.join(',');
+
+            logActivity(req, res, {
+                User_id: userId,
+                activityType: "management",
+                resourceName: "Apply leave",
+                operation: "Edit",
+                databaseTableName: "Leave_request",
+                enteredValues: values,
+                ipAddress: IP_address,
+                location: Location,
+                browserDetails: Browser_details
+            });
+
             res.redirect('/Leave');
             return;
 

@@ -60,11 +60,7 @@
         }
 
 
-        /* Styling the anchor tag when hovered */
-        .new_data:hover {
-            background-color: #45a049;
-            /* Darker green */
-        }
+
 
 
         /* CSS styles for the close button */
@@ -82,20 +78,21 @@
             cursor: pointer;
         }
 
+        .modal-dialog.modal-dialog-horizontal {
+            max-width: none;
+            width: 80%;
+            margin: 0;
+            margin-left: 10%;
+            margin-top: 50px;
+        }
 
+        .modal-content {
+            border-radius: 0;
+        }
 
-        /* Additional custom styles */
-        .popup-form {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            z-index: 9999;
+        .modal-body {
+            overflow-y: hidden;
+            max-height: none;
         }
     </style>
 </head>
@@ -104,7 +101,7 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Leave application</h3>
@@ -115,7 +112,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                           
+
                                             <th>Leave type</th>
                                             <th>Start date</th>
                                             <th>End date</th>
@@ -133,7 +130,7 @@
 
                                         {{#each data}}
                                         <tr>
-                                           
+
                                             <td>{{this.Leave_type_name}}</td>
                                             <td>{{this.startDate}}</td>
                                             <td>{{this.endDate}}</td>
@@ -150,8 +147,8 @@
                                                 <a type="button" id="delete_data" data-toggle="modal"
                                                     data-target="#DeleteModal" data-req-id="{{this.req_id}}">Delete</a>
 
-                                                
-                                                 <a type="button" id="update_data"
+
+                                                <a type="button" id="update_data"
                                                     onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
                                                     data-toggle="modal" data-target="#editModal">
                                                     Edit
@@ -170,13 +167,17 @@
                     </div>
                 </div>
 
+
+
             </div>
 
 
-            <!-- ADD data modal -->
+
+            
+
             <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-horizontal" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="exampleModalLabel">Leave details</h4>
@@ -201,7 +202,7 @@
 
                                 <div class="form-group">
                                     <label for="Leave_type_id">Leave type:</label>
-                                    <select id="Leave_type_id" name="Leave_type_id">
+                                    <select class="form-select" id="Leave_type_id" name="Leave_type_id">
                                         <option value="">Select </option>
                                     </select>
 
@@ -238,6 +239,9 @@
                     </div>
                 </div>
             </div>
+
+
+
 
 
 
@@ -305,26 +309,26 @@
                             <!-- Form inside the popup -->
                             <form class="forms-sample" action="/Leave/edit" method="post">
 
-                               
+
                                 <div class="form-group">
 
-                                    
-                                     <input type="hidden" class="form-control" id="id_" name="id_" required>
+
+                                    <input type="hidden" class="form-control" id="id_" name="id_" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="startDate">start date</label>
-                                    <input type="date" class="form-control" id="startDate" name="startDate"
+                                    <input type="date" class="form-control" id="startDate_" name="startDate"
                                         placeholder="startDate">
                                 </div>
                                 <div class="form-group">
                                     <label for="endDate">End date</label>
-                                    <input type="date" class="form-control" id="endDate" name="endDate"
+                                    <input type="date" class="form-control" id="endDate_" name="endDate"
                                         placeholder="endDate">
                                 </div>
                                 <div class="form-group">
                                     <label for="Leave_type">Leave type:</label>
-                                    <select id="Leave_type" name="Leave_type">
+                                    <select class="form-select" id="Leave_type" name="Leave_type">
                                         <option value="">Select</option>
                                     </select>
 
@@ -359,24 +363,21 @@
                 </div>
             </div>
 
-           
 
-           
-           
+
             <script>
-                 function UpdateRequest(req_id, startDate, endDate , Leave_type_name, reason) {
-                    debugger
-                   
+                function UpdateRequest(req_id, startDate, endDate, Leave_type_name, reason) {
+
                     document.getElementById('id_').value = req_id;
-                    document.getElementById('startDate').value = startDate;
-                    document.getElementById('endDate').value = endDate;
-                    document.getElementById('Leave_type').value = Leave_type_name;
+                    document.getElementById('startDate_').value = startDate;
+                    document.getElementById('endDate_').value = endDate;
+                    // document.getElementById('Leave_type').value = Leave_type_name;
                     document.getElementById('reason_').value = reason;
                     $('#UpdateModal').modal('show');
                 };
 
             </script>
-           
+
 
 
             <!-- Bootstrap JS (jQuery and Popper.js are required too) -->

@@ -91,6 +91,46 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
     });
 
 
+    router.get('/show', (req, res) => {
+
+        const sql = 'SELECT * FROM Leave_policy';
+
+        db.query(sql, (err, result) => {
+            if (err) {
+                console.error('Error Fetching data:', err);
+                res.status(500).json('Error Fetching data');
+                return;
+            }
+            console.log('Data fetched successfully');
+            // res.status(200).json(result);
+
+            var IP_address = localStorage.getItem('IP_address');
+            var Location = localStorage.getItem('Location');
+            var Browser_details = localStorage.getItem('Browser_details');
+
+           
+
+
+            logActivity(req, res, {
+                User_id: userId,
+                activityType: "Management access",
+                resourceName: "Leave Policies",
+                operation: "show",
+                databaseTableName: "Leave_policy",
+                ipAddress: IP_address,
+                location: Location,
+                browserDetails: Browser_details
+            });
+
+
+            res.render('LeavePolicy-admin', { data: result });
+            return;
+
+        })
+    });
+
+
+
 
 
     router.post('/add', (req, res) => {
@@ -109,11 +149,13 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 return;
             }
             console.log('Data inserted successfully');
-            res.status(200).json('Data inserted successfully');
+           
 
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
+
+            const newdata = data.join(',');
 
 
             logActivity(req, res, {
@@ -122,13 +164,15 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 resourceName: "Leave Policies",
                 operation: "Add policy",
                 databaseTableName: "Leave_policy",
-                enteredValues : data,
+                enteredValues : newdata,
                 ipAddress: IP_address,
                 location: Location,
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave-policy');
+             // res.status(200).json('Data inserted successfully');
+
+            res.status(200).redirect('/Leave-policy/show');
 
 
             return;

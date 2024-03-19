@@ -212,7 +212,7 @@
                     $(".rejectRequest").click(function () {
                         handleAction('reject', this);
                     });
-                });
+                });    
 
                 // Fetch request statuses
                 $.get("/Leave/getRequestStatus", function (requestStatuses) {
@@ -228,18 +228,9 @@
                             $(this).parent().html('<p>Request is rejected</p>');
                         }
                     });
-                });
+                });    
 
             </script>
-
-
-
-
-
-
-
-
-
 
 
 

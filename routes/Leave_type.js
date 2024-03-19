@@ -5,10 +5,30 @@ var db = require('../connection/db');
 
 
 
+router.get('/show',(req,res)=>{
+   
+    const sql = 'SELECT * FROM Leave_type';
+   
+    db.query(sql , (err,result)=>{
+        if (err) {
+            console.error('Error Fetching data:', err);
+            res.status(500).json('Error Fetching data');
+            return;
+        }
+        console.log('Data fetched successfully');
+        // res.status(200).json(result);
+        res.status(200).render('LeaveType' ,{data : result});
+        return;
+
+    })
+});
 
 
-router.post('/add', (req, res) => {                               //*****     pending     ***** */
-    // const leaveRequestData = req.body;
+
+
+
+router.post('/add', (req, res) => {                              
+    
     const { typeName , description } = req.body;
 
     const sql = 'INSERT INTO Leave_type (typeName , description) VALUES (?, ?)';
@@ -23,7 +43,8 @@ router.post('/add', (req, res) => {                               //*****     pe
             return;
         }
         console.log('Data inserted successfully');
-        res.status(200).json('Data inserted successfully');
+        // res.status(200).json('Data inserted successfully');
+        res.status(200).redirect('/Leave-type/show');
         return;
     });
 });
@@ -31,17 +52,20 @@ router.post('/add', (req, res) => {                               //*****     pe
 
 
 router.post('/delete', (req, res) => {
-    const { id } = req.body;
+    const {req_id } = req.body;
+    console.log('delete id :',req_id);
     const sql = 'DELETE FROM Leave_type WHERE id = ?';
 
-    db.query(sql, id, (err, result) => {
+
+    db.query(sql, req_id, (err, result) => {
         if (err) {
             console.error('Error deleting data:', err);
             res.status(500).json('Error deleted data');
             return;
         }
         console.log('Data deleted successfully');
-        res.status(200).json('Data deleted successfully');
+        // res.status(200).json('Data deleted successfully');
+        res.status(200).redirect('/Leave-type/show');
         return;
 
     })
@@ -49,22 +73,7 @@ router.post('/delete', (req, res) => {
 
 
 
-router.get('/show',(req,res)=>{
-   
-    const sql = 'SELECT * FROM Leave_type';
-   
-    db.query(sql , (err,result)=>{
-        if (err) {
-            console.error('Error Fetching data:', err);
-            res.status(500).json('Error Fetching data');
-            return;
-        }
-        console.log('Data fetched successfully');
-        res.status(200).json(result);
-        return;
 
-    })
-});
 
 
 
@@ -96,6 +105,8 @@ router.post('/edit', (req, res) => {
     // Add the id value to the updateValues array
     updateValues.push(id);
 
+    console.log('updated values :',updateValues);
+
     db.query(sql, updateValues, (err, result) => {
         if (err) {
             console.error('Error in updating :', err);
@@ -103,7 +114,8 @@ router.post('/edit', (req, res) => {
             return;
         }
         console.log('Leave type updated successfully');
-        res.status(200).json('Leave type updated successfully');
+        // res.status(200).json('Leave type updated successfully');
+        res.status(200).redirect('/Leave-type/show');
         return;
         
     });

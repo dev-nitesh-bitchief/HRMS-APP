@@ -107,26 +107,24 @@
                 {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Activity logs</h3>
+                            <h3 class="card-title">Payroll Management</h3>
 
-                            {{!-- <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Apply leave</a> --}}
+                            <a id="new_data" type="button" href="/Payroll/create">Create Payroll</a>
 
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-
-                                            <th>id</th>
-                                            <th>user</th>
-                                            <th>Activity type</th>
-                                            <th>Resource name</th>
-                                            <th>operation</th>
-                                            <th>Database table name</th>
-                                            <th>Entered values</th>
-                                            <th>IP Address</th>
-                                            <th>Location</th>
-                                            <th>Browser details</th>
-                                            <th>Date-Time</th>
+                                           
+                                           
+                                            <th>Employee name</th>
+                                            <th>Month-year</th>
+                                            <th>Salary</th>
+                                            <th>Expense claim</th>
+                                            <th>absent Deduction</th>
+                                            <th>Net pay</th>
+                                            <th>status</th>
+                                            <th>Created on</th>
                                             <th>Action</th>
 
                                         </tr>
@@ -135,23 +133,30 @@
 
                                         {{#each data}}
                                         <tr>
-                                            <td>{{this.id}}</td>
-                                            <td>{{this.Username}}</td>
-                                            <td>{{this.activityType}}</td>
-                                            <td>{{this.resourceName}}</td>
-                                            <td>{{this.operation}}</td>
-                                            <td>{{this.databaseTableName}}</td>
-                                            <td>{{this.enteredValues}}</td>
-                                            <td>{{this.ipAddress}}</td>
-                                            <td>{{this.location}}</td>
-                                            <td>{{this.browserDetails}}</td>
-                                            <td>{{this.timestamp}}</td>
+                                           
+                                            <td>{{this.employeeName}}</td>
+                                            <td>{{this.month}} - {{this.year}}</td>
+                                            <td>{{this.netSalary}}</td>
+                                            <td>{{this.expenseClaim}}</td>
+                                            <td>{{this.absentDeduction}}</td>
+                                            <td>{{this.netPay}}</td>
+                                            <td>{{this.status}}</td>
+                                            <td>{{this.dateCreated}}</td>
+                                           
                                             <td>
 
-      
-                                               
+
+                                                <!-- Button to trigger the modal -->
                                                 <a type="button" id="delete_data" data-toggle="modal"
-                                                    data-target="#DeleteModal" data-req-id="{{this.id}}">Delete</a>
+                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
+
+                                                
+                                                 <a type="button" id="update_data"
+                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
+                                                    data-toggle="modal" data-target="#editModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
 
                                             </td>
 
@@ -163,11 +168,11 @@
                             </div>
                         </div>
                     </div>
-
-                    
                 </div>
 
             </div>
+
+
 
              <!-- Delete modal -->
             <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -181,10 +186,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/Audit-logging/delete" method="post">
+                            <form action="/Payroll/delete" method="post">
                                 <label for="id">Are you sure you want to delete?</label>
                                 <!-- Hidden input field to store the req_id -->
-                                <input type="hidden" id="deleteReqId" name="req_id">
+                                <input type="hidden" id="deleteReqId" name="Payroll_id">
                                 {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
                                 <button id="delete_data" type="submit">Yes</button>
                             </form>
@@ -200,27 +205,35 @@
                     $('#DeleteModal').on('show.bs.modal', function (event) {
                         // Extract the req_id from the button that triggered the modal
                         const button = $(event.relatedTarget);
-                        const reqId = button.data('req-id');
+                        const payId = button.data('req-id');
 
                         // Set the req_id as the value of the hidden input field
-                        $('#deleteReqId').val(reqId);
+                        $('#deleteReqId').val(payId);
 
                         // Display the req_id in the modal for reference (optional)
-                        $('#requestIdDisplay').text(reqId);
+                       // $('#requestIdDisplay').text(payId);
                     });
                 });
-
-
-
-
-
-                
 
             </script>
 
 
+          
 
-            
+
+
+
+
+
+          
+
+           
+
+           
+           
+           
+           
+
 
             <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
