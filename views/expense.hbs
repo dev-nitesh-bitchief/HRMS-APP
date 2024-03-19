@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the anchor tag to look like a button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        .delete_btn {
+            background-color: #b30000;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+        #update_btn {
+            background-color: #004080;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+        /* Additional custom styles */
+        .popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Expense Details</h3>
+
+                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add Expense
+                            </a>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Purchase From </th>
+                                            <th>Purchase Date</th>
+                                            <th>Expense Category</th>
+                                            <th>Payment Method</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Approval Status</th>
+                                            <th>Approved/ Rejected By</th>
+                                            <th>Approval/Rejection Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.item}}</td>
+                                            <td>{{this.purchaseFrom}}</td>
+                                            <td>{{this.purchaseDate}}</td>
+                                            <td>{{this.expense_category}}</td>
+                                            <td>{{this.payment_method}}</td>
+                                            <td>{{this.description}}</td>
+                                            <td>{{this.amount}}</td>
+
+                                            {{!-- <td>{{this.bill}}</td>
+                                            --}}
+                                            <td>{{this.approvalStatus}}</td>
+                                            <td>{{this.approvedBy}}</td>
+                                            <td>{{this.approvalDate}}</td>
+                                            <td>
+                                                <a class="delete_btn" type="button" data-toggle="modal"
+                                                    data-target="#DeleteModal"
+                                                    onclick="openDeleteModal('{{this.id}}')">Delete
+                                                </a>
+                                                <button type="button" id="update_btn"
+                                                    onclick="UpdateExpense('{{this.id}}','{{this.item}}','{{this.purchaseFrom}}','{{this.expense_category}}','{{this.payment_method}}','{{this.description}}','{{this.amount}}')"
+                                                    data-toggle="modal" data-target="#UpdateModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ADD data modal -->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Add Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Expense/add" method="Post"
+                                enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="item">Item</label>
+                                    <input type="text" class="form-control" id="item" name="item"
+                                        placeholder="Item Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="purchaseFrom">Purchase
+                                        From</label>
+                                    <input type="text" class="form-control" id="purchaseFrom" name="purchaseFrom"
+                                        placeholder="Purchase From">
+                                </div>
+                                <div class="form-group">
+                                    <label for="purchaseDate">Purchase
+                                        Date</label>
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchaseDate"
+                                        placeholder="Purchase Date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Expense_category_id">Select
+                                        Expense
+                                        Category</label>
+                                    <select id="Expense_category_id" name="Expense_category_id" class="form-select">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Payment_method_id">Select
+                                        Payment Method </label>
+                                    <select id="Payment_method_id" name="Payment_method_id" class="form-select">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <input type="text" class="form-control" id="description" name="description"
+                                        placeholder="Description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" name="amount"
+                                        placeholder="amount">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bill">Bill</label>
+                                    <input type="file" class="form-control" id="bill" name="bill"
+                                        placeholder="Upload File">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete modal -->
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Delete
+                                Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Expense/delete" method="post">
+                                <label for="id">Are you sure, Do You
+                                    want to delete</label>
+                                <input type="hidden" id="id" name="id" value="{{this.id}}">
+                                <button id="delete_data" class="delete_btn" type="submit">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- update modal -->
+            <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Update Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Expense/update" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="id_" name="id_" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item">Item</label>
+                                    <input type="text" class="form-control" id="item_update" name="item" value
+                                        placeholder="Item name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="purchaseFrom">Purchase From
+                                    </label>
+                                    <input type="text" class="form-control" id="purchaseFrom_update" name="purchaseFrom"
+                                        placeholder="Purchase From" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Expense_category_id_update">Select
+                                        Expense
+                                        Category</label>
+                                    <select id="Expense_category_id_update" name="Expense_category_id">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Payment_method_id_update">Select
+                                        Payment Method </label>
+                                    <select id="Payment_method_id_update" name="Payment_method_id">
+                                        <option value=" "> Select </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Description_update">Description</label>
+                                    <input type="text" class="form-control" id="Description_update" name="description"
+                                        placeholder="Description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount_update">Amount</label>
+                                    <input type="number" class="form-control" id="amount_update" name="amount"
+                                        placeholder="amount">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                {{!-- <button class="btn btn-light">Cancel</button>
+                                --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+
+                function UpdateExpense(id, item, purchaseFrom, expense_category, payment_method, description, amount) {
+                    document.getElementById('id_').value = id;
+                    console.log('id under expense is ', id);
+                    document.getElementById('item_update').value = item;
+                    document.getElementById('purchaseFrom_update').value = purchaseFrom;
+                    // document.getElementById('Expense_category_id_update').value = expense_category;
+                    // document.getElementById('Payment_method_id_update').value = payment_method;
+                    document.getElementById('Description_update').value = description;
+                    document.getElementById('amount_update').value = amount;
+                    $('#UpdateModal').modal('show');
+                };
+
+                function openDeleteModal(recordid) {
+                    document.getElementById('id').value = recordid;
+                    $('#deleteidModal').modal('show');
+                }
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('Expense/dynamic-options-expense-category')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Expense_category_id');
+                            data.forEach(expense_category => {
+                                console.log('data under fetch is ', data);
+                                const option = document.createElement('option');
+                                option.value = expense_category.id;
+                                option.textContent = expense_category.expenseType;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                });
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('Expense/dynamic-options-payment-method')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Payment_method_id');
+                            data.forEach(payment_method => {
+                                const option = document.createElement('option');
+                                option.value = payment_method.id;
+                                option.textContent = payment_method.methodName;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                })
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('Expense/dynamic-options-expense-category')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Expense_category_id_update');
+                            data.forEach(expense_category => {
+                                console.log('data under fetch is ', data);
+                                const option = document.createElement('option');
+                                option.value = expense_category.id;
+                                option.textContent = expense_category.expenseType;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                });
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('/dynamic-options-payment-method')
+                        .then(response => response.json())
+                        .then(data => {
+                            const roleDropdown = document.getElementById('Payment_method_id_update');
+                            data.forEach(payment_method => {
+                                const option = document.createElement('option');
+                                option.value = payment_method.id;
+                                option.textContent = payment_method.methodName;
+                                roleDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                })  
+            </script>
+
+            <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

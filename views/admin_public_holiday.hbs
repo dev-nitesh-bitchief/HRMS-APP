@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the anchor tag to look like a button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        .delete_btn {
+            background-color: #b30000;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+        #update_btn {
+            background-color: #004080;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+        /* Additional custom styles */
+        .popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Holiday list </h3>
+                        <a id="new_data" type="button" data-toggle="modal" data-target="#HolidayModal">Add Holiday
+                        </a>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Related States</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each data}}
+                                    <tr>
+                                        <td>{{this.holidayDate}}</td>
+                                        <td>{{this.holidayName}}</td>
+                                        <td>{{this.stateNames}}</td>
+                                        <td>
+                                            {{!-- <a class="delete_btn" type="button" data-toggle="modal"
+                                                data-target="#DeleteModal"
+                                                onclick="openDeleteModal('{{this.id}}')">Delete
+                                            </a> --}}
+                                            <button type="button" id="delete_btn" class="delete_btn"
+                                                onclick="DeleteHoliday('{{this.id}}')" data-toggle="modal"
+                                                data-target="#DeleteModal">
+                                                Delete
+                                                <i class="ti-file btn-icon-append"></i>
+                                            </button>
+                                            <button type="button" id="update_btn"
+                                                onclick="UpdateHoliday('{{this.id}}','{{this.holidayName}}','{{this.holidayDate}}')"
+                                                data-toggle="modal" data-target="#UpdateModal">
+                                                Edit
+                                                <i class="ti-file btn-icon-append"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ADD data modal -->
+        <div class="modal fade" id="HolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Add Expense</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form inside the popup -->
+                        <form class="forms-sample" action="/holiday/add" method="Post">
+                            <div class="form-group">
+                                <label for="holidayDate">Select Date</label>
+                                <input type="date" name="holidayDate" id="holidayDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="holidayName">Name</label>
+                                <input type="text" class="form-control" id="holidayName" name="holidayName"
+                                    placeholder="Enter Holiday Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="multipleSelect">Select States </label>
+                                <select id="multipleSelect" name="multipleSelect" multiple>
+                                    <option value=" "> Select </option>
+                                </select>
+                            </div>
+                            {{!-- <div class="form-group">
+                                <label for="multipleSelect">Select States</label>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                    name="multipleSelect" id="multipleSelect">
+                                    <option value=""> Select </option>
+                                </select>
+                            </div> --}}
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete modal -->
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Delete
+                            Holiday</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/holiday/delete" method="post">
+                            <label for="id">Are you sure, Do You
+                                want to delete</label>
+                            <input type="hidden" id="id_" name="id_" value="{{this.id}}">
+                            <button id="delete_data" class="delete_btn" type="submit">DELETE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- update modal -->
+        <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Update Holiday</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form inside the popup -->
+                        <form class="forms-sample" action="/holiday/update" method="post">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="id_" name="id_">
+                            </div>
+                            <div class="form-group">
+                                <label for="holidayDate_update">Holiday Date</label>
+                                <input type="date" class="form-control" id="holidayDate_update"
+                                    name="holidayDate_update" placeholder="Enter Holiday Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="holidayName_update">Holiday Name </label>
+                                <input type="text" class="form-control" id="holidayName_update"
+                                    name="holidayName_update" placeholder="Enter Holiday Name ">
+                            </div>
+                            <div class="form-group">
+                                <label for="multipleSelect_update">Select States </label>
+                                <select class="js-example-basic-multiple w-100" id="multipleSelect_update"
+                                    name="multipleSelect_update" multiple>
+                                    <option value=" "> Select </option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            {{!-- <button class="btn btn-light">Cancel</button>
+                            --}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        fetch('/dynamic-states')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const roleDropdown = document.getElementById('multipleSelect');
+                data.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.id;
+                    option.textContent = state.stateName;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleDropdown = document.getElementById('multipleSelect');
+
+        // Initialize an array to store selected options
+        let selectedOptions = [];
+
+        // Function to toggle selected state of options
+        function toggleOption(option) {
+            if (option.selected) {
+                selectedOptions.push(option.value);
+            } else {
+                const index = selectedOptions.indexOf(option.value);
+                if (index !== -1) {
+                    selectedOptions.splice(index, 1);
+                }
+            }
+        }
+
+        // Event listener for click event on options
+        roleDropdown.addEventListener('click', function (event) {
+            const option = event.target;
+            if (option.tagName === 'OPTION') {
+                option.selected = !option.selected;
+                toggleOption(option);
+                console.log(selectedOptions);
+            }
+        });
+
+        // Fetch states data from the server
+        fetch('/dynamic-states')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                data.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.id;
+                    option.textContent = state.stateName;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+
+    /*  document.addEventListener('DOMContentLoaded', function () {
+          fetch('/dynamic-states')
+              .then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  const roleDropdown = document.getElementById('multipleSelect_update');
+                  data.forEach(state => {
+                      const option = document.createElement('option');
+                      option.value = state.id;
+                      option.textContent = state.stateName;
+                      roleDropdown.appendChild(option);
+                  });
+              })
+              .catch(error => console.error('Error fetching data:', error));
+      }); */
+
+    function UpdateHoliday(id, holidayName, holidayDate) {
+        document.getElementById('id_').value = id;
+        document.getElementById('holidayName_update').value = holidayName;
+        document.getElementById('holidayDate_update').value = holidayDate;
+        $('#UpdateModal').modal('show');
+    };
+
+    function DeleteHoliday(id) {
+        document.getElementById('id_').value = id;
+        $('#DeleteModal').modal('show');
+    }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

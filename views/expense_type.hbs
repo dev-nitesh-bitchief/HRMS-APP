@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* CSS for Approve Button */
+        #new_data {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        .delete_btn {
+            background-color: #b30000;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+        #update_btn {
+            background-color: #004080;
+            /* Red background */
+            border: none;
+            /* No border */
+            color: white;
+            /* White text */
+            padding: 10px 20px;
+            /* Padding */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* No underline */
+            display: inline-block;
+            /* Display as inline block */
+            font-size: 16px;
+            /* Font size */
+            cursor: pointer;
+            /* Cursor on hover */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition-duration: 0.4s;
+            /* Transition duration */
+        }
+
+
+
+        /* Styling the anchor tag when hovered */
+        .new_data:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+
+        /* CSS styles for the close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Expense Type Details </h3>
+                            <a id="new_data" type="button" data-toggle="modal" data-target="#AddModal">Add Expense
+                            </a>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Expense type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.expenseType}}</td>
+                                            <td>
+                                                <button class="delete_btn" type="button" data-toggle="modal"
+                                                    data-target="#DeleteModal"
+                                                    onclick="DeleteExpenseType('{{this.id}}')">
+                                                    Delete
+                                                </button>
+                                                <button type="button" id="update_btn"
+                                                    onclick="UpdateExpenseType('{{this.id}}','{{this.expenseType}}')"
+                                                    data-toggle="modal" data-target="#UpdateModal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADD data modal -->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Add Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Expense/type-add" method="Post">
+                                <div class="form-group">
+                                    <label for="expenseType">Item</label>
+                                    <input type="text" class="form-control" id="expenseType" name="expenseType"
+                                        placeholder="New Expense Type">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Delete
+                                Expense Type </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Expense/type-delete" method="post">
+                                <label for="id">Are you sure, Do You
+                                    want to delete</label>
+                                <input type="hidden" id="id_delete" name="id">
+                                <button id="delete_data" class="delete_btn" type="submit">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Update Expense</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the popup -->
+                            <form class="forms-sample" action="/Expense/type-update" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="id_" name="id_" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="expenseType_update" name="expenseType"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                {{!-- <button class="btn btn-light">Cancel</button>
+                                --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+                function UpdateExpenseType(id, expensetype) {
+                    document.getElementById('id_').value = id;
+                    console.log('id under expense is ', id);
+                    console.log(expensetype);
+                    document.getElementById('expenseType_update').value = expensetype;
+                    $('#UpdateModal').modal('show');
+                };
+                function DeleteExpenseType(id) {
+                    document.getElementById('id_delete').value = id;
+                    console.log(id);
+                    $('#DeleteModal').modal('show');
+                }
+            </script>
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

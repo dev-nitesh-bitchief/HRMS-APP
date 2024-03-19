@@ -13,25 +13,21 @@
 
 </html> --}}
 
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Star Admin2 </title>
+  <title>Full Stack Project</title>
+  {{!-- Plugns for progress Bar --}}
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
   <!-- plugins:css -->
-
-
+  {{!--
+  <link rel="stylesheet" type="text/css" href="./check.css"> --}}
   <link rel="stylesheet" href="/vendors/feather/feather.css">
   <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
@@ -46,7 +42,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="/images/favicon.png" />
+  <link rel="shortcut icon" href="//images/favicon.png" />
 </head>
 
 <body>
@@ -61,18 +57,19 @@
         </div>
         <div>
           <a class="navbar-brand brand-logo" href="index.html">
-            <img src="images/logo.svg" alt="logo" />
+            <img src="/images/logo.svg" alt="logo" />
           </a>
           <a class="navbar-brand brand-logo-mini" href="index.html">
-            <img src="images/logo-mini.svg" alt="logo" />
+            <img src="/images/logo-mini.svg" alt="logo" />
           </a>
         </div>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top">
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">EMPLOYEE management system<span class="text-black fw-bold"> </span></h1>
-            <h3 class="welcome-sub-text"> </h3>
+            <h1 class="welcome-text"> Management System <span class="text-black fw-bold"></span></h1>
+            <h3 class="welcome-sub-text">
+            </h3>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -82,31 +79,40 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
               aria-labelledby="messageDropdown">
               <a class="dropdown-item py-3">
-                <p class="mb-0 font-weight-medium float-left">Select category</p>
+                <p class="mb-0 font-weight-medium float-left">Select
+                  category</p>
               </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item preview-item">
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Bootstrap Bundle </p>
-                  <p class="fw-light small-text mb-0">This is a Bundle featuring 16 unique dashboards</p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Bootstrap
+                    Bundle </p>
+                  <p class="fw-light small-text mb-0">This is a Bundle
+                    featuring 16 unique dashboards</p>
                 </div>
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Angular Bundle</p>
-                  <p class="fw-light small-text mb-0">Everything you’ll ever need for your Angular projects</p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Angular
+                    Bundle</p>
+                  <p class="fw-light small-text mb-0">Everything you’ll ever
+                    need for your Angular projects</p>
                 </div>
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">VUE Bundle</p>
-                  <p class="fw-light small-text mb-0">Bundle of 6 Premium Vue Admin Dashboard</p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">VUE
+                    Bundle</p>
+                  <p class="fw-light small-text mb-0">Bundle of 6 Premium Vue
+                    Admin Dashboard</p>
                 </div>
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">React Bundle</p>
-                  <p class="fw-light small-text mb-0">Bundle of 8 Premium React Admin Dashboard</p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">React
+                    Bundle</p>
+                  <p class="fw-light small-text mb-0">Bundle of 8 Premium
+                    React Admin Dashboard</p>
                 </div>
               </a>
             </div>
@@ -132,15 +138,18 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
               aria-labelledby="notificationDropdown">
               <a class="dropdown-item py-3 border-bottom">
-                <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
-                <span class="badge badge-pill badge-primary float-right">View all</span>
+                <p class="mb-0 font-weight-medium float-left">You have 4 new
+                  notifications </p>
+                <span class="badge badge-pill badge-primary float-right">View
+                  all</span>
               </a>
               <a class="dropdown-item preview-item py-3">
                 <div class="preview-thumbnail">
                   <i class="mdi mdi-alert m-auto text-primary"></i>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">Application Error</h6>
+                  <h6 class="preview-subject fw-normal text-dark mb-1">Application
+                    Error</h6>
                   <p class="fw-light small-text mb-0"> Just now </p>
                 </div>
               </a>
@@ -158,7 +167,8 @@
                   <i class="mdi mdi-airballoon m-auto text-primary"></i>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">New user registration</h6>
+                  <h6 class="preview-subject fw-normal text-dark mb-1">New
+                    user registration</h6>
                   <p class="fw-light small-text mb-0"> 2 days ago </p>
                 </div>
               </a>
@@ -173,58 +183,68 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
               aria-labelledby="countDropdown">
               <a class="dropdown-item py-3">
-                <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
-                <span class="badge badge-pill badge-primary float-right">View all</span>
+                <p class="mb-0 font-weight-medium float-left">You have 7
+                  unread mails </p>
+                <span class="badge badge-pill badge-primary float-right">View
+                  all</span>
               </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
+                  <img src="/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
-                  <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Marian
+                    Garner </p>
+                  <p class="fw-light small-text mb-0"> The meeting is
+                    cancelled </p>
                 </div>
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
+                  <img src="/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
-                  <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">David
+                    Grey </p>
+                  <p class="fw-light small-text mb-0"> The meeting is
+                    cancelled </p>
                 </div>
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
+                  <img src="/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
-                  <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
+                  <p class="preview-subject ellipsis font-weight-medium text-dark">Travis
+                    Jenkins </p>
+                  <p class="fw-light small-text mb-0"> The meeting is
+                    cancelled </p>
                 </div>
               </a>
             </div>
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="images/faces/face8.jpg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="/images/faces/face8.jpg" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="images/faces/face8.jpg" alt="Profile image">
+                <img class="img-md rounded-circle" src="/images/faces/face8.jpg" alt="Profile image">
                 <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
                 <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
-                Profile <span class="badge badge-pill badge-danger">1</span></a>
+              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i>
+                My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
                 Messages</a>
               <a class="dropdown-item"><i
-                  class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
+                  class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
+                Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                 FAQ</a>
               <a class="dropdown-item" href="/logout"><i
-                  class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                  class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
+                Out</a>
             </div>
           </li>
         </ul>
@@ -337,7 +357,8 @@
                 <i class="ti-control-record text-primary me-2"></i>
                 <span>Feb 11 2018</span>
               </div>
-              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
+              <p class="mb-0 font-weight-thin text-gray">Creating component
+                page build a js</p>
               <p class="text-gray mb-0">The total number of sessions</p>
             </div>
             <div class="events pt-4 px-3">
@@ -345,7 +366,8 @@
                 <i class="ti-control-record text-primary me-2"></i>
                 <span>Feb 7 2018</span>
               </div>
-              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
+              <p class="mb-0 font-weight-thin text-gray">Meeting with
+                Alisa</p>
               <p class="text-gray mb-0 ">Call Sarah Graves</p>
             </div>
           </div>
@@ -353,11 +375,12 @@
           <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
             <div class="d-flex align-items-center justify-content-between border-bottom">
               <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Friends</p>
-              <small class="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 fw-normal">See All</small>
+              <small class="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 fw-normal">See
+                All</small>
             </div>
             <ul class="chat-list">
               <li class="list active">
-                <div class="profile"><img src="images/faces/face1.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="/images/faces/face1.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Thomas Douglas</p>
                   <p>Available</p>
@@ -365,7 +388,7 @@
                 <small class="text-muted my-auto">19 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
+                <div class="profile"><img src="/images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
                 <div class="info">
                   <div class="wrapper d-flex">
                     <p>Catherine</p>
@@ -376,7 +399,7 @@
                 <small class="text-muted my-auto">23 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="images/faces/face3.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="/images/faces/face3.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Daniel Russell</p>
                   <p>Available</p>
@@ -384,7 +407,7 @@
                 <small class="text-muted my-auto">14 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
+                <div class="profile"><img src="/images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
                 <div class="info">
                   <p>James Richardson</p>
                   <p>Away</p>
@@ -392,7 +415,7 @@
                 <small class="text-muted my-auto">2 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="images/faces/face5.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="/images/faces/face5.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Madeline Kennedy</p>
                   <p>Available</p>
@@ -400,7 +423,7 @@
                 <small class="text-muted my-auto">5 min</small>
               </li>
               <li class="list">
-                <div class="profile"><img src="images/faces/face6.jpg" alt="image"><span class="online"></span></div>
+                <div class="profile"><img src="/images/faces/face6.jpg" alt="image"><span class="online"></span></div>
                 <div class="info">
                   <p>Sarah Graves</p>
                   <p>Available</p>
@@ -417,111 +440,98 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="/main">
+            <a class="nav-link" href="/home">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Home</span>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/dashboard">
+            <a class="nav-link" href="/sc">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+          <li class="nav-item nav-category">Menu Bar </li>
+          {{!-- </li>
+          <li class="nav-item nav-category">Admin</li> --}}
+          {{!-- <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-base" aria-expanded="false"
+              aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
               <span class="menu-title">Admin</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="auth">
+            <div class="collapse" id="ui-base">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave/show-to-approver">Leave applications</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/role">Roles management</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/permission">Permissions</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Expense/show">All Expenses</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a> </li>
-                <li class="nav-item"><a class="nav-link" href="/ework">Employees</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/users">User Management</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/attendancerecord">attendancerecord</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/salary">Salary</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/salarytype">salarytype</a></li>
-
-
-
-
-
+                <li class="nav-item"> <a class="nav-link" href="/Expense/show">All Expenses</a></li>
               </ul>
-
             </div>
-          </li>
-          {{!-- <li class="nav-item nav-category">UI Elements</li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-              aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">UI Elements</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-base2">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/holiday/admin">Public Holidays </a></li>
               </ul>
             </div>
           </li> --}}
-          <li class="nav-item nav-category">Features</li>
-           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
-              aria-controls="attendance">
-              <i class="menu-icon mdi mdi-account-check"></i>
-              <span class="menu-title">attendance</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="attendance">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/attendance">attendance</a></li>
-
-              </ul>
-            </div>
-          </li>
 
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-              aria-controls="ui-basic">
+          {{!-- <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#admin-menu" aria-expanded="false"
+              aria-controls="admin-menu">
               <i class="menu-icon mdi mdi-floor-plan"></i>
-              <span class="menu-title">Leave Management</span>
+              <span class="menu-title">Admin</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="admin-menu">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave">Apply leave</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance">My leaves</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-policy">Leave policies</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/show">All Expenses</a>
+                </li>
               </ul>
             </div>
-          </li>
-
-         
-
+            <div class="collapse" id="admin-menu2">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a>
+                </li>
+              </ul>
+            </div>
+            <div class="collapse" id="admin-menu3">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="/Employee-onboarding/show-to-admin">Employee Onboarding</a>
+                </li>
+              </ul>
+            </div>
+            <!-- Note: Each collapsible content should have a unique ID -->
+          </li> --}}
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#docs" aria-expanded="false" aria-controls="docs">
-              <i class="menu-icon mdi mdi-file-multiple"></i>
-              <span class="menu-title">Documents</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#admin-menu" aria-expanded="false"
+              aria-controls="admin-menu">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Admin</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="docs">
+            <div class="collapse" id="admin-menu">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/docs">Documents</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/show">All Expenses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/employee-onboarding/">Employee Onboarding</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/type">Expense type </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/payment_method">Payment Method</a>
+                </li>
               </ul>
             </div>
+            <!-- Note: Each collapsible content should have a unique ID -->
           </li>
-
+          {{!--
+          <li class="nav-item nav-category">Expense Management</li> --}}
+          <li class="nav-item nav-category">Features</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
               aria-controls="ui-basic">
@@ -536,7 +546,6 @@
               </ul>
             </div>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-pub" aria-expanded="false" aria-controls="ui-basic">
               <i class="menu-icon mdi mdi-floor-plan"></i>
@@ -549,41 +558,93 @@
               </ul>
             </div>
           </li>
- 
-
-         
-           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ics" aria-expanded="false" aria-controls="ics">
-              <i class="menu-icon mdi mdi-wallet-membership"></i>
-              <span class="menu-title">Subscription</span>
+          {{!--
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
+              aria-controls="form-elements">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">Expense Management</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ics">
+            <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/subPlan">Subscription Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="/expense">Expense Details</a></li>
               </ul>
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
+              aria-controls="form-elements">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">Employees</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="form-elements">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="/employee">Employees Details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">User Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/user">User Details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="menu-icon mdi mdi-table"></i>
+              <span class="menu-title">Role Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/roles">Roles Details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">Permission Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="icons">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/permissions">Permission Details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item nav-category">pages</li>
 
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#feedback" aria-expanded="false"
-              aria-controls="feedback">
-              <i class="menu-icon mdi mdi-layers-outline"></i>
-              <span class="menu-title">Feedback</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <span class="menu-title">New User.. Registration</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="feedback">
+            <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/feedback">Feedback Form</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/new-user"> Click here to Register</a></li>
               </ul>
             </div>
           </li>
+          <li class="nav-item nav-category">help</li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://bootstrapdash.com/demo/star-admin2-free/docs/documentation.html">
+              <i class="menu-icon mdi mdi-file-document"></i>
+              <span class="menu-title">Documentation</span>
+            </a> --}}
 
-
-
+          </li>
         </ul>
       </nav>
-
       <!-- plugins:js -->
       <script src="/vendors/js/vendor.bundle.base.js"></script>
       <!-- endinject -->
@@ -605,9 +666,11 @@
       <script src="/js/Chart.roundedBarCharts.js"></script>
       <!-- End custom js for this page-->
 
+      {{!-- js for progress bar --}}
 
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       {{{body}}}
 </body>
 

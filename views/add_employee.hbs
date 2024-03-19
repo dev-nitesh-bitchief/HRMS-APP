@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        h2 {
+            color: #2f8d46;
+        }
+
+            {
+                {
+                !-- #form {
+                    text-align: center;
+                    position: relative;
+                }
+
+                --
+            }
+        }
+
+
+        #form fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .finish {
+            text-align: center;
+        }
+
+        #form fieldset:not(:first-of-type) {
+            display: none;
+        }
+
+        #form .previous-step,
+        .next-step {
+            width: 100px;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px 10px 0px;
+        }
+
+        .form,
+        .previous-step {
+            background: #616161;
+            float: left;
+        }
+
+        .form,
+        .next-step {
+            background: #2f8d46;
+            float: right;
+        }
+
+        #form .previous-step:hover,
+        #form .previous-step:focus {
+            background-color: #000000;
+        }
+
+        #form ul {
+            margin-bottom: 0rem;
+        }
+
+        #form .next-step:hover,
+        #form .next-step:focus {
+            background-color: #2f8d46;
+        }
+
+        .text {
+            color: #2f8d46;
+            font-weight: normal;
+        }
+
+        #progressbar {
+            overflow: hidden;
+            color: lightgrey;
+            width: 100%;
+        }
+
+        #progressbar .active {
+            color: #2f8d46;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 16%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+            text-align: center;
+        }
+
+
+
+        #progressbar #step1:before {
+            content: "1";
+        }
+
+        #progressbar #step2:before {
+            content: "2";
+        }
+
+        #progressbar #step3:before {
+            content: "3";
+        }
+
+        #progressbar #step4:before {
+            content: "4";
+        }
+
+        #progressbar #step5:before {
+            content: "5";
+        }
+
+        #progressbar #step6:before {
+            content: "6";
+        }
+
+        #progressbar li:before {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            display: block;
+            font-size: 10px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 1px;
+        }
+
+        #progressbar li:after {
+            content: "";
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1;
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: rgb(0, 84, 112);
+        }
+
+        .progress {
+            height: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+
+        #form {
+            width: 100%;
+        }
+
+        .row {
+            width: 100%;
+        }
+
+        .page-1 {
+            margin: 20px;
+            border: 1px solid black;
+            padding: 30px;
+        }
+
+
+        #submit_btn {
+            background-color: #4CAF50;
+            /* Green */
+            width: 100px;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px 10px 0px;
+            float: right;
+        }
+
+        .previous-step {
+            float: left;
+        }
+
+            {
+                {
+                !-- .col-md-6 {
+                    height: 65px;
+                    width: 350px;
+                    margin: 0px;
+                }
+
+                --
+            }
+        }
+
+        .form-group label {
+            color: inherit;
+            font-family: "Manrope", sans-serif;
+            font-size: 12px;
+        }
+
+        .card-body {
+            padding: 12px;
+            border-radius: 0px;
+        }
+
+        .card-title {
+            margin: 0 0 12px;
+        }
+
+        .card-body label {
+            color: inherit;
+        }
+
+        .col-md-4 {
+            margin: -3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {{!-- <div class="row "> --}}
+            <div class="col-11 col-sm-9 col-md-12 col-lg-6 col-xl-5 p-0">
+                <div class="px-0 pt-4 pb-0 ">
+                    <form id="form">
+                        <ul id="progressbar">
+                            <li class="active" id="step1" onclick="goToStep(1)"><strong>Personal Information</strong>
+                            </li>
+                            <li id="step2" onclick="goToStep(2)"><strong>Education Details</strong></li>
+                            <li id="step3" onclick="goToStep(3)"><strong>Emergency Contact Information</strong></li>
+                            <li id="step4" onclick="goToStep(4)"><strong>Job Information</strong></li>
+                            <li id="step5" onclick="goToStep(5)"><strong>Banking Details</strong></li>
+                            <li id="step6" onclick="goToStep(6)"><strong>Declaration</strong></li>
+                        </ul>
+                        <br />
+                        <div class="col-12 grid-margin">
+                            <div class="card">
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            {{!-- <h4 class="card-title">Personal Information</h4> --}}
+                                            <form class="form-sample">
+                                                {{!-- <p class="card-description">
+                                                    Personal info
+                                                </p> --}}
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="firstName">First
+                                                                Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" id="firstName"
+                                                                    name="firstName"
+                                                                    placeholder="Enter Your First Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="lastName">Last
+                                                                Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" id="lastName"
+                                                                    name="lastName"
+                                                                    placeholder="Enter Your Last Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="gender">Gender</label>
+                                                            <div>
+                                                                <select class="form-control">
+                                                                    <option value="">Select</option>
+                                                                    <option name="male"> Male</option>
+                                                                    <option name="female"> Female</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="dob">Date of
+                                                                Birth</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="dob"
+                                                                    id="dob" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="mobileNumber">Mobile
+                                                                No.</label>
+                                                            <div>
+                                                                <input class="form-control" type="tel"
+                                                                    name="phoneNumber" id="phoneNumber">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="email">Email</label>
+                                                            <div>
+                                                                <input class="form-control" type="email" name="email"
+                                                                    id="email" placeholder="Enter email address">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="bloodGroup">Blood Group
+                                                            </label>
+                                                            <div>
+                                                                <input class="form-control" type="text"
+                                                                    name="bloodGroup" id="bloodGroup">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="religion">Religion</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="text"
+                                                                    id="text" placeholder="Enter your Religion">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="maritalStatus">Marital
+                                                                Status</label>
+                                                            <div>
+                                                                <select class="form-control">
+                                                                    <option value="">Select</option>
+                                                                    <option name="single"> Single</option>
+                                                                    <option name="married"> Married</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="aadharNumber">Aadhar
+                                                                Card</label>
+                                                            <div>
+                                                                <input class="form-control" type="number"
+                                                                    name="aadharNumber" id="aadharNumber"
+                                                                    placeholder="Enter Aadhar Number ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="panCardNumber">PAN Card
+                                                            </label>
+                                                            <div>
+                                                                <input class="form-control" type="number"
+                                                                    name="panCardNumber" id="panCardNumber"
+                                                                    placeholder="Enter PAN Number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="drivingLicenseNumber">Driving
+                                                                License</label>
+                                                            <div>
+                                                                <input class="form-control" type="number"
+                                                                    name="drivingLicenseNumber"
+                                                                    id="drivingLicenseNumber"
+                                                                    placeholder="Enter Driving License Number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{!-- <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="currentAddress">Current
+                                                                Address
+                                                            </label>
+                                                            <div>
+                                                                <input class="form-control" type="number"
+                                                                    name="currentAddress" id="currentAddress"
+                                                                    placeholder="Enter Current Address">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="permanentAddress">PermanentAddress
+                                                            </label>
+                                                            <div>
+                                                                <input class="form-control" type="number"
+                                                                    name="permanentAddress" id="permanentAddress"
+                                                                    placeholder="Enter Permanent Address">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-description">
+                                                    Family Details
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="fatherName">Father
+                                                                Name </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="fatherName" id="fatherName" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="motherName">Mother
+                                                                Name </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="motherName" id="motherName" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="fatherName">Father
+                                                                Mobile No. </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="fatherMobileNumber" id="fatherMobileNumber" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="motherName">
+                                                                Mother Mobile No.</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="motherMobileNumber" id="motherMobileNumber" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="fatherName">Father
+                                                                Occupation</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="fatherOccupation" id="fatherOccupation" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="motherName">
+                                                                Mother Occupation</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    name="motherOccupation" id="motherOccupation" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div> --}}
+                                    </div>
+                                    <input type="button" name="next-step" class="next-step" value="Next" />
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Education Details</h4>
+                                            <form class="form-sample">
+                                                <p class="card-description">
+                                                    Class Xth Details
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="10thSchoolName">School Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="10thSchoolName" name="10thschoolName"
+                                                                    placeholder="Enter Your School Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="10thBoardName">Board Name </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="10thBoardName" name="10thBoardName"
+                                                                    placeholder="Enter Board Name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="10thyearOfPassing">Year of
+                                                                Passing</label>
+                                                            <div>
+                                                                <input type="number" class="form-control"
+                                                                    id="10thYearOfPassing" name="10thYearOfPassing"
+                                                                    pattern="[0-9]{4}" min="1900" max="2100"
+                                                                    placeholder="Enter in Format YYYY">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="10thMarks">Marks
+                                                                in CGPA / Percentage</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="10thMarks"
+                                                                    id="10thMarks" placeholder="% / CGPA " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-description">
+                                                    Class XIIth Details
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="12thSchoolName">School Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="12thSchoolName" name="12thschoolName"
+                                                                    placeholder="Enter Your School Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="12thBoardName">Board Name </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="12thBoardName" name="12thBoardName"
+                                                                    placeholder="Enter Board Name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="12thyearOfPassing">Year of
+                                                                Passing</label>
+                                                            <div>
+                                                                <input type="number" class="form-control"
+                                                                    id="12thYearOfPassing" name="12thYearOfPassing"
+                                                                    pattern="[0-9]{4}" min="1900" max="2100"
+                                                                    placeholder="Enter in Format YYYY">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="12thMarks">Marks
+                                                                in CGPA / Percentage</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="12thMarks"
+                                                                    id="12thMarks" placeholder="% / CGPA " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-description">
+                                                    Under Graduation Details
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label
+                                                                for="ugInstituteName">Institute/College/University</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="ugInstituteName" name="ugInstituteName"
+                                                                    placeholder="Enter Institute Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="ugCourseName">Course Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="ugCourseName" name="ugCourseName"
+                                                                    placeholder="Enter Course Name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="ugYearOfGraduation">Year of
+                                                                Graduation</label>
+                                                            <div>
+                                                                <input type="number" class="form-control"
+                                                                    id="ugYearOfGraduation" name="ugYearOfGraduation"
+                                                                    pattern="[0-9]{4}" min="1900" max="2100"
+                                                                    placeholder="Enter in Format YYYY">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="ugMarks">Marks
+                                                                in CGPA / Percentage</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="ugMarks"
+                                                                    id="ugMarks" placeholder="% / CGPA " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-description">
+                                                    Post Graduation Details
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label
+                                                                for="pgInstituteName">Institute/College/University</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="pgInstituteName" name="pgInstituteName"
+                                                                    placeholder="Enter Institute Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="pgCourseName">Course Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="pgCourseName" name="pgCourseName"
+                                                                    placeholder="Enter Course Name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="pgYearOfGraduation">Year of
+                                                                Graduation</label>
+                                                            <div>
+                                                                <input type="number" class="form-control"
+                                                                    id="pgYearOfGraduation" name="pgYearOfGraduation"
+                                                                    pattern="[0-9]{4}" min="1900" max="2100"
+                                                                    placeholder="Enter in Format YYYY">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="pgMarks">Marks
+                                                                in CGPA / Percentage</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="pgMarks"
+                                                                    id="pgMarks" placeholder="% / CGPA " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <input type="button" name="next-step" class="next-step" value="Next Step" />
+                                    <input type="button" name="previous-step" class="previous-step" value="Previous" />
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Emergency Contact Information</h4>
+                                            <form class="form-sample">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="emergencyName">Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="emergencyName" name="emergencyName"
+                                                                    placeholder="Enter Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="emergencyRelation">Relation
+                                                            </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="emergencyRelation" name="emergencyRelation"
+                                                                    placeholder="Enter Relation ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="emergencyPhoenNumber">Mobile No.</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="emergencyPhoenNumber"
+                                                                    name="emergencyPhoneNumber"
+                                                                    placeholder="Enter Mobile Number ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="emergencyEmail">Email </label>
+                                                            <div>
+                                                                <input class="form-control" type="text"
+                                                                    name="emergencyEmail" id="emergencyEmail"
+                                                                    placeholder="Enter Email Address" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="emergencyAddress">Address </label>
+                                                            <div>
+                                                                <input class="form-control" type="text"
+                                                                    name="emergencyAddress" id="emergencyAddress"
+                                                                    placeholder="Enter Address" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <input type="button" name="next-step" class="next-step" value="Next" />
+                                    <input type="button" name="previous-step" class="previous-step" value="Previous" />
+
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Job Information</h4>
+                                            <form class="form-sample">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="jobPosition">Job
+                                                                Position</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" id="jobPositon"
+                                                                    name="jobPosition"
+                                                                    placeholder="Enter Job Position" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="dateOfJoining">
+                                                                Date of Joining
+                                                            </label>
+                                                            <div>
+                                                                <input type="date" class="form-control"
+                                                                    id="dateOfJoining" name="dateOfJoining">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="Department_id">Department</label>
+                                                            <div>
+                                                                <select class="form-control" id="Department_id"
+                                                                    name="Department_id">
+                                                                    <option value="">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-description">
+                                                    Previous Job Information
+                                                </p>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="previousCompany">Previous Company</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="previousCompany" name="previousCompany"
+                                                                    placeholder="Enter Previous Company Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="previousReason">Reason For Leaving
+                                                            </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="previousReason" name="previousReason"
+                                                                    placeholder="Enter Reason for Leaving">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="previousJobPostion">Previous Job Position
+                                                            </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="previousJobPostion" name="previousJobPostion"
+                                                                    placeholder="Enter Previous Job Position">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <input type="button" name="next-step" class="next-step" value="Next" />
+                                    <input type="button" name="previous-step" class="previous-step" value="Previous" />
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Banking Details</h4>
+                                            <form class="form-sample">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="bankName">Bank
+                                                                Name</label>
+                                                            <div>
+                                                                <input type="text" class="form-control" id="bankName"
+                                                                    name="bankName" placeholder="Enter Bank Name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="accountHolderName">A/C Holder Name
+                                                            </label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="accountHolderName" name="accountHolderName"
+                                                                    placeholder="Enter A/C Holder Name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="accountNumber">A/C No.</label>
+                                                            <div>
+                                                                <input type="text" class="form-control"
+                                                                    id="accountNumber" name="accountNumber">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="branchAddress">Branch
+                                                                Address</label>
+                                                            <div>
+                                                                <input class="form-control" type="text"
+                                                                    name="branchAddress" id="branchAddress"
+                                                                    placeholder="Enter Branch Address" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="ifscCode">IFSC
+                                                                Code </label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="ifscCode"
+                                                                    id="ifscCode" placeholder="Enter IFSC Code " />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <input type="button" name="next-step" class="next-step" value="Next" />
+                                    <input type="button" name="previous-step" class="previous-step" value="Previous" />
+                                </fieldset>
+                                <fieldset>
+                                    <div class="col-12 grid-margin">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Declaration</h4>
+                                            <form class="form-sample">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="Image">Employee
+                                                                Image </label>
+                                                            <div>
+                                                                <input type="file" class="form-control" id="Image"
+                                                                    name="Image" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="signImage">Signature Image
+                                                            </label>
+                                                            <div>
+                                                                <input type="file" class="form-control" id="signImage"
+                                                                    name="signImage">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <input type="button" name="previous-step" class="previous-step" value="Previous" />
+                                    <button type="submit" id="submit_btn">Submit</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+
+{{!--
+
+<body>
+
+
+    <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="AddModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl custom-xl-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddModalLabel">Multi-Step Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0  mb-2">
+                        <div class="px-0 pt-4 pb-0 mt-3 mb-3">
+                            <div class="form-container">
+                                <form id="form">
+                                    <div id="center">
+                                        <ul id="progressbar">
+                                            <li class="active" id="step1">
+                                                <strong>Personal Information </strong>
+                                            </li>
+                                            <li id="step2"><strong>Banking Details</strong></li>
+                                            <li id="step3">
+                                                <strong>Emergency Contact Information</strong>
+                                            </li>
+                                            <li id="step4"><strong>Submit</strong></li>
+                                        </ul>
+                                    </div>
+                                    <br />
+                                    <fieldset>
+                                        <legend>Personal Information</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="firstName">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="firstName"
+                                                    placeholder="Enter Your First Name ">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="lastName">Last Name </label>
+                                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                                    placeholder="Enter Your Last Name ">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="gender">Gender</label>
+                                                <input type="checkbox" id="checkbox1" name="checkboxGroup"
+                                                    value="option1">
+                                                <label for="checkbox1">Male</label>
+                                                <input type="checkbox" id="checkbox2" name="checkboxGroup"
+                                                    value="option2">
+                                                <label for="checkbox2">Female</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="dob">DOB</label>
+                                                <input type="date" class="form-control" id="dob" name="dob"
+                                                    placeholder="Enter your DOB">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="phoneNumber">Phone Number </label>
+                                                <input type="tel" class="form-control" id="phoneNumber"
+                                                    name="phoneNumber" placeholder="Enter your Phone Number">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Enter your email">
+                                            </div>
+                                        </div>
+                                        <input type="button" name="next-step" class="next-step" value="Next Step" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Emergency Contact Information</legend>
+                                        <input type="button" name="next-step" class="next-step" value="Next Step" />
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous Step" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <h2>Welcome To GFG Step 3</h2>
+                                        <input type="button" name="next-step" class="next-step" value="Final Step" />
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous Step" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="finish">
+                                            <h2 class="text text-center">
+                                                <strong>FINISHED</strong>
+                                            </h2>
+                                        </div>
+                                        <input type="button" name="previous-step" class="previous-step"
+                                            value="Previous Step" />
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body> --}}
+
+<script>
+    /*  function goToStep(step) {
+          // Hide all fieldsets
+          if (step.)
+              $("fieldset").hide();
+          // Show the fieldset corresponding to the step
+          $("fieldset:nth-child(" + (step) + ")").show();
+      } */
+
+    /* document.addEventListener('DOMContentLoaded', function () {
+         console.log('Inside DD Function');
+         fetch('/employee-onboarding/dynamic-department')
+             .then(response => response.json())
+             .then(data => {
+                 const roleDropdown = document.getElementById('Department_id');
+                 data.forEach(department => {
+                     console.log('data under fetch is ', data);
+                     const option = document.createElement('option');
+                     option.value = department.id;
+                     option.textContent = department.departmentName;
+                     roleDropdown.appendChild(option);
+                 });
+             })
+             .catch(error => console.error('Error fetching data:', error));
+     }); */
+
+
+
+    $(document).ready(function () {
+        var currentPage, nextPage, previousPage;
+        var opacity;
+        var current = 1;
+        var steps = $("fieldset").length;
+
+        setProgressBar(current);
+
+        $(".next-step").click(function () {
+            currentPage = $(this).parent();
+            nextPage = $(this).parent().next();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(nextPage)).addClass("active");
+
+            nextPage.show();
+            currentPage.animate({ opacity: 0 }, {
+                step: function (now) {
+                    opacity = 1 - now;
+
+                    currentPage.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    nextPage.css({ 'opacity': opacity });
+                },
+                duration: 500
+            });
+            setProgressBar(++current);
+        });
+
+        $(".previous-step").click(function () {
+
+            currentPage = $(this).parent();
+            previousPage = $(this).parent().prev();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(currentPage)).removeClass("active");
+
+            previousPage.show();
+
+            currentPage.animate({ opacity: 0 }, {
+                step: function (now) {
+                    opacity = 1 - now;
+
+                    currentPage.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    previousPage.css({ 'opacity': opacity });
+                },
+                duration: 500
+            });
+            setProgressBar(--current);
+        });
+
+        function setProgressBar(currentStep) {
+            var percent = parseFloat(100 / steps) * currentStep;
+            percent = percent.toFixed();
+            $(".progress-bar")
+                .css("width", percent + "%")
+        }
+
+        $(".submit").click(function () {
+            return false;
+        })
+    });
+
+
+    /*   $(document).ready(function () {
+            // Initialize current step
+            var currentStep = 1;
+    
+            // Handle Next button click
+            $(".next-step").click(function () {
+                if (currentStep < 4) {
+                    currentStep++;
+                    goToStep(currentStep);
+                }
+            });
+    
+            // Handle Previous button click
+            $(".previous-step").click(function () {
+                if (currentStep > 1) {
+                    currentStep--;
+                    goToStep(currentStep);
+                }
+            });
+    
+            // Handle progress bar list item click
+            $("#progressbar li").click(function () {
+                var step = $(this).index() + 1;
+                goToStep(step);
+            });
+        });
+    
+        function goToStep(step) {
+            // Hide all fieldsets
+            $("fieldset").hide();
+    
+            // Show the fieldset corresponding to the step
+            $("fieldset:nth-child(" + (step + 3) + ")").show();
+    
+            // Update progress bar
+            updateProgressBar(step);
+        }
+    
+        function updateProgressBar(step) {
+            // Reset all steps to inactive
+            $("#progressbar li").removeClass("active");
+    
+            // Activate the current step
+            $("#progressbar li:nth-child(" + step + ")").addClass("active");
+    
+            // Calculate and update progress bar width
+            var percent = ((step - 1) / 4) * 100;
+            $(".progress-bar").css("width", percent + "%");
+        } 
+      $(document).ready(function () {
+          // Initialize current step
+          var currentStep = 1;
+          var activeStep = 1; // For tracking the step activated by clicking on progress bar
+  
+          // Handle Next button click
+          $(".next-step").click(function () {
+              if (currentStep < 4) {
+                  currentStep++;
+                  goToStep(currentStep);
+              }
+          });
+  
+          // Handle Previous button click
+          $(".previous-step").click(function () {
+              if (currentStep > 1) {
+                  currentStep--;
+                  goToStep(currentStep);
+              }
+          });
+  
+          // Handle progress bar list item click
+          $("#progressbar li").click(function () {
+              activeStep = $(this).index() + 1;
+              goToStep(activeStep);
+          });
+      });
+  
+      function goToStep(step) {
+          // Hide all fieldsets
+          $("fieldset").hide();
+  
+          // Show the fieldset corresponding to the step
+          $("fieldset:nth-child(" + (step + 3) + ")").show();
+  
+          // Update progress bar
+          updateProgressBar(step);
+      }
+  
+      function updateProgressBar(step) {
+          // Reset all steps to inactive
+          $("#progressbar li").removeClass("active");
+  
+          // Activate the current step based on next/previous button click
+          $("#progressbar li:nth-child(" + currentStep + ")").addClass("active");
+  
+          // Calculate and update progress bar width
+          var percent = ((currentStep - 1) / 4) * 100;
+          $(".progress-bar").css("width", percent + "%");
+      } 
+      */
+
+</script>
+
+</html>
