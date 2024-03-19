@@ -2,19 +2,7 @@
 <html lang="en">
 
 <head>
- <link rel="stylesheet" href="../design/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../design/images/favicon.png" />
+ 
   <style>
    /* Styling the anchor tag to look like a button */
   .new_data {
@@ -214,7 +202,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       
   
-    displayMessage("Hey!!!", '3000000');
+    displayMessage("Hey!!!", '3000');
 
       
       document.getElementById('uploadForm').addEventListener('submit', function (event) {
@@ -250,7 +238,8 @@
         })
           .then(response => {
             if (response.ok) {
-              showToast('Update successful');
+              displayMessage('Update successful','3000');
+              //
               window.location.href = '/role';
             } else {
               response.json().then(data => {
@@ -258,13 +247,13 @@
                 // Display an error message if login fails
                 if (!data.success) {
                   
-                  showToast(data.message);
+                  displayMessage(data.message);
                 } else {
-                  showToast('An error occurred. Please try again later.');
+                  displayMessage('An error occurred. Please try again later.','3000');
                 }
               }).catch(error => {
                 
-                showToast('An error occurred. Please try again later.');
+                displayMessage('An error occurred. Please try again later.','3000');
               });
             }
           })
@@ -272,7 +261,7 @@
           
           // Handle any errors that occur during the API request
           console.error('Error:', error);
-          showToast('An error occurred. Please try again later.');
+          displayMessage('An error occurred. Please try again later.','3000');
         });
     });
     //----------------------------

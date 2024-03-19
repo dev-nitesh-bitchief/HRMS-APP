@@ -1,20 +1,34 @@
+</body>
+
+</html>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
- <link rel="stylesheet" href="../design/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="../vendors/select2/select2.min.css">
+  <link rel="stylesheet" href="../vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="../design/images/favicon.png" />
+  <link rel="shortcut icon" href="../images/favicon.png">
+
   <style>
     /* Styling the anchor tag to look like a button */
     .btn-dark {
@@ -93,74 +107,8 @@
 
     }
   </style>
-  <style>
-    /* Dropdown Button */
-    .dropbtn {
-      background-color: #04AA6D;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
 
-    /* Dropdown button on hover & focus */
-    .dropbtn:hover,
-    .dropbtn:focus {
-      background-color: #3e8e41;
-    }
 
-    /* The search field */
-    #myInput {
-      box-sizing: border-box;
-      background-image: url('searchicon.png');
-      background-position: 14px 12px;
-      background-repeat: no-repeat;
-      font-size: 16px;
-      padding: 14px 20px 12px 45px;
-      border: none;
-      border-bottom: 1px solid #ddd;
-    }
-
-    /* The search field when it gets focus/clicked on */
-    #myInput:focus {
-      outline: 3px solid #ddd;
-    }
-
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    /* Dropdown Content (Hidden by Default) */
-    .dropdown-content {
-      /* display: none; */
-      position: absolute;
-      background-color: #f6f6f6;
-      min-width: 230px;
-      border: 1px solid #ddd;
-      z-index: 1;
-    }
-
-    /* Links inside the dropdown */
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {
-      background-color: #f1f1f1
-    }
-
-    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-    .show {
-      display: block;
-    }
-  </style>
 </head>
 
 <body>
@@ -178,10 +126,9 @@
                       Add New salary <span class="mdi mdi-currency-inr"></span></button>
                     <tr>
                       <th>Id:</th>
-                      <th>employee_name</th>
-                      <th>salary_type</th>
-                      <th>salaryAmount</th>
-                      <th>salaryCycle</th>
+                      <th>Employee Name</th>
+                      <th>Salary Amount</th>
+                      <th>Salary Cycle</th>
                       <th class="actions">Actions</th>
                     </tr>
                   </thead>
@@ -190,22 +137,24 @@
                     <tr>
                       <td>{{this.id}}</td>
                       <td>{{this.employee_name}}</td>
-                      <td>{{this.salary_type}}</td>
-                      <td>{{this.salaryAmount}}</td>
+                      <td>{{this.netSalary}}</td>
                       <td>{{this.salaryCycle}}</td>
-                       <td class="actions">
-                               <div class="dropdown">
-                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Action
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <a class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
-                          data-toggle="modal" data-target="#updateUserModal">edit</a>
-                        <a class="dropdown-item" data-toggle="modal"
-                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">Delete</a>
-                      </div>
-                    </div>
-                     </td> 
+                      <td class="actions">
+                        <div class="dropdown">
+                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Action
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                            <a class="dropdown-item"
+                              onclick="UpdateForm('{{this.id}}','{{this.salaryAmount}}','{{this.salaryCycle}}')"
+                              data-toggle="modal" data-target="#updateUserModal" id="UpdateSalaryData">edit</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteidModal"
+                              onclick="openDeleteModal('{{this.id}}')">Delete</a>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -221,7 +170,7 @@
   <!-- add Modal -->
   <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addRoleModalLabel">salary info</h5>
@@ -231,45 +180,67 @@
         </div>
         <div class="modal-body">
           <form class="forms-sample" action="/Salary/addsalary" method="post">
-          <div class="form-group">
+            <div class="form-group">
               <label for="Employee_id">Employee Name</label>
-              <select class="form-select" id="Employee_id" name="Employee_id">
+              <select class="form-select" id="Employee_id" name="Employee_id" required>
                 <option value="">Select Employee </option>
               </select>
             </div>
-
-            <div class="form-group">
-                    <label>Single select box using select 2</label>
-                    <select class="js-example-basic-single w-100">
-                      <option value="AL">Alabama</option>
-                      <option value="WY">Wyoming</option>
-                      <option value="AM">America</option>
-                      <option value="CA">Canada</option>
-                      <option value="RU">Russia</option>
-                    </select>
-                  </div>
-
-            <div class="form-group">
-              <label for="salary_type">Select Type:</label>
-              <select class="form-select" id="salary_type" name="SalaryType_id">
-                <option value="">Select </option>
-              </select>
+            <div class="form-group" id="additionalInputs">
+              <div class="row">
+                <!-- Existing fields for salary type and amount -->
+                <div class="col-md-6">
+                  <label for="salary_type">Select Type:</label>
+                  {{!-- <select class="form-select" id="salary_type" name="SalaryType_id">
+                    <option value="">Select </option>
+                  </select> --}}
+                </div>
+                <div class="col-md-6">
+                  <label for="salaryAmount">salaryAmount</label>
+                  {{!-- <input type="text" class="form-select" id="salaryAmount" name="salaryAmount"
+                    placeholder="salaryAmount"> --}}
+                </div>
+              </div>
+              <div class="row" id="newFieldsContainer">
+                <!-- Existing fields for salary type and amount -->
+                <div class="col-md-6">
+                  {{!-- <label for="salary_type">Select Type:</label> --}}
+                  <select class="form-control" id="salary_type" name="SalaryType[]">
+                    <option value="">Select </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  {{!-- <label for="salaryAmount">salaryAmount</label> --}}
+                  <input type="text" class="form-control salary-amount" name="salarytypeAmount[]"
+                    placeholder="Salary Amount" required>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="salaryAmount">salaryAmount</label>
-              <input type="text" class="form-control" id="salaryAmount1" name="salaryAmount" placeholder="salaryAmount">
+            <!-- Container for new fields -->
+            {{!-- <div id="newFieldsContainer"></div> --}}
+            <div class="row">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-success" id="addNewSalaryBtn">Add</button>
+              </div>
+              <div class="col-md-6">
+                <label for="netSalary">Total Amount</label>
+                <input type="text" class="form-control" id="total-salary" name="netSalary" placeholder="Total salary"
+                  readonly>
+              </div>
             </div>
+
+
             <div class="form-group">
               <label for="salaryCycle">salaryCycle</label>
               <input type="text" class="form-control" id="salaryCycle2" name="salaryCycle" placeholder="salaryCycle">
             </div>
             <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
-          </form>
         </div>
-        <div id="toast" class="toast"></div>
       </div>
     </div>
   </div>
+  </div>
+
   {{!-- --}}
 
   <!-- Delete Modal -->
@@ -297,6 +268,9 @@
     </div>
   </div>
 
+
+
+
   <!-- Update Modal -->
   <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel"
     aria-hidden="true">
@@ -309,110 +283,141 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/salary/updatesalary" method="post">
+          <form class="forms-sample" action="/Salary/updatesalary" method="post">
             <div class="form-group">
-              <input type="hidden" class="form-control" id="id" name="id">
+              <label for="salary_id">Salary ID</label>
+              <input class="form-control" id="salary_id" name="salary_id" readonly>
             </div>
+            <div class="form-group" id="additionalInputs">
+              <div class="row">
+                <!-- Existing fields for salary type and amount -->
+                <div class="col-md-6">
+                  <label for="salary_type">Select Type:</label>
+                </div>
+                <div class="col-md-6">
+                  <label for="salaryAmount">salaryAmount</label>
+                </div>
+              </div>
+              <div class="row" id="newFieldsContainer">
+                <!-- Existing fields for salary type and amount -->
+                <div class="col-md-6">
+                  {{!-- <label for="salary_type">Select Type:</label> --}}
+                  <select class="form-control" id="salary_type" name="SalaryType[]">
+                    <option value="">Select </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  {{!-- <label for="salaryAmount">salaryAmount</label> --}}
+                  <input type="text" class="form-control salary-amount" name="salarytypeAmount[]"
+                    placeholder="Salary Amount" required>
+                </div>
+              </div>
+            </div>
+            <!-- Container for new fields -->
+            {{!-- <div id="newFieldsContainer"></div> --}}
+            <div class="row">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-success" id="addNewSalaryBtn">Add</button>
+              </div>
+              <div class="col-md-6">
+                <label for="netSalary">Total Amount</label>
+                <input type="text" class="form-control" id="total-salary" name="netSalary" placeholder="Total salary"
+                  readonly>
+              </div>
+            </div>
+
+
             <div class="form-group">
-              <label for="salaryAmount">salaryAmount:</label>
-              <input type="text" class="form-control" id="salaryAmount" name="salaryAmount" placeholder="salaryAmount">
+              <label for="salaryCycle">salaryCycle</label>
+              <input type="text" class="form-control" id="salaryCycle2" name="salaryCycle" placeholder="salaryCycle">
             </div>
-            <div class="form-group">
-              <label for="salaryCycle">salaryCycle:</label>
-              <input type="text" class="form-control" id="salaryCycle" name="salaryCycle" placeholder="salaryCycle">
-            </div>
-            <button type="submit" class="btn btn-warning">Update Employee</button>
-          </form>
+            <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
         </div>
       </div>
     </div>
   </div>
 
 
-
-
   <script>
     // Fetch data from the server and populate the dropdown
-fetch('/employee/show')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    employeeData = data;
-    const employeeDropdown = document.getElementById('Employee-id');
+    fetch('/employee/show')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        employeeData = data;
+        const employeeDropdown = document.getElementById('Employee-id');
 
-    // Function to filter options based on search input
-    function filterOptions(searchInput) {
-      const filteredData = data.filter(employee => employee.employeeName.toLowerCase().includes(searchInput.toLowerCase()));
-      employeeDropdown.innerHTML = ''; // Clear existing options
-      filteredData.forEach(employee => {
-        const option = document.createElement('option');
-        option.value = employee.id;
-        option.text = employee.employeeName;
-        employeeDropdown.appendChild(option);
-      });
+        // Function to filter options based on search input
+        function filterOptions(searchInput) {
+          const filteredData = data.filter(employee => employee.employeeName.toLowerCase().includes(searchInput.toLowerCase()));
+          employeeDropdown.innerHTML = ''; // Clear existing options
+          filteredData.forEach(employee => {
+            const option = document.createElement('option');
+            option.value = employee.id;
+            option.text = employee.employeeName;
+            employeeDropdown.appendChild(option);
+          });
+        }
+
+        // Populate initial options
+        data.forEach(employee => {
+          const option = document.createElement('option');
+          option.value = employee.id;
+          option.text = employee.employeeName;
+          employeeDropdown.appendChild(option);
+        });
+
+        // Add an event listener to the dropdown for validation and search
+        employeeDropdown.addEventListener('input', function () {
+          const searchInput = this.value;
+          filterOptions(searchInput);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+    // Fetch data from the server and populate the salary type dropdown
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/salarytype/allsalarytype')
+        .then(response => response.json())
+        .then(data => {
+          const roleDropdown = document.getElementById('salary_type');
+          data.forEach(Type => {
+            const option = document.createElement('option');
+            option.value = Type.id;
+            option.textContent = Type.salary_type;
+            roleDropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+    // Function to open delete modal
+    function openDeleteModal(recordid) {
+      document.getElementById('recordid').value = recordid;
+      document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
+      $('#deleteidModal').modal('show');
     }
 
-    // Populate initial options
-    data.forEach(employee => {
-      const option = document.createElement('option');
-      option.value = employee.id;
-      option.text = employee.employeeName;
-      employeeDropdown.appendChild(option);
-    });
+    // Function to open the form
+    function openForm() {
+      document.getElementById("form-container").style.display = "block";
+    }
 
-    // Add an event listener to the dropdown for validation and search
-    employeeDropdown.addEventListener('input', function () {
-      const searchInput = this.value;
-      filterOptions(searchInput);
-    });
-  })
-  .catch(error => console.error('Error fetching data:', error));
+    // Function to close the form
+    function closeForm() {
+      document.getElementById("form-container").style.display = "none";
+    }
 
+    // Function to update form fields with salary data
+    function UpdateForm(id, salaryAmount, salaryCycle) {
+      document.getElementById('id').value = id;
+      document.getElementById('salaryAmount').value = salaryAmount;
+      document.getElementById('salaryCycle').value = salaryCycle;
+      $('#updateUserModal').modal('show');
+    };
 
-      document.addEventListener('DOMContentLoaded', function () {
-        // Fetch data from the server and populate the dropdown
-        fetch('/salarytype/allsalarytype')
-          .then(response => response.json())
-          .then(data => {
-            const roleDropdown = document.getElementById('salary_type');
-            data.forEach(Type => {
-              const option = document.createElement('option');
-              option.value = Type.id;
-              option.textContent = Type.salary_type;
-              roleDropdown.appendChild(option);
-            });
-          })
-          .catch(error => console.error('Error fetching data:', error));
-      });
-
-      function openDeleteModal(recordid) {
-        document.getElementById('recordid').value = recordid;
-        document.getElementById('recordidDisplay').innerText = ' ID: ' + recordid;
-        $('#deleteidModal').modal('show');
-      }
-
-
-      // Function to open the form
-      function openForm() {
-        document.getElementById("form-container").style.display = "block";
-      }
-
-      // Function to close the form
-      function closeForm() {
-        document.getElementById("form-container").style.display = "none";
-      }
-
-
-      function UpdateForm(id, salaryAmount, salaryCycle) {
-        document.getElementById('id').value = id;
-        document.getElementById('salaryAmount').value = salaryAmount;
-        document.getElementById('salaryCycle').value = salaryCycle;
-        $('#updateUserModal').modal('show');
-      };
-
-
-   document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
+    // Fetch employee data for another dropdown
+    document.addEventListener('DOMContentLoaded', function () {
       fetch('/employee/show')
         .then(response => response.json())
         .then(data => {
@@ -427,9 +432,129 @@ fetch('/employee/show')
         .catch(error => console.error('Error fetching data:', error));
     });
 
+  </script>
+
+  <script>
+    // Function to add new salary fields
+    function addNewSalary() {
+      const additionalInputs = document.getElementById('additionalInputs');
+      const newFieldsContainer = document.getElementById('newFieldsContainer');
+      const clonedFields = newFieldsContainer.cloneNode(true); // Clone existing fields
+      additionalInputs.appendChild(clonedFields); // Append cloned fields to the container
+
+      // Attach event listeners to the newly added input fields
+      const salaryAmountInputs = clonedFields.querySelectorAll('.salary-amount');
+      salaryAmountInputs.forEach(input => {
+        input.addEventListener('input', calculateTotalSalary);
+      });
+    }
+
+    // Function to calculate total salary
+    function calculateTotalSalary() {
+      const salaryAmountInputs = document.querySelectorAll('.salary-amount');
+      let totalSalary = 0;
+      salaryAmountInputs.forEach(input => {
+        const amount = parseFloat(input.value) || 0; // Convert input value to a number, default to 0 if NaN
+        totalSalary += amount;
+      });
+      document.getElementById('total-salary').value = totalSalary.toFixed(2); // Update the total salary field
+    }
+
+    // Attach click event listener to the "Add New Salary" button
+    document.getElementById('addNewSalaryBtn').addEventListener('click', addNewSalary);
+
+    // Attach event listener to each salaryAmount input for initial rows
+    document.addEventListener('DOMContentLoaded', function () {
+      const salaryAmountInputs = document.querySelectorAll('.salary-amount');
+      salaryAmountInputs.forEach(input => {
+        input.addEventListener('input', calculateTotalSalary);
+      });
+    });
 
   </script>
-  
+
+  <script>
+    var myButton = document.getElementById('UpdateSalaryData');
+
+function UpdateForm(salary_id) {
+  fetch(/salary/salarytypewithamount/${salary_id})
+    .then(response => response.json())
+    .then(data => {
+      console.log("data", data)
+      data.result.forEach((item, index) => {
+        console.log(item.salarytypeAmount);
+        console.log(item.salarytype_id);
+
+        // Create a new row div element
+        const rowDiv = document.createElement('div');
+        rowDiv.classList.add('row');
+
+        // Create a div element for salary type
+        const salaryTypeDiv = document.createElement('div');
+        salaryTypeDiv.classList.add('col-md-6');
+
+        // Create a select element for salary type
+        const salaryTypeSelect = document.createElement('select');
+        salaryTypeSelect.classList.add('form-control');
+        salaryTypeSelect.name = SalaryType[${index}];
+
+        // Create option elements for the select element
+        const selectOption = document.createElement('option');
+        selectOption.value = '';
+        selectOption.textContent = 'Select';
+        salaryTypeSelect.appendChild(selectOption);
+
+        // Create options for each prefilled value
+        prefilledValues.forEach((value, i) => {
+          const option = document.createElement('option');
+          option.value = value.salaryType;
+          option.textContent = value.salaryType;
+          salaryTypeSelect.appendChild(option);
+        });
+
+        // Append the select element to the div for salary type
+        salaryTypeDiv.appendChild(salaryTypeSelect);
+
+        // Create a div element for salary amount
+        const salaryAmountDiv = document.createElement('div');
+        salaryAmountDiv.classList.add('col-md-6');
+
+        // Create an input element for salary amount
+        const salaryAmountInput = document.createElement('input');
+        salaryAmountInput.type = 'text';
+        salaryAmountInput.classList.add('form-control', 'salary-amount');
+        salaryAmountInput.name = salarytypeAmount[${index}];
+        salaryAmountInput.placeholder = 'Salary Amount';
+        salaryAmountInput.value = item.salarytypeAmount;
+        salaryAmountInput.required = true;
+
+        // Append the input element to the div for salary amount
+        salaryAmountDiv.appendChild(salaryAmountInput);
+
+        // Append the salary type and amount divs to the row div
+        rowDiv.appendChild(salaryTypeDiv);
+        rowDiv.appendChild(salaryAmountDiv);
+
+        // Append the row div to the container
+        document.getElementById('newFieldsContainer').appendChild(rowDiv);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+}
+</script>
+
+
+
+  <script src="../vendors/typeahead.js/typeahead.bundle.min.js"></script>
+  <script src="../vendors/select2/select2.min.js"></script>
+
+  <script src="../js/file-upload.js"></script>
+  <script src="../js/typeahead.js"></script>
+  <script src="../js/select2.js"></script>
+
+
 </body>
 
 </html>
