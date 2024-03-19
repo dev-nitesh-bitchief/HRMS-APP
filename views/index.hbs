@@ -1,56 +1,123 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Landing Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    h1 {
-      color: #333;
-      margin-top: 0;
-    }
-    p {
-      color: #666;
-    }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      margin-top: 20px;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-    .button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="../vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="../vendors/select2/select2.min.css">
+  <link rel="stylesheet" href="../vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
+
 <body>
-
-<div class="container">
-  <h1>Welcome to Your Dashboard</h1>
-  <p>This is your one-stop destination for tracking important metrics and insights.</p>
-  <a href="/" class="button">Go to Dashboard</a>
-</div>
-
+  <div class="container-scroller">
+      <!-- partial -->
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          <div class="row">
+           <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Select 2</h4>
+                  <div class="form-group">
+                    <label>Single select box using select 2</label>
+                    <select class="js-example-basic-single w-100">
+                      <option value="AL">Alabama</option>
+                      <option value="WY">Wyoming</option>
+                      <option value="AM">America</option>
+                      <option value="CA">Canada</option>
+                      <option value="RU">Russia</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Multiple select using select 2</label>
+                    <select class="js-example-basic-multiple w-100" multiple="multiple">
+                      <option value="AL">Alabama</option>
+                      <option value="WY">Wyoming</option>
+                      <option value="AM">America</option>
+                      <option value="CA">Canada</option>
+                      <option value="RU">Russia</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Typeahead</h4>
+                  <p class="card-description">
+                    A simple suggestion engine
+                  </p>
+                  <div class="form-group row">
+                    <div class="col">
+                      <label>Basic</label>
+                      <div id="the-basics">
+                        <input class="typeahead" type="text" placeholder="States of USA">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label>Bloodhound</label>
+                      <div id="bloodhound">
+                        <input class="typeahead" type="text" placeholder="States of USA">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="../vendors/typeahead.js/typeahead.bundle.min.js"></script>
+  <script src="../vendors/select2/select2.min.js"></script>
+  <script src="../vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="../js/off-canvas.js"></script>
+  <script src="../js/hoverable-collapse.js"></script>
+  <script src="../js/template.js"></script>
+  <script src="../js/settings.js"></script>
+  <script src="../js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="../js/file-upload.js"></script>
+  <script src="../js/typeahead.js"></script>
+  <script src="../js/select2.js"></script>
+  <!-- End custom js for this page-->
 </body>
-</html>
 
+</html>

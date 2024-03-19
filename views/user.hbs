@@ -345,10 +345,10 @@
           });
         })
         .catch(error => console.error('Error fetching data:', error));
-    });
+    
 
 
-    document.addEventListener('DOMContentLoaded', function () {
+   
       // Fetch data from the server and populate the dropdown
       fetch('/role/showroles')
         .then(response => response.json())
@@ -362,9 +362,8 @@
           });
         })
         .catch(error => console.error('Error fetching data:', error));
-    });
+  
 
-    document.addEventListener('DOMContentLoaded', function () {
       // Fetch data from the server and populate the dropdown
       fetch('/role/showroles')
         .then(response => response.json())
@@ -378,8 +377,8 @@
           });
         })
         .catch(error => console.error('Error fetching data:', error));
-    });
-
+    
+});
 
     const usernameInput = document.getElementById('usernameInput');
     const usernameStatus = document.getElementById('usernameStatus');
