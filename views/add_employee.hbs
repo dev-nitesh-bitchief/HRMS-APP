@@ -269,11 +269,11 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="firstName">First
-                                                                Name</label>
+                                                                Name <span style="color: red;">*</span></label>
                                                             <div>
                                                                 <input type="text" class="form-control" id="firstName"
-                                                                    name="firstName" placeholder="Enter Your First Name"
-                                                                    required />
+                                                                    name="firstName"
+                                                                    placeholder="Enter Your First Name" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -283,8 +283,8 @@
                                                                 Name</label>
                                                             <div>
                                                                 <input type="text" class="form-control" id="lastName"
-                                                                    name="lastName"
-                                                                    placeholder="Enter Your Last Name" />
+                                                                    name="lastName" placeholder="Enter Your Last Name"
+                                                                    required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -316,7 +316,7 @@
                                                                 No.</label>
                                                             <div>
                                                                 <input class="form-control" type="tel"
-                                                                    name="phoneNumber" id="phoneNumber">
+                                                                    name="phoneNumber" id="phoneNumber" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -872,40 +872,15 @@
             </div>
         </div>
 </body>
+
 <script>
 
-    /* function goToStep(step) {
-       
-
-        if (typeof step === 'number' && step >= 1 && step <= 6) {
-            $("fieldset").hide();
-            // Show the fieldset corresponding to the step
-            $("fieldset:nth-child(" + (step) + ")").show();
-        } else {
-            console.error("Invalid step number:", step);
-        }
-    } */
-    /* document.addEventListener('DOMContentLoaded', function () {
-         console.log('Inside DD Function');
-         fetch('/employee-onboarding/dynamic-department')
-             .then(response => response.json())
-             .then(data => {
-                 const roleDropdown = document.getElementById('Department_id');
-                 data.forEach(department => {
-                     console.log('data under fetch is ', data);
-                     const option = document.createElement('option');
-                     option.value = department.id;
-                     option.textContent = department.departmentName;
-                     roleDropdown.appendChild(option);
-                 });
-             })
-             .catch(error => console.error('Error fetching data:', error));
-     }); */
     function areFieldsFilled(fieldset) {
+        debugger
         var allFieldsFilled = true;
-
         // Iterate through each input element within the fieldset
         $(fieldset).find(':input[required]').each(function () {
+            console.log('inside filled fields function');
             // Check if the input is empty or not
             if ($(this).val() === '') {
                 // If any input field is empty, set the flag to false
@@ -914,22 +889,21 @@
                 return false;
             }
         });
-
         return allFieldsFilled;
     }
+
     function goToStep(step) {
+        debugger
+        console.log('Going to step:', step);
         // Function to check if all fields in a fieldset are filled
-
-
         if (typeof step === 'number' && step >= 1 && step <= 6) {
             // Find the fieldset corresponding to the current step
-            var currentFieldset = $("fieldset:nth-child(" + step + ")");
-
+            var currentFieldset = $("fieldset").eq(step - 2);
+            console.log('Selected fieldset:', currentFieldset);
             // Check if all fields in the current fieldset are filled
             if (areFieldsFilled(currentFieldset)) {
                 // All fields in the current fieldset are filled
                 console.log('All fields in the current fieldset are filled.');
-
                 // Hide all fieldsets
                 $("fieldset").hide();
                 // Show the fieldset corresponding to the step
@@ -937,7 +911,6 @@
             } else {
                 // Some fields in the current fieldset are not filled
                 alert('Some fields in the current fieldset are not filled.');
-
                 // Optionally, display an error message or handle the incomplete form
             }
         } else {
@@ -945,8 +918,8 @@
         }
     }
 
-
     $(document).ready(function () {
+
         var currentPage, nextPage, previousPage;
         var opacity;
         var current = 1;
@@ -954,23 +927,9 @@
 
         setProgressBar(current);
 
-
         $(".next-step").click(function () {
             // Function to check if all fields in a fieldset are filled
-            function areFieldsFilled(fieldset) {
-                var allFieldsFilled = true;
-                // Iterate through each input element within the fieldset
-                $(fieldset).find(':input[required]').each(function () {
-                    // Check if the input is empty or not
-                    if ($(this).val() === '') {
-                        // If any input field is empty, set the flag to false
-                        allFieldsFilled = false;
-                        // Exit the loop early if any field is empty
-                        return false;
-                    }
-                });
-                return allFieldsFilled;
-            }
+
             // Find the closest fieldset which represents the current page
             var currentPage = $(this).closest('fieldset');
             var nextPage = currentPage.next();
@@ -1000,7 +959,6 @@
             }
         });
 
-
         $(".previous-step").click(function () {
 
             currentPage = $(this).parent();
@@ -1026,6 +984,8 @@
             });
             setProgressBar(--current);
         });
+
+
 
         function setProgressBar(currentStep) {
             var percent = parseFloat(100 / steps) * currentStep;
