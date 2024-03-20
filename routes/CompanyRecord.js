@@ -75,7 +75,7 @@ router.get('/search',(req,res)=>{
             console.error('Error',err);
             return res.status(500).send('Internal Server Error');
         }
-        return res.render('CompanyRecord');
+        return res.redirect('/CompanyRecord');
     });
 });
 
