@@ -31,6 +31,7 @@ var salarytypeRouter = require('./routes/salarytype');
 var attendanceRouter = require('./routes/Attendance')
 var attendancerecordRouter = require('./routes/attendancerecord')
 
+
 var Department = require('./routes/Department')
 
 var role = require('./routes/Role');
@@ -74,6 +75,11 @@ var Leave_policy = require('./routes/Leave_policy');
 var Leave_balance = require('./routes/Leave_balance');
 var Leave_type = require('./routes/Leave_type');
 var Leave_allocation = require('./routes/Leave_allocation');
+
+
+
+var Audit_logging = require('./routes/Audit_logging');
+var Payroll = require('./routes/Payroll');
 
 
 
@@ -185,6 +191,10 @@ app.use('/Leave-policy', Leave_policy);
 app.use('/Leave-balance', Leave_balance);
 app.use('/Leave-type', Leave_type);
 app.use('/Leave-allocation', Leave_allocation);
+
+
+app.use('/Audit-logging', Audit_logging);
+app.use('/Payroll',Payroll);
 
 
 
