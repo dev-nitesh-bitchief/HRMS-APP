@@ -19,9 +19,9 @@ router.get('/',(req,res)=>{
 });
 
 router.post('/add',(req,res)=>{
-    const {companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,status,gstin,package}=req.body;
-    const data =[companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,status,gstin,package];
-    const sql='INSERT INTO Company(companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,status,gstin) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    const {companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,gstin,package,status}=req.body;
+    const data =[companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,gstin,package,status];
+    const sql='INSERT INTO Company(companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,gstin,package,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
     db.query(sql,data,(err,result)=>{
         if (err) {
             console.error('Error',err);
@@ -32,7 +32,7 @@ router.post('/add',(req,res)=>{
 });
 
 router.post('/update',(req,res)=>{
-    const {id,companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,status,gstin,package} = req.body;
+    const {id,companyName,address,city,state,country,postalCode,phone,email,website,ceo,description,socialMediaLinks,gstin,package,status} = req.body;
     let sql='UPDATE Company SET ';
     const updateValues=[];
     if (companyName!== undefined) {
@@ -83,10 +83,6 @@ router.post('/update',(req,res)=>{
         sql += 'socialMediaLinks = ?, '; 
         updateValues.push(socialMediaLinks); 
     }
-    if (status!== undefined) {
-        sql += 'status = ?, '; 
-        updateValues.push(status); 
-    }
     if (gstin!== undefined) {
         sql += 'gstin = ?, '; 
         updateValues.push(gstin); 
@@ -94,6 +90,10 @@ router.post('/update',(req,res)=>{
     if (package!== undefined) {
         sql += 'package = ?, '; 
         updateValues.push(package); 
+    }
+    if (status!== undefined) {
+        sql += 'status = ?, '; 
+        updateValues.push(status); 
     }
     if (updateValues.length===0){
         return res.status(400).json({ success: false, message: 'No fields provided for update' });
@@ -118,7 +118,8 @@ router.get('/search',(req,res)=>{
             console.error('Error',err);
             return res.status(500).send('Internal Server Error');
         }
-        return res.render('Company');
+        // return res.render('Company');
+        return res.status(200).json(result);
     });
 });
 
