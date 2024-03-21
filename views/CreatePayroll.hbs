@@ -61,9 +61,10 @@
 
 
 
-        #hiddenForm {
+        /*   #hiddenForm {
             display: none;
-        }
+        }   
+         */
     </style>
 </head>
 
@@ -80,7 +81,7 @@
 
                             <h3 class="card-title">Employee Info</h3>
 
-                            <form class="forms-sample" action="">
+                            <form class="forms-sample" action="/Payroll/salaryDetails" method="post">
                                 <div class="row_">
                                     <div class="search_bar">
 
@@ -108,7 +109,7 @@
 
                                     </div>
 
-                                    <a type="button" class="go_button" id="goButton">Go</a>
+                                    <button type="submit" class="go_button" id="goButton">Go</button>
                                 </div>
                             </form>
 
@@ -125,74 +126,55 @@
                                 Horizontal form layout
                             </p> --}}
 
-                             <div class="table-responsive">
+                            <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                           
-                                           
+
+
                                             <th>Employee name</th>
                                             <th>Month-year</th>
-                                            <th>Salary</th>
-                                            {{!-- <th>Expense claim</th> --}}
-                                            <th>absent Deduction</th>
-                                            <th>Net pay</th>
-                                            <th>status</th>
-                                            {{!-- <th>Created on</th> --}}
+                                            <th>Base salary</th>
+                                            <th>Bonus</th>
+                                            <th>Allowance</th>
+                                            <th>Deduction</th>
+                                            <th>PF</th>
+                                            <th>Absent Deduction</th>
+                                            <th>Net salary</th>
                                             <th>Action</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        {{#each data}}
+                                        {{#each Payroll}}
                                         <tr>
-                                           
-                                            <td>{{this.employeeName}}</td>
-                                            <td>{{this.month}} - {{this.year}}</td>
-                                            <td>{{this.netSalary}}</td>
-                                            {{!-- <td>{{this.expenseClaim}}</td> --}}
-                                            <td>{{this.absentDeduction}}</td>
-                                            <td>{{this.netPay}}</td>
-                                            <td>{{this.status}}</td>
-                                            {{!-- <td>{{this.dateCreated}}</td> --}}
-                                           
-                                            <td>
-
-
-                                                <!-- Button to trigger the modal -->
-                                                <a type="button" id="delete_data" data-toggle="modal"
-                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
-
-                                                
-                                                 <a type="button" id="update_data"
-                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
-                                                    data-toggle="modal" data-target="#editModal">
-                                                    Edit
-                                                    <i class="ti-file btn-icon-append"></i>
-                                                </a>
-
-                                            </td>
+                                             {{!-- <td>{{@key}}</td> --}}
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{this.basic}}</td> 
+                                            <td>{{this.bonus}}</td>
+                                            <td>{{this.allowance}}</td>
+                                            <td>{{this.deduction}}</td>
+                                            <td>{{PF}}</td>
+                                            <td>{{absentDeduction}}</td>
 
                                         </tr>
                                         {{/each}}
                                     </tbody>
-
                                 </table>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
 
     <script>
-
-
+         
+        
         fetch('/Leave-balance/employee')
             .then(response => response.json())
             .then(data => {
@@ -207,8 +189,6 @@
             .catch(error => console.error('Error fetching data:', error));
 
 
-
-
         fetch('/Leave-balance/month')
             .then(response => response.json())
             .then(data => {
@@ -221,7 +201,6 @@
                 });
             })
             .catch(error => console.error('Error fetching data:', error));
-
 
 
 
@@ -240,39 +219,18 @@
                 yearDropdown.appendChild(option);
             }
         }
-      // Example usage: populate the dropdown with years from 2000 to 2050
+        // Example usage: populate the dropdown with years from 2000 to 2050
         populateYearDropdown(2020, 2025);
 
 
-
-
-
-
-
-
         // Function to show the hidden form when Go button is clicked
-        document.getElementById('goButton').addEventListener('click', function () {
-            document.getElementById('hiddenForm').style.display = 'block';
-
-        });
-
-
-        
-
-
-        
-
-
-        
-
-       
-        
+        /* document.getElementById('goButton').addEventListener('click', function () {
+             document.getElementById('hiddenForm').style.display = 'block';
+ 
+         });  */
 
 
     </script>
-
-
-
 
     <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

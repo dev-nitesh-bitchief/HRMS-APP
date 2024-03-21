@@ -237,7 +237,6 @@ router.post('/edit', (req, res) => {
 
 
 
-//Dropdown options for employee in add leave balance ( admin )
 router.post('/salary', (req, res) => {
 
     const { Employee_id } = req.body;
@@ -256,32 +255,70 @@ router.post('/salary', (req, res) => {
 });
 
 
-router.post('/presentDays', (req, res) => {
-    const { Employee_id, month, year } = req.body;
 
-    const sql = `SELECT COUNT(DISTINCT DATE(CheckIn)) AS total_present_days
-    FROM Attendance
+
+
+router.post('/salaryDetails', (req, res) => {
+    try {
+        const { Employee_id, month, year } = req.body;
+
+        const sql = `SELECT e.id AS Employee_id, e.firstname AS Employee_name, s.id AS Salary_id, st.salary_type AS SalaryType, sd.salarytypeAmount AS SalaryAmount
+    FROM Employee e
+    JOIN Salary s ON e.id = s.Employee_id
+    JOIN SalaryDetails sd ON s.id = sd.salary_id
+    JOIN SalaryType st ON sd.salarytype_id = st.id
     WHERE Employee_id = ?
-      AND YEAR(CheckIn) = ?
-      AND MONTH(CheckIn) = ?`;
+    ORDER BY e.id, st.id `;
 
-    const data = [Employee_id, year, month];
+        const data = [Employee_id];
 
-    db.query(sql, data, (error, results) => {
-        if (error) {
-            console.error('Error retrieving data from database: ' + error.stack);
-            res.status(500).json({ error: 'Internal server error' });
+        db.query(sql, data, async (error, result) => {
+            if (error) {
+                console.error('Error retrieving data from database: ' + error.stack);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            // console.log(result);
+
+            // res.status(200).json(results);
+
+            const salariesByType = {};
+
+            result.forEach(salary => {
+                const { SalaryType, SalaryAmount } = salary;
+                salariesByType[SalaryType] = SalaryAmount;
+            });
+
+            // console.log(salariesByType);
+            // console.log("basic salary:", salariesByType.basic);
+
+            const absent_days = await calculateAbsentDays(Employee_id, year, month);
+            console.log('absent days 123', absent_days);
+
+            const monthIndex = (month - 1);
+            const daysInMonth = new Date(year, monthIndex, 0).getDate();
+            
+            const absentDeduction = ((salariesByType.basic / daysInMonth) * absent_days).toFixed(2);
+            console.log("absent deduction :", absentDeduction);
+
+            salariesByType.absentDeduction = absentDeduction;
+            console.log("Payroll :", salariesByType);
+
+            const array = [salariesByType];
+
+
+            res.status(200).render('CreatePayroll', { Payroll : array });
+
             return;
-        }
-
-        res.status(200).json(results);
-    });
-})
+        });
 
 
+    } catch (error) {
+        console.error('Error retrieving data from database:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
-
-
+});
 
 
 
@@ -323,7 +360,7 @@ function getHolidays(year, month) {
                     return new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate());
                 });
                 resolve(holidays);
-               
+
             }
         });
     });
@@ -381,29 +418,6 @@ function getApprovedLeaves(employeeId, year, month) {
 }
 
 
-// Main function to calculate absent days
-// async function calculateAbsentDays(employeeId, year, month) {
-//     try {
-//         const dates = getDatesForMonth(year, month);
-//         const workingDays = filterWeekends(dates);
-//         const holidays = await getHolidays(year, month);
-//         const attendanceDates = await getAttendanceData(employeeId, year, month);
-//         const approvedLeaves = await getApprovedLeaves(employeeId, year, month);
-
-//         console.log('Apprved leaves inside :', approvedLeaves);
-//         console.log('Holidays :', holidays);
-
-//         const absentDays = workingDays.filter(date => !holidays.includes(date) && !attendanceDates.includes(date) && !approvedLeaves.includes(date));
-
-//         console.log('Absent days:', absentDays);
-//         console.log('Number of absent days:', absentDays.length);
-//     } catch (error) {
-//         console.error('Error:', error);
-//     } finally {
-//         // Close the database connection
-//         // db.end();
-//     }
-// }
 
 
 // Main function to calculate absent days
@@ -412,21 +426,21 @@ async function calculateAbsentDays(employeeId, year, month) {
         const dates = getDatesForMonth(year, month);
 
         console.log('date length:', dates.length);
-       
+
 
         const dayToRemove = 0; // Assuming 0 represents Sunday
-        const workingDays = await  removeDayFromDate(dates, dayToRemove);
-        
+        const workingDays = await removeDayFromDate(dates, dayToRemove);
+
 
         const holidays = await getHolidays(year, month);
         const attendanceDates = await getAttendanceData(employeeId, year, month);
         const approvedLeaves = await getApprovedLeaves(employeeId, year, month);
-        
+
         // console.log('Dates:', dates);
-        // console.log("Working Days (Excluding Sundays):", workingDays.length);
-        // console.log('Holidays:', holidays.length);
-        // console.log('Attendance Dates:', attendanceDates.length);
-        // console.log('Approved Leaves:', approvedLeaves.length);
+        console.log("Working Days (Excluding Sundays):", workingDays.length);
+        console.log('Holidays:', holidays.length);
+        console.log('Attendance Dates:', attendanceDates.length);
+        console.log('Approved Leaves:', approvedLeaves.length);
 
         // Convert dates to ISO strings for comparison
         const holidayStrings = holidays.map(date => date.toISOString().split('T')[0]);
@@ -441,9 +455,10 @@ async function calculateAbsentDays(employeeId, year, month) {
         });
 
         // console.log('Absent Days:', absentDays);
-        console.log('Number of Absent Days:', absentDays.length);
+        // console.log('Number of Absent Days:', absentDays.length);
+        return absentDays.length;
 
-       
+
     } catch (error) {
         console.error('Error:', error);
     } finally {
@@ -452,10 +467,12 @@ async function calculateAbsentDays(employeeId, year, month) {
 }
 
 // Example usage
-const employeeId = 3;
-const year = 2024;
-const month = 3; // March
-calculateAbsentDays(employeeId, year, month);
+// const employeeId = 3;
+// const year = 2024;
+// const month = 3; // March
+// calculateAbsentDays(employeeId, year, month);
+
+
 
 
 
