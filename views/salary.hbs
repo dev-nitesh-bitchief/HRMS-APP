@@ -477,13 +477,13 @@
     var myButton = document.getElementById('UpdateSalaryData');
 
 function UpdateForm(salary_id) {
-  fetch(`/salary/salarytypewithamount/${salary_id}`)
+  fetch(/salary/salarytypewithamount/${salary_id})
     .then(response => response.json())
     .then(data => {
       console.log("data", data)
       data.result.forEach((item, index) => {
-        console.log(item.salarytype_id);
         console.log(item.salarytypeAmount);
+        console.log(item.salarytype_id);
 
         // Create a new row div element
         const rowDiv = document.createElement('div');
@@ -496,7 +496,7 @@ function UpdateForm(salary_id) {
         // Create a select element for salary type
         const salaryTypeSelect = document.createElement('select');
         salaryTypeSelect.classList.add('form-control');
-        salaryTypeSelect.name = `SalaryType[${index}]`;
+        salaryTypeSelect.name = SalaryType[${index}];
 
         // Create option elements for the select element
         const selectOption = document.createElement('option');
@@ -523,7 +523,7 @@ function UpdateForm(salary_id) {
         const salaryAmountInput = document.createElement('input');
         salaryAmountInput.type = 'text';
         salaryAmountInput.classList.add('form-control', 'salary-amount');
-        salaryAmountInput.name = `salarytypeAmount[${index}]`;
+        salaryAmountInput.name = salarytypeAmount[${index}];
         salaryAmountInput.placeholder = 'Salary Amount';
         salaryAmountInput.value = item.salarytypeAmount;
         salaryAmountInput.required = true;
@@ -544,8 +544,6 @@ function UpdateForm(salary_id) {
     });
 }
 </script>
-
-  </script>
 
 
 

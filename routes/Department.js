@@ -79,13 +79,15 @@ router.post('/update',(req,res)=>{
 
 router.get('/search',(req,res)=>{
     const {id}=req.body;
-    const sql=`SELECT *FROM Department WHERE id=${id}`;
+    console.log(id)
+    const sql=`SELECT * FROM Department WHERE id=${id}`;
     db.query(sql,(err,result)=>{
         if (err) {
             console.error('error',err);
             return res.status(500).send("Internal serevr error");
         }
         return res.status(200).json(result);
+        // return res.send(result);
     });
 });
 
@@ -101,22 +103,5 @@ router.post('/delete',(req,res)=>{
     });
 });
 
-router.get('/searchDP/:row_id' , (req,res)=>{
-    var id = req.params.row_id;
-    var sql = `select * from Department where id = ?`;
-  
-    console.log(`id: ${id}`);
-    console.log(id);
-  
-    db.query(sql  ,id , (error , results) => {
-      if (error) {
-        console.error('Error retrieving data from database: ' + error.stack);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-      }
-      console.log(results);
-      res.render('search',({dp:results[0]}));
-    
-  });
-  });
+
 module.exports=router;

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="../design/vendors/feather/feather.css">
+ <link rel="stylesheet" href="../design/vendors/feather/feather.css">
   <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
@@ -213,9 +213,9 @@
   <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-
-
-      displayMessage("Hey!!!", '3000000');
+      
+  
+    displayMessage("Hey!!!", '3000000');
 
 
       document.getElementById('uploadForm').addEventListener('submit', function (event) {
@@ -251,33 +251,34 @@
         })
           .then(response => {
             if (response.ok) {
-              showToast('Update successful');
+              displayMessage('Update successful','3000');
+              //
               window.location.href = '/role';
             } else {
               response.json().then(data => {
                 console.log(data);
                 // Display an error message if login fails
                 if (!data.success) {
-
+                  
                   showToast(data.message);
                 } else {
-                  showToast('An error occurred. Please try again later.');
+                  displayMessage('An error occurred. Please try again later.','3000');
                 }
               }).catch(error => {
-
+                
                 showToast('An error occurred. Please try again later.');
               });
             }
           })
-          .catch(error => {
-
-            // Handle any errors that occur during the API request
-            console.error('Error:', error);
-            showToast('An error occurred. Please try again later.');
-          });
-      });
-      //----------------------------
-      document.getElementById('addForm').addEventListener('submit', function (event) {
+      .catch (error => {
+          
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          showToast('An error occurred. Please try again later.');
+        });
+    });
+    //----------------------------
+    document.getElementById('addForm').addEventListener('submit', function (event) {
         event.preventDefault();
         var formData = new FormData(this);
         // Create an empty object to store form data
