@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <style>
+        #accept_button {
+            display: inline-block;
+            padding: 5px 20px;
+            /* Adjust padding as needed */
+            background-color: #4CAF50;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+
+        #reject_button {
+            display: inline-block;
+            padding: 5px 20px;
+            margin-left: 20px;
+            /* Adjust padding as needed */
+            background-color: #af594c;
+            /* Button background color */
+            color: white;
+            /* Button text color */
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Leave application</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>Employee name</th>
+                                            <th>Leave type</th>
+                                            <th>Start date</th>
+                                            <th>End date</th>
+                                            <th>Days</th>
+                                            <th>Reason</th>
+                                            <th>Applied on</th>
+                                            {{!-- <th>status</th> --}}
+                                            <th>Approved on</th>
+                                            <th>Action</th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each data}}
+                                        <tr>
+                                            <td>{{this.employeeName}}</td>
+                                            <td>{{this.Leave_type_name}}</td>
+                                            <td>{{this.startDate}}</td>
+                                            <td>{{this.endDate}}</td>
+                                            <td>{{this.days}}</td>
+                                            <td>{{this.reason}}</td>
+                                            <td>{{this.appliedOn}}</td>
+                                            {{!-- <td>{{this.status}}</td> --}}
+                                            <td>{{this.approveDate}}</td>
+
+                                            <td>
+
+                                                <button type="button" id="accept_button" class="acceptRequest"
+                                                    data-req-id="{{this.req_id}}">Accept</button>
+
+                                                <button type="button" id="reject_button" class="rejectRequest"
+                                                    data-req-id="{{this.req_id}}">Reject</button>
+
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            // Function to handle the action (accept/reject)
+            function handleAction(action, button) {
+                const reqId = $(button).data('req-id');
+
+                // Data to be sent in the POST request
+                const requestData = { req_id: reqId };
+
+                // Make AJAX POST request to the API
+                $.ajax({
+                    url: "/Leave/status-" + action, // Endpoint for accept/reject
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        console.log("Response:", response);
+                        if (response.success) {
+                            // Replace the button with the appropriate message
+                            const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
+                            $(button).parent().html('<p>' + message + '</p>');
+
+                            window.location.href = '/Leave/show-to-approver';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", xhr.status, error);
+                    }
+                });
+            }
+
+            // Click event handler for Accept button
+            $(".acceptRequest").click(function () {
+                handleAction('approve', this);
+            });
+
+            // Click event handler for Reject button
+            $(".rejectRequest").click(function () {
+                handleAction('reject', this);
+            });
+        });
+
+
+        // Fetch request statuses
+        $.get("/Leave/getRequestStatus", function (requestStatuses) {
+            // Loop through each request on the page
+            $(".acceptRequest, .rejectRequest").each(function () {
+                const reqId = $(this).data('req-id');
+                const status = requestStatuses[reqId];
+
+                // Check if status is 'Accepted' or 'Rejected'
+                if (status === 'Approved') {
+                    $(this).parent().html('<p>Request is Approved</p>');
+                } else if (status === 'Rejected') {
+                    $(this).parent().html('<p>Request is rejected</p>');
+                }
+            });
+        });
+
+    </script>
+
+
+
+    <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</body>
+
+</html>

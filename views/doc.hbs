@@ -14,22 +14,6 @@
         margin-top: 50px;
     }
 
-    #toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #09a833;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: none;
-
-    }
-
-    .hidden {
-        display: none;
-    }
 </style>
 </head>
 
@@ -53,12 +37,12 @@
         </form>
     </div>
 
-    <div id="toast" class="hidden"></div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4"></script>
     <script>
          document.addEventListener('DOMContentLoaded', function () {
-          alert('hello')
+          displayMessage('Documents','3000')
             document.getElementById('uploadForm').addEventListener('submit', function (event) {
                 event.preventDefault();
                 var formData = new FormData(this);

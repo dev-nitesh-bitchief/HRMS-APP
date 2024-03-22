@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -421,13 +417,27 @@
             </a>
             <div class="collapse" id="admin">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave/show-to-approver">Leave applications</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Leave/showApplication">Leave applications</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-type/show">Leave type</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-policy/show">Leave Policies</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Payroll/show">Payroll</a></li>
-
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/show">All Expenses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/employee-onboarding/">Employee Onboarding</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/type">Expense type </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/payment-method">Payment Method</a>
+                </li>
 
               </ul>
             </div>
@@ -463,7 +473,7 @@
             </a>
             <div class="collapse" id="leave">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave">Apply leave</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Leave/show">Apply leave</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-balance">My leaves</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Leave-policy">Leave policies</a></li>
               </ul>
@@ -482,8 +492,6 @@
               </ul>
             </div>
           </li>
-
-
 
           <li class="nav-item">
 
@@ -512,7 +520,7 @@
             </a>
             <div class="collapse" id="company">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/CompanyRecord">Companies </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/CompanyRecord">CompanyRecord </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Company">Company </a></li>
               </ul>
             </div>
@@ -539,6 +547,32 @@
             <div class="collapse" id="form">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"><a class="nav-link" href="/Department">Department</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+              aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Expense Management </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/Expense">Expense
+                    Details</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-pub" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Public Holiday</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-pub">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/holiday">Holiday Lists </a></li>
               </ul>
             </div>
           </li>
