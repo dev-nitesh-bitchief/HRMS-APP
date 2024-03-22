@@ -81,32 +81,7 @@ LEFT JOIN
 
 router.get('/show', (req, res) => {
 
-    const sql = `SELECT
-   
-    p.id AS Payroll_id,
-    e.id AS Employee_id,
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    pc.id AS Payroll_cycle_id,
-    m.monthName AS month,
-    p.year,
-    s.netSalary,
-    p.expenseClaim,
-    p.absentDeduction,
-    p.netPay,
-    p.status,
-    p.dateCreated
-FROM
-    Payroll p
-LEFT JOIN
-    Employee e ON p.Employee_id = e.id
-LEFT JOIN
-    Payroll_cycle pc ON p.Payroll_cycle_id = pc.id
-LEFT JOIN
-    Month m ON p.Month_id = m.id
-
-LEFT JOIN
-    Salary s ON p.Salary_id = s.id;
- `;
+    const sql = 'SELECT * FROM Payroll';
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -117,7 +92,7 @@ LEFT JOIN
 
         // Format the dateCreated property for each row in the result set
         result.forEach(row => {
-            row.dateCreated = formatDate(row.dateCreated);
+            row.createdOn = formatDate(row.createdOn);
         });
 
         function formatDate(dateString) {
@@ -136,19 +111,22 @@ LEFT JOIN
         return;
 
     })
+
+       
 });
-
-
 
 
 
 router.post('/add', (req, res) => {
     // const leaveRequestData = req.body;
-    const { Employee_id, month, year, salary, expenseClaim, absentDeduction, netPay, status } = req.body;
+    console.log('insode add route');
+    const {  employeeId, month, year, basic , bonus , allowance , deduction , PF , absentDeduction , netSalary , remark   } = req.body;
 
-    const sql = 'INSERT INTO Payroll ( Employee_id, Month_id , Year_id , salary , expenseClaim , absentDeduction , netPay , status ) VALUES(?,?,?,?,?,?,?,?)';
+    const date = new Date();
 
-    var data = [Employee_id, month, year, salary, expenseClaim, absentDeduction, netPay, status];
+    const sql = 'INSERT INTO Payroll ( Employee_id, Month_id , year , basic , bonus ,allowance , deduction , PF ,  absentDeduction , netSalary , remark  , createdOn ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+
+    var data = [ employeeId, month, year, basic , bonus , allowance , deduction , PF , absentDeduction , netSalary , remark  , date];
 
     console.log(data);
 
@@ -160,15 +138,16 @@ router.post('/add', (req, res) => {
             return;
         }
         console.log('Payroll data inserted successfully');
-        // res.status(200).json('Payroll data inserted successfully');
-        res.status(200).json({ message: 'Payroll added successfully' });
+        
+        // res.status(200).json({ message: 'Payroll added successfully' });
+        res.status(200).redirect('/Payroll/create');
+
+        
 
 
-        return;
+       
     });
 });
-
-
 
 
 
@@ -190,8 +169,6 @@ router.post('/delete', (req, res) => {
 
     });
 });
-
-
 
 
 
@@ -237,23 +214,43 @@ router.post('/edit', (req, res) => {
 
 
 
-router.post('/salary', (req, res) => {
+// router.post('/employeeName', (req, res) => {
 
-    const { Employee_id } = req.body;
+//     const { Employee_id } = req.body;
 
-    const sql = "SELECT netSalary FROM Salary where Employee_id = ?";
+//     const sql = "SELECT netSalary FROM Salary where Employee_id = ?";
 
 
-    db.query(sql, Employee_id, (error, results) => {
+//     db.query(sql, Employee_id, (error, results) => {
+//         if (error) {
+//             console.error('Error retrieving data from database: ' + error.stack);
+//             res.status(500).json({ error: 'Internal server error' });
+//             return;
+//         }
+//         res.status(200).json(results);
+//     });
+// });
+
+router.post('/employeeName', (req, res) => {
+   
+    const {employeeId} = req.body;
+ 
+   
+
+    const sql = "SELECT CONCAT(firstName,' ',lastName) AS employeeName FROM Employee WHERE id = ?;"
+
+    db.query(sql , [employeeId] , (error,results) =>{
         if (error) {
             console.error('Error retrieving data from database: ' + error.stack);
             res.status(500).json({ error: 'Internal server error' });
             return;
         }
+        
         res.status(200).json(results);
-    });
-});
 
+    })
+
+});
 
 
 
@@ -302,9 +299,16 @@ router.post('/salaryDetails', (req, res) => {
             console.log("absent deduction :", absentDeduction);
 
             salariesByType.absentDeduction = absentDeduction;
-            console.log("Payroll :", salariesByType);
+            // console.log("Payroll :", salariesByType);
+
+            salariesByType.employee = Employee_id ;
+            salariesByType.month = month ;
+            salariesByType.year = year ;
+
 
             const array = [salariesByType];
+
+            console.log("data in array :",array);
 
 
             res.status(200).render('CreatePayroll', { Payroll : array });
@@ -321,8 +325,6 @@ router.post('/salaryDetails', (req, res) => {
 });
 
 
-
-
 function getDatesForMonth(year, month) {
     const daysInMonth = moment(`${year}-${month}`, 'YYYY-MM').daysInMonth();
     const dates = [];
@@ -336,14 +338,10 @@ function getDatesForMonth(year, month) {
 }
 
 
-
-
 // Function to filter out weekends start from 0 = sunday.
 function removeDayFromDate(dates, dayToRemove) {
     return dates.filter(date => moment(date).day() !== dayToRemove);
 }
-
-
 
 
 
@@ -365,9 +363,6 @@ function getHolidays(year, month) {
         });
     });
 }
-
-
-
 
 
 // Function to fetch attendance data for the employee

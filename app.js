@@ -11,7 +11,8 @@ var session = require('express-session');
 
 
 
-var hbs = require('express-handlebars')
+var hbs = require('express-handlebars');
+
 
 
 
