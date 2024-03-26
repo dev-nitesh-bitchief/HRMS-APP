@@ -49,7 +49,7 @@ router.post('/delete', (req, res) => {
         }
         console.log('Data deleted successfully');
         // res.status(200).json('Data deleted successfully');
-        res.redirect('/Audit-logging/show');
+        res.redirect('/AuditLogging/show');
         return;
 
     })

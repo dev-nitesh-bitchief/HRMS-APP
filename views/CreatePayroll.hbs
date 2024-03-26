@@ -186,6 +186,9 @@
         </div>
     </div>
 
+
+
+
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const employeeId = document.getElementById('employeeId').value;
@@ -238,12 +241,12 @@
                 const month = document.getElementById('month').value;
                 const year = document.getElementById('year').value;
                 const basic = document.getElementById('basic').value;
-                const bonus = document.getElementById('bonus').value;
-                const allowance = document.getElementById('allowance').value;
-                const deduction = document.getElementById('deduction').value;
-                const PF = document.getElementById('PF').value;
-                const absentDeduction = document.getElementById('absentDeduction').value;
-                const netSalary = document.getElementById('netSalary').value;
+                const bonus = document.getElementById('bonus').value || "0";
+                const allowance = document.getElementById('allowance').value || "0";
+                const deduction = document.getElementById('deduction').value || "0";
+                const PF = document.getElementById('PF').value || "0";
+                const absentDeduction = document.getElementById('absentDeduction').value || "0";
+                const netSalary = document.getElementById('netSalary').value || "0";
                 const remark = document.getElementById('remark').value;
 
                 // Prepare data object

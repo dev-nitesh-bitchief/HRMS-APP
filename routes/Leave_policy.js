@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
 var db = require('../connection/db');
 
 
@@ -52,7 +56,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
 
-    router.get('/', (req, res) => {
+    router.get('/show', (req, res) => {
 
         const sql = 'SELECT * FROM Leave_policy';
 
@@ -69,7 +73,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
 
-           
+
 
 
             logActivity(req, res, {
@@ -91,7 +95,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
     });
 
 
-    router.get('/show', (req, res) => {
+    router.get('/show_admin', (req, res) => {
 
         const sql = 'SELECT * FROM Leave_policy';
 
@@ -108,7 +112,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
 
-           
+
 
 
             logActivity(req, res, {
@@ -123,7 +127,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             });
 
 
-            res.render('LeavePolicy-admin', { data: result });
+            res.render('LeavePolicy_admin', { data: result });
             return;
 
         })
@@ -131,59 +135,87 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
 
+    const upload = multer({ dest: 'Leave_policy/' });
 
-
-    router.post('/add', (req, res) => {
+    router.post('/add',upload.single('policyFile'), (req, res) => {
         // const leaveRequestData = req.body;
         const { policyName, description } = req.body;
 
-        const sql = 'INSERT INTO Leave_policy (policyName , description) VALUES (?, ?)';
-
-        var data = [policyName, description];
+        
 
 
-        db.query(sql, data, (err, result) => {
+        const policyFile = req.file;
+
+        if (!policyFile) {
+            console.error('No file uploaded');
+            res.status(400).json('No file uploaded');
+            return;
+        }
+    
+        console.log("bill is ", policyFile);
+    
+        var fileName = policyFile.filename;
+        fileName = policyName;
+    
+        const filePath = path.join(__dirname, '..', 'Leave_policy', fileName);
+    
+        fs.writeFile(filePath, fs.readFileSync(policyFile.path), (err) => {
             if (err) {
-                console.error('Error inserting data:', err);
-                res.status(500).json('Error inserting data');
+                console.error('Error writing file:', err);
+                res.status(500).json('Error writing file');
                 return;
             }
-            console.log('Data inserted successfully');
-           
 
-            var IP_address = localStorage.getItem('IP_address');
-            var Location = localStorage.getItem('Location');
-            var Browser_details = localStorage.getItem('Browser_details');
+            const sql = 'INSERT INTO Leave_policy (policyName , description , policyFile) VALUES (?, ?,?)';
 
-            const newdata = data.join(',');
+            var data = [policyName, description, fileName];
 
 
-            logActivity(req, res, {
-                User_id: userId,
-                activityType: "Management access",
-                resourceName: "Leave Policies",
-                operation: "Add policy",
-                databaseTableName: "Leave_policy",
-                enteredValues : newdata,
-                ipAddress: IP_address,
-                location: Location,
-                browserDetails: Browser_details
+            db.query(sql, data, (err, result) => {
+                if (err) {
+                    console.error('Error inserting data:', err);
+                    res.status(500).json('Error inserting data');
+                    return;
+                }
+                console.log('Data inserted successfully');
+
+
+                var IP_address = localStorage.getItem('IP_address');
+                var Location = localStorage.getItem('Location');
+                var Browser_details = localStorage.getItem('Browser_details');
+
+                const newdata = data.join(',');
+
+
+                logActivity(req, res, {
+                    User_id: userId,
+                    activityType: "Management access",
+                    resourceName: "Leave Policies",
+                    operation: "Add policy",
+                    databaseTableName: "Leave_policy",
+                    enteredValues: newdata,
+                    ipAddress: IP_address,
+                    location: Location,
+                    browserDetails: Browser_details
+                });
+
+                // res.status(200).json('Data inserted successfully');
+
+                res.status(200).redirect('/LeavePolicy/show_admin');
+
+
+                return;
             });
-
-             // res.status(200).json('Data inserted successfully');
-
-            res.status(200).redirect('/Leave-policy/show');
-
-
-            return;
         });
+
     });
 
+
     router.post('/delete', (req, res) => {
-        const { id } = req.body;
+        const { policy_id } = req.body;
         const sql = 'DELETE FROM Leave_policy WHERE id = ?';
 
-        db.query(sql, id, (err, result) => {
+        db.query(sql, policy_id, (err, result) => {
             if (err) {
                 console.error('Error deleting data:', err);
                 res.status(500).json('Error deleted data');
@@ -203,14 +235,14 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 resourceName: "Leave Policies",
                 operation: "Delete policy",
                 databaseTableName: "Leave_policy",
-                enteredValues : id,
+                enteredValues: policy_id,
                 ipAddress: IP_address,
                 location: Location,
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave-policy');
-            return;
+            res.status(200).redirect('/LeavePolicy/show_admin');
+
 
         })
     });
@@ -267,13 +299,13 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 resourceName: "Leave Policies",
                 operation: "Edit policy",
                 databaseTableName: "Leave_policy",
-                enteredValues : updateValues,
+                enteredValues: updateValues,
                 ipAddress: IP_address,
                 location: Location,
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave-policy');
+            res.redirect('/LeavePolicy/show_admin');
             return;
 
         });
@@ -303,5 +335,4 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 });
 
 
-
-    module.exports = router;
+module.exports = router;

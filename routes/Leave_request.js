@@ -120,8 +120,8 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             result.forEach(row => {
                 row.startDate = formatDate(row.startDate);
                 row.endDate = formatDate(row.endDate);
-                row.appliedOn = formatDate(row.appliedOn);
-                row.approveDate = formatDate(row.approveDate);
+                row.appliedOn = formatDateTime(row.appliedOn);
+                row.approveDate = formatDateTime(row.approveDate);
             });
             // res.status(200).json(result);
 
@@ -182,8 +182,8 @@ LEFT JOIN
             result.forEach(row => {
                 row.startDate = formatDate(row.startDate);
                 row.endDate = formatDate(row.endDate);
-                row.appliedOn = formatDate(row.appliedOn);
-                row.approveDate = formatDate(row.approveDate);
+                row.appliedOn = formatDateTime(row.appliedOn);
+                row.approveDate = formatDateTime(row.approveDate);
 
             });
 
@@ -213,7 +213,7 @@ LEFT JOIN
 
     });
 
-    
+
 
     //     router.get('/show-to-approver', (req, res) => {
     //         // const {Employee_id} = req.body;
@@ -474,6 +474,27 @@ LEFT JOIN
     });
 
 
+    //Dropdown options in apply leave form
+    router.get('/leaveType-user', (req, res) => {
+        const sql = `SELECT lb.id AS balance_id, lb.Employee_id,lt.id AS type_id ,lt.typeName, lb.Month_id, lb.totalLeaves, lb.leavesTaken      
+        FROM Leave_balance lb
+        INNER JOIN Leave_type lt ON lb.Leave_type_id = lt.id
+        WHERE Employee_id = ?`;
+
+        data = [employeeId];
+
+        db.query(sql, data, (error, results) => {
+            if (error) {
+                console.error('Error retrieving data from database: ' + error.stack);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            console.log("leave type for particular user :", results);
+            res.json(results);
+        });
+    });
+
+
 });
 
 
@@ -486,6 +507,25 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
 }
+
+
+// Function to format date string in YYYY-MM-DD HH:MM:SS format
+function formatDateTime(dateString) {
+    if (!dateString) {
+        return ''; // Return empty string if dateString is null or undefined
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 
 
 

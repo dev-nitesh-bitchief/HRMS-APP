@@ -3,6 +3,8 @@
 
 <head>
 
+
+
     <style>
         .row_ {
             display: flex;
@@ -45,7 +47,7 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Leave application</h3>
+                            <h3 class="card-title">Leave Balance management</h3>
 
                             <div class="row_">
                                 <a type="button" class="btn btn-primary " data-toggle="modal"
@@ -53,16 +55,31 @@
                                     data</a>
 
 
-                                <form class="forms-sample" action="/Leave-balance/search" method="post">
+                                <form class="forms-sample" action="/LeaveBalance/search" method="post">
                                     <div class="row_">
                                         <div class="search_bar">
 
                                             <label for="id">Employee :</label>
-                                            <select class="form-select" id="Employee_s" name="Employee_id">
+
+                                            <select class="form-select js-example-basic-single w-100" id="Employee_s" name="Employee_id">
+
                                                 <option value="">Select </option>
                                             </select>
 
                                         </div>
+
+                                        {{!-- <div class="form-group">
+                                            <label>Single select box using select 2</label>
+                                            <select class="js-example-basic-single w-100">
+                                                <option value="AL">Alabama</option>
+                                                <option value="WY">Wyoming</option>
+                                                <option value="AM">America</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="RU">Russia</option>
+                                            </select>
+                                        </div> --}}
+
+
 
                                         <button type="submit" class="search_button">Go</button>
                                     </div>
@@ -79,6 +96,7 @@
                                             <th>Leave type</th>
                                             <th>Total leaves</th>
                                             <th>Leaves taken</th>
+                                            <th>Leave Expiry</th>
                                             <th>Action</th>
 
                                         </tr>
@@ -93,6 +111,7 @@
                                             <td>{{this.Leave_type_name}}</td>
                                             <td>{{this.totalLeaves}}</td>
                                             <td>{{this.leavesTaken}}</td>
+                                            <td>{{this.expiryDate}}</td>
 
                                             <td class="actions">
                                                 <div class="dropdown">
@@ -132,6 +151,27 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            {{!-- <div class="form-group">
+                                <label>Single select box using select 2</label>
+                                <select class="js-example-basic-single w-100">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="AM">America</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="RU">Russia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Multiple select using select 2</label>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="AM">America</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="RU">Russia</option>
+                                </select>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -156,7 +196,7 @@
                     <!-- Form inside the popup -->
 
 
-                    <form class="forms-sample" action="/Leave-balance/add" method="post">
+                    <form class="forms-sample" action="/LeaveBalance/add" method="post">
                         <div class="form-group">
                             <label for="main-dropdown">Select category:</label>
                             <select class="form-select" id="main-dropdown" onchange="toggleSubDropdown()">
@@ -207,6 +247,11 @@
 
                         </div>
 
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date</label>
+                            <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                        </div>
+
 
                         <div class="form-group">
                             <label for="totalLeaves">Total leaves</label>
@@ -214,10 +259,10 @@
                         </div>
 
 
-                        <div class="form-group">
+                        {{!-- <div class="form-group">
                             <label for="leavesTaken">Leaves taken</label>
                             <input type="text" class="form-control" id="leavesTaken" name="leavesTaken" required>
-                        </div>
+                        </div> --}}
 
 
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -244,7 +289,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/Leave-balance/delete" method="post">
+                    <form action="/LeaveBalance/delete" method="post">
 
                         <label for="id">Are you sure you want to delete?</label>
                         <!-- Hidden input field to store the req_id -->
@@ -272,7 +317,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form inside the popup -->
-                    <form class="forms-sample" action="/Leave-balance/edit" method="post">
+                    <form class="forms-sample" action="/LeaveBalance/edit" method="post">
 
                         <div class="form-group">
 
@@ -299,12 +344,12 @@
     </div>
 
 
-   
+
 
     <script>
 
         // Fetch data from the server and populate the dropdown
-        fetch('/Leave-balance/employee')
+        fetch('/LeaveBalance/employee')
             .then(response => response.json())
             .then(data => {
                 const roleDropdown = document.getElementById('Employee_s');
@@ -321,7 +366,7 @@
 
 
         // Fetch data from the server and populate the dropdown
-        fetch('/Leave-balance/department')
+        fetch('/LeaveBalance/department')
             .then(response => response.json())
             .then(data => {
                 const roleDropdown = document.getElementById('department_id');
@@ -338,7 +383,7 @@
 
 
         // Fetch data from the server and populate the dropdown
-        fetch('/Leave-balance/employee')
+        fetch('/LeaveBalance/employee')
             .then(response => response.json())
             .then(data => {
                 const roleDropdown = document.getElementById('Employee_id');
@@ -372,7 +417,7 @@
 
 
         // Fetch data from the server and populate the dropdown
-        fetch('/Leave-balance/month')
+        fetch('/LeaveBalance/month')
             .then(response => response.json())
             .then(data => {
                 const roleDropdown = document.getElementById('Month_id');
@@ -448,6 +493,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
 
 </html>
