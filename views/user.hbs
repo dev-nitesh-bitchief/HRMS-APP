@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <!-- Required meta tags -->
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Star Admin2 </title>
@@ -23,79 +23,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="../images/favicon.png" />
   <style>
-    /* Styling the anchor tag to look like a button */
-    .btn-dark {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
 
-    /* Styling the anchor tag when hovered */
-    .btn-dark:hover {
-      background-color: #45a049;
-    }
-
-    /* Styling the actions column */
-    .actions {
-      text-align: right;
-    }
-
-    /* Styling the anchor tag to look like a button */
-    .new_data {
-      display: inline-block;
-      padding: 10px 20px;
-      /* Adjust padding as needed */
-      background-color: #4CAF50;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
-
-    /* Styling the anchor tag when hovered */
-    .new_data:hover {
-      background-color: #45a049;
-      /* Darker green */
-    }
-
-    /* CSS styles for the close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    #form-container {
-      display: none;
-      /* Hide the form by default */
-    }
-
-    select {
-      width: calc(100% - 20px);
-      /* Adjusted width */
-      padding: 10px;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
 
     /* Reduce space between elements */
     .form-group {
@@ -104,13 +32,7 @@
     }
 
     /* Adjust modal size */
-    .modal-dialog {
-      max-width: 500px;
-      /* Adjust as needed */
-    }
-
-
-    
+ 
   </style>
 </head>
 
@@ -131,11 +53,11 @@
                       Add New User</button>
                     <tr>
                       <th>id</th>
-                      <th>employee_name</th>
+                      <th>Employee Name</th>
                       <th>username</th>
-                      <th>role_name</th>
+                      <th>Role Name</th>
                       <th>status</th>
-                      <th>creationDate</th>
+                      <th>created at</th>
                       <th class="actions">Actions</th>
                     </tr>
                   </thead>
@@ -148,19 +70,22 @@
                       <td>{{this.role_name}}</td>
                       <td>{{this.status}}</td>
                       <td>{{this.creationDate}}</td>
-                    <td class="actions">
-                               <div class="dropdown">
-                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Action
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <a class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.role_name}}','{{this.status}}')" data-toggle="modal"
-                          data-target="#updateUserModal">edit</a>
-                        <a class="dropdown-item" data-toggle="modal"
-                          data-target="#deleteidModal" onclick="openDeleteModal('{{this.id}}')">Delete</a>
-                      </div>
-                    </div>
-                     </td> 
+                      <td class="actions">
+                        <div class="dropdown">
+                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Action
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                            <a class="dropdown-item"
+                              onclick="UpdateForm('{{this.id}}','{{this.role_name}}','{{this.status}}')"
+                              data-toggle="modal" data-target="#updateUserModal">edit</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteidModal"
+                              onclick="openDeleteModal('{{this.id}}')">Delete</a>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -174,8 +99,8 @@
   </div>
 
 
-  <!-- add Modal -->
-  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+{{!-- add modal --}}
+<div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -186,43 +111,52 @@
           </button>
         </div>
         <div class="modal-body">
-          <form class="forms-sample" action="/users/adduser" method="post">
+          <form id="myForm" class="forms-sample" action="/users/adduser" method="post" onsubmit="return validateForm()">
             <div class="form-group">
               <label for="Employee_id">Employee Name</label>
-              <select class="form-select" id="Employee_id" name="Employee_id">
-                <option value="">Select Employee </option>
+              <select class="form-control" id="Employee_id" name="Employee_id">
+                <option value="">Select Employee</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="age">username</label>
-              <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Enter username">
-              <div id="usernameStatus"></div>
+              <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Enter username" autocomplete="off">
+                <span id="usernameStatus" class="invalid-feedback"></span>
             </div>
             <div class="form-group">
-              <label for="email">password</label>
-              <input type="text" class="form-control" id="password" name="password" placeholder="password">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                placeholder="Confirm password">
+              {{!-- <div id="passwordMatchStatus"></div> --}}
+              <span id="passwordMatchStatus" class="invalid-feedback"></span>
+              
             </div>
             <div class="form-group">
               <label for="roleName">Select role:</label>
-              <select class="form-select" id="roleName" name="Role_id">
-                <option value="">Select </option>
+              <select class="form-control" id="roleName" name="Role_id">
+                <option value="">Select</option>
               </select>
             </div>
             <div class="form-group">
               <label for="status">status</label>
-              <select class="form-select" name="status">
+              <select class="form-control" name="status">
                 <option value="active">active</option>
                 <option value="inactive">inactive</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary me-2" onclick="showToast(successfully added)">Submit</button>
+            <button type="submit" class="btn btn-primary me-2 mt-3">Submit</button>
           </form>
         </div>
         <div id="toast" class="toast"></div>
       </div>
     </div>
   </div>
+
 
   {{!-- --}}
 
@@ -271,19 +205,19 @@
             </div>
             <div class="form-group">
               <label for="roleName">Select role:</label>
-              <select id="roleName1" name="Role_id">
+              <select id="roleName1" name="Role_id" class="form-control">
                 <option value="">Select </option>
               </select>
             </div>
             <div class="form-group">
               <label for="status">status</label>
-              <select name="status">
+              <select name="status" class="form-control">
                 <option value="active">active</option>
                 <option value="inactive">inactive</option>
               </select>
             </div>
 
-            <button type="submit" class="btn btn-warning">Update Employee</button>
+            <button type="submit" class="btn btn-warning mt-3">Update Employee</button>
           </form>
         </div>
       </div>
@@ -295,102 +229,8 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script>
-    // Function to open the form
-    function openForm() {
-      document.getElementById("form-container").style.display = "block";
-    }
+  <script src="/../javascripts/user.js">
 
-    // Function to close the form
-    function closeForm() {
-      document.getElementById("form-container").style.display = "none";
-    }
-    function openDeleteModal(recordid) {
-      document.getElementById('recordid').value = recordid;
-      document.getElementById('recordidDisplay').innerText = 'ID: ' + recordid;
-      $('#deleteidModal').modal('show');
-    }
-
-    function UpdateForm(id, role_id, status) {
-      document.getElementById('id').value = id;
-      document.getElementById('Role_name').value = Role_name;
-      document.getElementById('status').value = status;
-      $('#updateUserModal').modal('show');
-    };
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-      // Fetch data from the server and populate the dropdown
-      fetch('/employee/show')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('Employee_id');
-          data.forEach(drop => {
-            const option = document.createElement('option');
-            option.value = drop.id;
-            option.textContent = drop.employeeName;
-            roleDropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    
-
-
-   
-      // Fetch data from the server and populate the dropdown
-      fetch('/role/showroles')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('roleName1');
-          data.forEach(showroles => {
-            const option = document.createElement('option');
-            option.value = showroles.id;
-            option.textContent = showroles.roleName;
-            roleDropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-  
-
-      // Fetch data from the server and populate the dropdown
-      fetch('/role/showroles')
-        .then(response => response.json())
-        .then(data => {
-          const roleDropdown = document.getElementById('roleName');
-          data.forEach(showroles => {
-            const option = document.createElement('option');
-            option.value = showroles.id;
-            option.textContent = showroles.roleName;
-            roleDropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    
-});
-
-    const usernameInput = document.getElementById('usernameInput');
-    const usernameStatus = document.getElementById('usernameStatus');
-
-    usernameInput.addEventListener('blur', () => {
-      const username = usernameInput.value;
-
-      fetch(`/users/checkUsername?username=${username}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.exists) {
-            usernameStatus.textContent = 'Username not available';
-            usernameStatus.style.color = 'red';
-          } else {
-            usernameStatus.textContent = 'Username available';
-            usernameStatus.style.color = 'green';
-          }
-        })
-        .catch(error => {
-          console.error('Error checking username availability:', error);
-          usernameStatus.textContent = 'Error checking username availability';
-          usernameStatus.style.color = 'red';
-        });
-    });
 
   </script>
 
