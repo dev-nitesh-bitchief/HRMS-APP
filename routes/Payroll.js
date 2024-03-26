@@ -81,7 +81,9 @@ LEFT JOIN
 
 router.get('/show', (req, res) => {
 
-    const sql = 'SELECT * FROM Payroll';
+    const sql = `SELECT p.id, CONCAT(e.firstname,' ',e.lastName) AS employeeName, p.Month_id AS month , p.year, p.basic, p.bonus, p.allowance, p.deduction, p.PF, p.absentDeduction, p.netSalary, p.remark, p.status, p.createdOn
+    FROM Payroll p
+    LEFT JOIN Employee e ON p.Employee_id = e.id;`;
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -112,7 +114,7 @@ router.get('/show', (req, res) => {
 
     })
 
-       
+
 });
 
 
@@ -120,13 +122,13 @@ router.get('/show', (req, res) => {
 router.post('/add', (req, res) => {
     // const leaveRequestData = req.body;
     console.log('insode add route');
-    const {  employeeId, month, year, basic , bonus , allowance , deduction , PF , absentDeduction , netSalary , remark   } = req.body;
+    const { employeeId, month, year, basic, bonus, allowance, deduction, PF, absentDeduction, netSalary, remark } = req.body;
 
     const date = new Date();
 
     const sql = 'INSERT INTO Payroll ( Employee_id, Month_id , year , basic , bonus ,allowance , deduction , PF ,  absentDeduction , netSalary , remark  , createdOn ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
 
-    var data = [ employeeId, month, year, basic , bonus , allowance , deduction , PF , absentDeduction , netSalary , remark  , date];
+    var data = [employeeId, month, year, basic, bonus, allowance, deduction, PF, absentDeduction, netSalary, remark, date];
 
     console.log(data);
 
@@ -138,25 +140,24 @@ router.post('/add', (req, res) => {
             return;
         }
         console.log('Payroll data inserted successfully');
-        
+
         // res.status(200).json({ message: 'Payroll added successfully' });
-        res.status(200).redirect('/Payroll/create');
-
-        
+        res.redirect('/Payroll/show');
 
 
-       
     });
 });
 
 
 
 router.post('/delete', (req, res) => {
-    const { Payroll_id } = req.body;
+    const { pay_id } = req.body;
+
+    console.log('pay is :', pay_id);
 
     sql = 'DELETE FROM Payroll WHERE id = ?';
 
-    db.query(sql, Payroll_id, (err, result) => {
+    db.query(sql, pay_id, (err, result) => {
         if (err) {
             console.error('Error deleting data:', err);
             res.status(500).json('Error deleted data');
@@ -214,38 +215,21 @@ router.post('/edit', (req, res) => {
 
 
 
-// router.post('/employeeName', (req, res) => {
-
-//     const { Employee_id } = req.body;
-
-//     const sql = "SELECT netSalary FROM Salary where Employee_id = ?";
-
-
-//     db.query(sql, Employee_id, (error, results) => {
-//         if (error) {
-//             console.error('Error retrieving data from database: ' + error.stack);
-//             res.status(500).json({ error: 'Internal server error' });
-//             return;
-//         }
-//         res.status(200).json(results);
-//     });
-// });
-
 router.post('/employeeName', (req, res) => {
-   
-    const {employeeId} = req.body;
- 
-   
+
+    const { employeeId } = req.body;
+
+
 
     const sql = "SELECT CONCAT(firstName,' ',lastName) AS employeeName FROM Employee WHERE id = ?;"
 
-    db.query(sql , [employeeId] , (error,results) =>{
+    db.query(sql, [employeeId], (error, results) => {
         if (error) {
             console.error('Error retrieving data from database: ' + error.stack);
             res.status(500).json({ error: 'Internal server error' });
             return;
         }
-        
+
         res.status(200).json(results);
 
     })
@@ -294,26 +278,28 @@ router.post('/salaryDetails', (req, res) => {
 
             const monthIndex = (month - 1);
             const daysInMonth = new Date(year, monthIndex, 0).getDate();
-            
+
             const absentDeduction = ((salariesByType.basic / daysInMonth) * absent_days).toFixed(2);
             console.log("absent deduction :", absentDeduction);
 
             salariesByType.absentDeduction = absentDeduction;
             // console.log("Payroll :", salariesByType);
 
-            salariesByType.employee = Employee_id ;
-            salariesByType.month = month ;
-            salariesByType.year = year ;
+            salariesByType.employee = Employee_id;
+            salariesByType.month = month;
+            salariesByType.year = year;
 
 
-            const array = [salariesByType];
+            const payrollData = [salariesByType];
 
-            console.log("data in array :",array);
+            // console.log("data in array :", payrollData);
 
 
-            res.status(200).render('CreatePayroll', { Payroll : array });
+            res.status(200).render('CreatePayroll', { Payroll: payrollData });
 
-            return;
+            // return;
+
+
         });
 
 

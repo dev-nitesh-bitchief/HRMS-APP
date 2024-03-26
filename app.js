@@ -188,13 +188,13 @@ app.use('/Company', Company);
 
 
 app.use('/Leave', Leave_request);
-app.use('/Leave-policy', Leave_policy);
-app.use('/Leave-balance', Leave_balance);
-app.use('/Leave-type', Leave_type);
+app.use('/LeavePolicy', Leave_policy);
+app.use('/LeaveBalance', Leave_balance);
+app.use('/LeaveType', Leave_type);
 app.use('/Leave-allocation', Leave_allocation);
 
 
-app.use('/Audit-logging', Audit_logging);
+app.use('/AuditLogging', Audit_logging);
 app.use('/Payroll',Payroll);
 
 

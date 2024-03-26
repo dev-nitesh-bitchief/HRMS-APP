@@ -28,9 +28,10 @@
                                             data-target="#AddModal">Add Policy</a>
                                         <tr>
 
-                                            <th>id</th>
-                                            <th>Policy</th>
-                                            <th>Description</th>
+                                            <th>S.no</th>
+                                            <th>Policy Name</th>
+                                            <th>Short Description</th>
+                                            <th>View</th>
                                             <th class="actions">Action</th>
 
                                         </tr>
@@ -40,9 +41,13 @@
                                         {{#each data}}
                                         <tr>
 
-                                            <td>{{this.id}}</td>
+                                            {{!-- <td>{{this.id}}</td> --}}
+                                            <td class="serial-number"></td>
                                             <td>{{this.policyName}}</td>
                                             <td>{{this.description}}</td>
+                                            <td class="actions">
+                                                <a href="/Leave_policy/{{this.policyFile}}" target="_blank">View</a>
+                                            </td>
 
                                             <td class="actions">
                                                 <div class="dropdown">
@@ -87,6 +92,15 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var serialNumberCells = document.querySelectorAll('.serial-number');
+            serialNumberCells.forEach(function (cell, index) {
+                cell.textContent = index + 1; // Populate serial numbers starting from 1
+            });
+        });
+    </script>
+
 
     <!-- Pending  -->
 
@@ -106,7 +120,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form inside the popup -->
-                    <form class="forms-sample" action="/Leave-policy/add" method="post">
+                    <form class="forms-sample" action="/LeavePolicy/add" method="post" enctype="multipart/form-data">
 
                         <div class="form-group">
                             <label for="policy name">Policy name</label>
@@ -115,10 +129,15 @@
                         <div class="form-group">
 
 
-                            <label for="description">Description:</label><br>
+                            <label for="description">Short Description:</label><br>
                             <textarea class="form-control" id="description" name="description" rows="4"
                                 cols="35"></textarea><br>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="bill">Policy File</label>
+                            <input type="file" class="form-control" id="policyFile" name="policyFile"
+                                placeholder="Upload File">
                         </div>
 
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -147,10 +166,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/Leave-policy/delete" method="post">
+                    <form action="/LeavePolicy/delete" method="post">
                         <label for="id">Are you sure you want to delete?</label>
                         <!-- Hidden input field to store the req_id -->
-                        <input type="hidden" id="deleteReqId" name="req_id">
+                        <input type="hidden" id="deleteReqId" name="policy_id">
                         {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
                         <button class="btn btn-danger" type="submit">Yes</button>
                     </form>
@@ -195,7 +214,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form inside the popup -->
-                    <form class="forms-sample" action="/Leave-policy/edit" method="post">
+                    <form class="forms-sample" action="/LeavePolicy/edit" method="post">
 
 
                         <div class="form-group">

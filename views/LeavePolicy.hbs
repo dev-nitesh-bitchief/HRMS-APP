@@ -5,8 +5,6 @@
 
   <style>
     /* CSS styles for the close button */
-
-
   </style>
 </head>
 
@@ -24,9 +22,10 @@
 
 
                     <tr>
-                      <th>id</th>
+                      <th>S.no</th>
+                      <th>Policy Name</th>
+                      <th>Short Description</th>
                       <th>Policy</th>
-                      <th>Description</th>
 
 
                     </tr>
@@ -37,9 +36,13 @@
                     <tr>
 
 
-                      <td>{{this.id}}</td>
+                      {{!-- <td>{{this.id}}</td> --}}
+                      <td class="serial-number"></td>
                       <td>{{this.policyName}}</td>
                       <td>{{this.description}}</td>
+                      <td class="actions">
+                        <a href="/Leave_policy/{{this.policyFile}}" target="_blank">View</a>
+                      </td>
 
 
 
@@ -54,6 +57,14 @@
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var serialNumberCells = document.querySelectorAll('.serial-number');
+      serialNumberCells.forEach(function (cell, index) {
+        cell.textContent = index + 1; // Populate serial numbers starting from 1
+      });
+    });
+  </script>
 
 
   <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
