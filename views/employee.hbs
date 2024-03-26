@@ -2,19 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="../design/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../design/images/favicon.png" />
+
   <style>
     /* Styling the anchor tag to look like a button */
     .new_data {
@@ -358,7 +346,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="deleteForm" action="/ework/delete" method="post">
+          <form id="deleteForm" >
             <div class="form-group">
               {{!-- <label for="username">Are you sure:</label> --}}
               <input type="hidden" id="e_id" name="e_id" value="{{this.e_id}}">
@@ -708,6 +696,29 @@
           method:"POST",
           headers:{"content-Type":"application/json"},
           body:JSON.stringify(formDataObject)
+        }).then(response=>{
+          debugger
+          if(response.ok){
+            displayMessage('Delete Successful','3000');
+            window.location.href='/ework';
+          }
+          else{
+            response.json().then(data=>{
+              debugger
+              if(!data.success){
+                displayMessage(data.message);
+              }
+              else{
+                displayMessage('Error Occurred','3000');
+              }
+            }).catch(error=>{
+              debugger
+              displayMessage('Error Occurred','3000');
+            })
+          }
+        }).catch(error=>{
+          debugger
+          displayMessage('Error Occurred','3000')
         })
       })
     });
