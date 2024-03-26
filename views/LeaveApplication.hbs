@@ -4,38 +4,7 @@
 <head>
 
     <style>
-        #accept_button {
-            display: inline-block;
-            padding: 5px 20px;
-            /* Adjust padding as needed */
-            background-color: #4CAF50;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
 
-        #reject_button {
-            display: inline-block;
-            padding: 5px 20px;
-            margin-left: 20px;
-            /* Adjust padding as needed */
-            background-color: #af594c;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
     </style>
 </head>
 
@@ -82,13 +51,13 @@
                                             <td>{{this.approveDate}}</td>
 
                                             <td>
-
-                                                <button type="button" id="accept_button" class="acceptRequest"
+                                                <button type="button" id="accept_button"
+                                                    class="acceptRequest btn-sm btn-success"
                                                     data-req-id="{{this.req_id}}">Accept</button>
 
-                                                <button type="button" id="reject_button" class="rejectRequest"
+                                                <button type="button" id="reject_button"
+                                                    class="rejectRequest btn-sm btn-danger"
                                                     data-req-id="{{this.req_id}}">Reject</button>
-
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -103,10 +72,117 @@
     </div>
 
 
+    <!-- Modal -->
+   <!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 id="confirmationMessage"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmAction">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
+        /*  $(document).ready(function () {
+              // Function to handle the action (accept/reject)
+              function handleAction(action, button) {
+                  const reqId = $(button).data('req-id');
+  
+                  // Data to be sent in the POST request
+                  const requestData = { req_id: reqId };
+  
+                  // Make AJAX POST request to the API
+                  $.ajax({
+                      url: "/Leave/status-" + action, // Endpoint for accept/reject
+                      type: "POST",
+                      contentType: "application/json",
+                      data: JSON.stringify(requestData),
+                      success: function (response) {
+                          console.log("Response:", response);
+                          if (response.success) {
+                              // Replace the button with the appropriate message
+                              const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
+                              $(button).parent().html('<p>' + message + '</p>');
+  
+                              window.location.href = '/Leave/showApplication';
+                          }
+                      },
+                      error: function (xhr, status, error) {
+                          console.error("Error:", xhr.status, error);
+                      }
+                  });
+              }
+  
+  
+              // Click event handler for Accept button
+            $(".acceptRequest").click(function () {
+                  handleAction('approve', this);
+              });
+  
+              // Click event handler for Reject button
+              $(".rejectRequest").click(function () {
+                  handleAction('reject', this);
+              });   
+  
+  
+               // Click event handler for Accept button
+              $(".acceptRequest").click(function () {
+                  if (confirm("Are you sure you want to accept this request?")) {
+                      handleAction('approve', this);
+                  }
+              });
+  
+              // Click event handler for Reject button
+              $(".rejectRequest").click(function () {
+                  if (confirm("Are you sure you want to reject this request?")) {
+                      handleAction('reject', this);
+                  }
+              });
+          });             */
+
+
         $(document).ready(function () {
+            var actionButton;
+
+            // Click event handler for Accept button
+            $(".acceptRequest").click(function () {
+                actionButton = this;
+                $("#confirmationMessage").text("Are you sure you want to accept this request?");
+                $("#confirmationModal").modal("show");
+            });
+
+            // Click event handler for Reject button
+            $(".rejectRequest").click(function () {
+                actionButton = this;
+                $("#confirmationMessage").text("Are you sure you want to reject this request?");
+                $("#confirmationModal").modal("show");
+            });
+
+            // Click event handler for OK button in modal
+            $("#confirmAction").click(function () {
+                var action = $(actionButton).hasClass("acceptRequest") ? "approve" : "reject";
+                handleAction(action, actionButton);
+                $("#confirmationModal").modal("hide");
+            });
+
             // Function to handle the action (accept/reject)
             function handleAction(action, button) {
                 const reqId = $(button).data('req-id');
@@ -127,7 +203,7 @@
                             const message = (action === 'approve') ? 'Request is accepted' : 'Request is rejected';
                             $(button).parent().html('<p>' + message + '</p>');
 
-                            window.location.href = '/Leave/show-to-approver';
+                            window.location.href = '/Leave/showApplication';
                         }
                     },
                     error: function (xhr, status, error) {
@@ -135,16 +211,6 @@
                     }
                 });
             }
-
-            // Click event handler for Accept button
-            $(".acceptRequest").click(function () {
-                handleAction('approve', this);
-            });
-
-            // Click event handler for Reject button
-            $(".rejectRequest").click(function () {
-                handleAction('reject', this);
-            });
         });
 
 
@@ -169,11 +235,11 @@
 
 
     <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
+
 </body>
 
 </html>
