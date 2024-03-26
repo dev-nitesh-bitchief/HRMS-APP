@@ -65,27 +65,29 @@
     }
 
     .modal-custom {
-    max-width: 65%; /* Adjust the width as needed */
-}
- .search-box {
-  position: relative;
-}
+      max-width: 65%;
+      /* Adjust the width as needed */
+    }
 
-.search-box input[type="text"] {
-  padding-right: 30px;
-}
+    .search-box {
+      position: relative;
+    }
 
-.search-box .search-icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
+    .search-box input[type="text"] {
+      padding-right: 30px;
+    }
 
-.search-box .search-icon i {
-  font-size: 20px;
-}
+    .search-box .search-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .search-box .search-icon i {
+      font-size: 20px;
+    }
   </style>
 </head>
 
@@ -101,15 +103,16 @@
                 <table id="myTable" class="table">
                   <thead>
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                    <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
-                      data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                      Add New Employee Details
-                    </button>
-                    <div class="search-box">
-          <input type="text" class="form-control" id="searchInput" placeholder="Enter ID" onkeyup="searchFun()">
-          <span class="search-icon"><i id="search" class="mdi mdi-magnify"></i></span>
-        </div>
-        </div>
+                      <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
+                        data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                        Add New Employee Details
+                      </button>
+                      <div class="search-box">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Enter ID"
+                          onkeyup="searchFun()">
+                        <span class="search-icon"><i id="search" class="mdi mdi-magnify"></i></span>
+                      </div>
+                    </div>
                     <tr>
                       <th>ID</th>
                       <th>Employee Id</th>
@@ -190,14 +193,10 @@
           </button>
         </div>
         <div class="modal-body">
-          {{!-- <div class="col-12 grid-margin"> --}}
-            {{!-- <div class="card"> --}}
-              {{!-- <div class="card-body"> --}}
+          
                 <h4 class="card-title">Employee Work info</h4>
-                <form class="form-sample" action="/ework/add" method="post">
-                  {{!-- <p class="card-description">
-                    Employee Work info
-                  </p> --}}
+                <form id="addForm" class="form-sample">
+                  
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
@@ -236,8 +235,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="approveOff" class="col-sm-3 col-form-label">Approve Off</label>
@@ -257,8 +256,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="timeZone" class="col-sm-3 col-form-label">Time Zone</label>
@@ -276,8 +275,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="passportNumber" class="col-sm-3 col-form-label">Passport No.</label>
@@ -297,8 +296,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="countryOfBirth" class="col-sm-3 col-form-label">C.O.B</label>
@@ -318,8 +317,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="visaExpirationDate" class="col-sm-3 col-form-label">Visa Expiration</label>
@@ -341,76 +340,6 @@
                   </div>
                   <button type="submit" class="btn btn-primary me-2">Submit</button>
                 </form>
-              {{!-- </div> --}}
-            {{!-- </div> --}}
-          {{!-- </div> --}}
-          {{!-- <form class="forms-sample" action="/ework/add" method="post">
-            <div class="form-group">
-              <label for="e_id">ID:</label>
-              <input type="text" class="form-control" id="e_id" name="e_id" placeholder="ID">
-            </div>
-            <div class="form-group">
-              <label for="Employee_id">Employee ID:</label>
-              <input type="text" class="form-control" id="Employee_id" name="Employee_id" placeholder="Employee-id">
-            </div>
-            <div class="form-group">
-              <label for="workPhone">workPhone</label>
-              <input type="text" class="form-control" id="workPhone" name="workPhone" placeholder="workPhone">
-            </div>
-            <div class="form-group">
-              <label for="manager">Manager</label>
-              <input type="text" class="form-control" id="manager" name="manager" placeholder="Manager">
-            </div>
-            <div class="form-group">
-              <label for="coach">coach</label>
-              <input type="text" class="form-control" id="coach" name="coach" placeholder="coach">
-            </div>
-            <div class="form-group">
-              <label for="approveOff">approveOff</label>
-              <input type="text" class="form-control" id="approveOff" name="approveOff" placeholder="approveOff">
-            </div>
-            <div class="form-group">
-              <label for="workLocation">workLocation</label>
-              <input type="text" class="form-control" id="workLocation" name="workLocation" placeholder="workLocation">
-            </div>
-            <div class="form-group">
-              <label for="timeZone">timeZone</label>
-              <input type="text" class="form-control" id="timeZone" name="timeZone" placeholder="timeZone">
-            </div>
-            <div class="form-group">
-              <label for="language">language</label>
-              <input type="text" class="form-control" id="language" name="language" placeholder="language">
-            </div>
-            <div class="form-group">
-              <label for="passportNumber">passportNumber</label>
-              <input type="text" class="form-control" id="passportNumber" name="passportNumber"
-                placeholder="passportNumber">
-            </div>
-            <div class="form-group">
-              <label for="placeOfBirth">placeOfBirth</label>
-              <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth" placeholder="placeOfBirth">
-            </div>
-            <div class="form-group">
-              <label for="countryOfBirth">countryOfBirth</label>
-              <input type="text" class="form-control" id="countryOfBirth" name="countryOfBirth"
-                placeholder="countryOfBirth">
-            </div>
-            <div class="form-group">
-              <label for="visaNumber">visaNumber</label>
-              <input type="text" class="form-control" id="visaNumber" name="visaNumber" placeholder="visaNumber">
-            </div>
-            <div class="form-group">
-              <label for="visaExpirationDate">visaExpirationDate</label>
-              <input type="date" class="form-control" id="visaExpirationDate" name="visaExpirationDate"
-                placeholder="visaExpirationDate">
-            </div>
-            <div class="form-group">
-              <label for="workPermitNumber">workPermitNumber</label>
-              <input type="text" class="form-control" id="workPermitNumber" name="workPermitNumber"
-                placeholder="workPermitNumber">
-            </div>
-            <button type="submit" class="btn btn-primary me-2">Submit</button>
-          </form> --}}
         </div>
       </div>
     </div>
@@ -455,23 +384,22 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="col-12 grid-margin">
-            <div class="card">
-              <div class="card-body">
+          {{!-- <div class="col-12 grid-margin"> --}}
+            {{!-- <div class="card"> --}}
+              {{!-- <div class="card-body"> --}}
                 <h4 class="card-title">Employee Details</h4>
-                <form class="form-sample" action="/ework/update" method="post">
-                  <p class="card-description">
+                <form id="Form" class="form-sample" >
+                  {{!-- <p class="card-description">
                     Employee Work info
-                  </p>
+                  </p> --}}
                   <div class="col-md-6">
-                        <div class="form-group row">
-                          <label for="e_id" class="col-sm-3 col-form-label">ID:</label>
-                          <div class="col-sm-8">
-                            <input type="text" class="form-control" id="pre-e_id" name="e_id"
-                            placeholder="ID">
-                          </div>
-                        </div>
+                    <div class="form-group row">
+                      <label for="e_id" class="col-sm-3 col-form-label">ID:</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="pre-e_id" name="e_id" placeholder="ID">
                       </div>
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
@@ -510,8 +438,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="approveOff" class="col-sm-3 col-form-label">Approve Off</label>
@@ -531,13 +459,14 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="timeZone" class="col-sm-3 col-form-label">Time Zone</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="pre-timeZone" name="timeZone" placeholder="timeZone">
+                          <input type="text" class="form-control" id="pre-timeZone" name="timeZone"
+                            placeholder="timeZone">
                         </div>
                       </div>
                     </div>
@@ -546,12 +475,13 @@
                       <div class="form-group row">
                         <label for="language" class="col-sm-3 col-form-label">Language</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="pre-language" name="language" placeholder="language">
+                          <input type="text" class="form-control" id="pre-language" name="language"
+                            placeholder="language">
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="passportNumber" class="col-sm-3 col-form-label">Passport No.</label>
@@ -571,8 +501,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="countryOfBirth" class="col-sm-3 col-form-label">C.O.B</label>
@@ -592,8 +522,8 @@
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div class="row">
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label for="visaExpirationDate" class="col-sm-3 col-form-label">Visa Expiration</label>
@@ -615,9 +545,9 @@
                   </div>
                   <button type="submit" class="btn btn-primary me-2">Submit</button>
                 </form>
-              </div>
-            </div>
-          </div>
+              {{!-- </div> --}}
+            {{!-- </div> --}}
+          {{!-- </div> --}}
 
         </div>
       </div>
@@ -673,24 +603,114 @@
 
     //-----------------------------------
     //search functionality:
-          const searchFun =() =>{
-            let filter =document.getElementById('searchInput').value.toUpperCase();
-            let myTable =document.getElementById('myTable');
-            let tr=myTable.getElementsByTagName('tr');
-            for(var i=0; i<tr.length; i++){
-              let td=tr[i].getElementsByTagName('td')[0];
-              if(td){
-                let textvalue = td.textContent || td.innerHTML;
-                if(textvalue.toUpperCase().indexOf(filter)> -1){
-                  tr[i].style.display = "";
-                }
-                else{
-                  tr[i].style.display="none";
-                }
-              }
-            }
+    const searchFun = () => {
+      let filter = document.getElementById('searchInput').value.toUpperCase();
+      let myTable = document.getElementById('myTable');
+      let tr = myTable.getElementsByTagName('tr');
+      for (var i = 0; i < tr.length; i++) {
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+          let textvalue = td.textContent || td.innerHTML;
+          if (textvalue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
           }
+          else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
 
+    document.addEventListener('DOMContentLoaded', function() {
+      displayMessage('Employees', '3000');
+      document.getElementById('addForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        let formData = new FormData(this);
+        const formDataObject = {};
+        for (let [key, value] of formData.entries()) {
+          formDataObject[key] = value;
+        }
+        console.log(formDataObject);
+        fetch('/ework/add', {
+          method: 'POST',
+          headers: { "content-Type": "application/json" },
+          body: JSON.stringify(formDataObject)
+        })
+          .then(response => {
+            debugger
+            if (response.ok) {
+              displayMessage('Add successful', '3000');
+              window.location.href = '/ework';
+            }
+            else {
+              response.json().then(data => {
+                debugger
+                if (!data.success) {
+                  displayMessage(data.message);
+                }
+                else {
+                  displayMessage('Error occured', '3000')
+                }
+
+              }).catch(error => {
+                displayMessage('Error occured', '3000')
+              })
+            }
+          }).catch(error => {
+            debugger
+            displayMessage('Error occured', '3000')
+          })
+      });
+
+      document.getElementById('Form').addEventListener('submit',function(event){
+        event.preventDefault();
+        let formData = new FormData(this);
+        const formDataObject = {};
+        for(let [key,value] of formData.entries()){
+          formDataObject[key]=value;
+        }
+        console.log(formDataObject);
+        fetch('/ework/update',{
+          method:'POST',
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify(formDataObject)
+        }).then(response=>{
+          if(response.ok){
+            displayMessage('Update Successfully','3000');
+            window.location.href='/ework';
+          }
+          else{
+            response.json().then(data=>{
+              if(!data.success){
+                displayMessage(data.message);
+              }
+              else{
+                displayMessage('Error Updating data','3000');
+              }
+            }).catch(error=>{
+              displayMessage('Error Occured','3000')
+            })
+          }
+        }).catch(error=>{
+          displayMessage('Error Occured','3000')
+        });
+      });
+
+      document.getElementById('deleteForm').addEventListener('submit',function(event){
+        event.preventDefault();
+        let formData = new FormData(this);
+        const formDataObject = {};
+        for(let [key,value] of formData.entries()){
+          formDataObject[key] = value;
+        }
+        console.log(formDataObject);
+        fetch('/ework/delete',{
+          method:"POST",
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify(formDataObject)
+        })
+      })
+    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

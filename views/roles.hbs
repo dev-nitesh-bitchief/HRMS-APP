@@ -2,67 +2,56 @@
 <html lang="en">
 
 <head>
- <link rel="stylesheet" href="../design/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../design/images/favicon.png" />
+ 
   <style>
-    /* Styling the anchor tag to look like a button */
-    .new_data {
-      display: inline-block;
-      padding: 10px 20px;
-      /* Adjust padding as needed */
-      background-color: #4CAF50;
-      /* Button background color */
-      color: white;
-      /* Button text color */
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      /* Rounded corners */
-      cursor: pointer;
-    }
+   /* Styling the anchor tag to look like a button */
+  .new_data {
+    display: inline-block;
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    background-color: #4CAF50;
+    /* Button background color */
+    color: white;
+    /* Button text color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+  }
 
-    /* Styling the anchor tag when hovered */
-    .new_data:hover {
-      background-color: #45a049;
-      /* Darker green */
-    }
+  /* Styling the anchor tag when hovered */
+  .new_data:hover {
+    background-color: #45a049;
+    /* Darker green */
+  }
 
-    /* CSS styles for the close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
+  /* CSS styles for the close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
 
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 
-    #form-container {
-      display: none;
-      /* Hide the form by default */
+  #form-container {
+    display: none;
+    /* Hide the form by default */
 
-    }
+  }
 
-    .actions {
-      text-align: right;
-    }
+  .actions {
+    text-align: right;
+  }
+
   </style>
 </head>
 
@@ -78,9 +67,9 @@
                 <table class="table">
                   <thead>
                     <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
-                      data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                      Add New Role
-                    </button>
+                data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
+                Add New Role
+              </button>
                     <tr>
                       <th>Id:</th>
                       <th>Role-Name:</th>
@@ -95,22 +84,20 @@
                       <td>{{this.roleName}}</td>
                       <td>{{this.permissions}}</td>
                       <td class="actions">
-                        <div class="dropdown">
-                          <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
-                            id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Action
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                            <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
-                              data-target="#updatePermissionsModal" id="update_data"
-                              onclick="UpdateForm('{{this.id}}')">Edit Role</button>
+                               <div class="dropdown">
+                      <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#updatePermissionsModal" id="update_data"
+                          onclick="UpdateForm('{{this.id}}')">Edit Role</button>
 
-                            <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
-                              data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
-                          </div>
-                        </div>
-                      </td>
+                        <button type="button" class="dropdown-item  btn-rounded btn-fw" data-toggle="modal"
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                      </div>
+                    </div>
+                     </td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -125,89 +112,89 @@
 
   <!-- add Modal -->
   <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="addForm">
-            <div class="form-group">
-              <label for="roleName">Role Name:</label>
-              <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter Role Name">
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addForm">
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter Role Name">
+                  </div>
+                  <div id="checkboxContainer1" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="add">Add Role</button>
+                </form>
+              </div>
             </div>
-            <div id="checkboxContainer1" class="form-group">
-              <h6>Select permissions :</h6>
-            </div>
-            <button type="submit" class="btn btn-primary" id="add">Add Role</button>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
   {{!-- --}}
 
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="deleteForm" action="/role/delete" method="post">
-            <div class="form-group">
-              {{!-- <label for="id">Are you sure:</label> --}}
-              <input type="hidden" id="recordId" name="id" value="{{this.id}}">
-              <!-- Hidden input field to store record ID -->
-              <p id="recordIdDisplay"></p> <!-- Paragraph to display record ID -->
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="deleteForm" action="/role/delete" method="post">
+                  <div class="form-group">
+                    {{!-- <label for="id">Are you sure:</label> --}}
+                    <input type="hidden" id="recordId" name="id" value="{{this.id}}">
+                    <!-- Hidden input field to store record ID -->
+                    <p id="recordIdDisplay"></p> <!-- Paragraph to display record ID -->
+                  </div>
+                  <button type="submit" class="btn btn-danger" id="del">Delete</button>
+                </form>
+              </div>
             </div>
-            <button type="submit" class="btn btn-danger" id="del">Delete</button>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Update Modal -->
   <div class="modal fade" id="updatePermissionsModal" tabindex="-1" role="dialog"
-    aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="updatePermissionsModalLabel">Update Permissions</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="uploadForm">
-            <div class="form-group">
-              <label for="id">Role ID:</label>
-              <input type="text" class="form-control" id="id" name="id" placeholder="Enter Role ID">
-            </div>
-            <div class="form-group">
-              <label for="roleName">Role Name:</label>
-              <input type="text" class="form-control" id="pre-name" name="roleName" placeholder="Enter Role Name">
-            </div>
+          aria-labelledby="updatePermissionsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePermissionsModalLabel">Update Permissions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="uploadForm">
+                  <div class="form-group">
+                    <label for="id">Role ID:</label>
+                    <input type="text" class="form-control" id="id" name="id" placeholder="Enter Role ID">
+                  </div>
+                  <div class="form-group">
+                    <label for="roleName">Role Name:</label>
+                    <input type="text" class="form-control" id="pre-name" name="roleName" placeholder="Enter Role Name">
+                  </div>
 
-            <div id="checkboxContainer" class="form-group">
-              <h6>Select permissions :</h6>
+                  <div id="checkboxContainer" class="form-group">
+                    <h6>Select permissions :</h6>
+                  </div>
+                  <button type="submit" class="btn btn-warning" id="upload-btn">Update Role</button>
+                </form>
+              </div>
             </div>
-            <button type="submit" class="btn btn-warning" id="upload-btn">Update Role</button>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 
   <script>
@@ -215,9 +202,9 @@
     document.addEventListener('DOMContentLoaded', function () {
       
   
-    displayMessage("Hey!!!", '3000000');
+    displayMessage("Hey!!!", '3000');
 
-
+      
       document.getElementById('uploadForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -260,13 +247,13 @@
                 // Display an error message if login fails
                 if (!data.success) {
                   
-                  showToast(data.message);
+                  displayMessage(data.message);
                 } else {
                   displayMessage('An error occurred. Please try again later.','3000');
                 }
               }).catch(error => {
                 
-                showToast('An error occurred. Please try again later.');
+                displayMessage('An error occurred. Please try again later.','3000');
               });
             }
           })
@@ -274,14 +261,14 @@
           
           // Handle any errors that occur during the API request
           console.error('Error:', error);
-          showToast('An error occurred. Please try again later.');
+          displayMessage('An error occurred. Please try again later.','3000');
         });
     });
     //----------------------------
     document.getElementById('addForm').addEventListener('submit', function (event) {
         event.preventDefault();
-        var formData = new FormData(this);
-        // Create an empty object to store form data
+         var formData = new FormData(this);
+         // Create an empty object to store form data
         const formDataObject = {};
         // Iterate over FormData entries and store them in the object
         for (let [key, value] of formData.entries()) {
@@ -300,8 +287,8 @@
         console.log("permissions", permissions);
         formDataObject['permissions'] = permissions;
         console.log(formDataObject);
-
-        fetch('/role/add', {
+        
+    fetch('/role/add', { 
           method: 'POST',
           headers: {
             "content-Type": "application/json"
@@ -309,35 +296,35 @@
           body: JSON.stringify(formDataObject)
         })
           .then(response => {
-
+            
             if (response.ok) {
-              showToast('Add successful');
+              displayMessage('Add successful','3000');
               window.location.href = '/role';
             } else {
-
+              
               response.json().then(data => {
                 console.log(data);
                 // Display an error message if login fails
                 if (!data.success) {
-
-                  showToast(data.message);
+                  
+                  displayMessage(data.message);
                 } else {
-                  showToast('An error occurred. Please try again later.');
+                  displayMessage('An error occurred. Please try again later.','3000');
                 }
               }).catch(error => {
-
-                showToast('An error occurred. Please try again later.');
+                
+                displayMessage('An error occurred. Please try again later.','3000');
               });
             }
           })
-          .catch(error => {
-
-            // Handle any errors that occur during the API request
-            console.error('Error:', error);
-            showToast('An error occurred. Please try again later.');
-          });
-      });
-    });
+      .catch (error => {
+          
+          // Handle any errors that occur during the API request
+          console.error('Error:', error);
+          displayMessage('An error occurred. Please try again later.','3000');
+        });
+    }); 
+});
   </script>
   <script>
     // Function to open the form
@@ -365,14 +352,14 @@
             // Create checkbox input element
             const checkboxElement = document.createElement('input');
             checkboxElement.type = 'checkbox';
-            checkboxElement.id = checkbox_${checkbox.id};
+            checkboxElement.id = `checkbox_${checkbox.id}`;
             checkboxElement.name = 'permissions[]'; // Set name attribute if needed
             checkboxElement.value = checkbox.id; // Set value attribute if needed
 
 
             // Create label for the checkbox
             const label = document.createElement('label');
-            label.setAttribute('for', checkbox_${checkbox.id});
+            label.setAttribute('for', `checkbox_${checkbox.id}`);
             label.textContent = checkbox.permissionName;
 
             // Append checkbox and label to container
@@ -417,14 +404,14 @@
             // Create checkbox input element
             const checkboxElement = document.createElement('input');
             checkboxElement.type = 'checkbox';
-            checkboxElement.id = checkbox_${checkbox.id};
+            checkboxElement.id = `checkbox_${checkbox.id}`;
             // checkboxElement.name = 'permissions[]'; // Set name attribute if needed
             checkboxElement.value = checkbox.id; // Set value attribute if needed
 
 
             // Create label for the checkbox
             const label = document.createElement('label');
-            label.setAttribute('for', checkbox_${checkbox.id});
+            label.setAttribute('for', `checkbox_${checkbox.id}`);
             label.textContent = checkbox.permissionName;
 
             // Append checkbox and label to container
@@ -449,7 +436,7 @@
       //const row_id = myButton.data_id;
       //var row_id = myButton.getAttribute('data_id');
 
-      fetch(/role/roles-edit-prefilled/${row_id})
+      fetch(`/role/roles-edit-prefilled/${row_id}`)
         .then(response => response.json())
         .then(data => {
 
