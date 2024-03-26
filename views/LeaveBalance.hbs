@@ -15,7 +15,7 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Leave Policies :</h3>
+                            <h3 class="card-title">My leaves :</h3>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -26,6 +26,7 @@
                                             <th>Month</th>
                                             <th>Total leaves</th>
                                             <th>Leaves taken</th>
+                                            <th>Leaves Expiry</th>
 
                                         </tr>
                                     </thead>
@@ -38,6 +39,7 @@
                                             <td>{{this.Month_name}}</td>
                                             <td>{{this.totalLeaves}}</td>
                                             <td>{{this.leavesTaken}}</td>
+                                            <td>{{this.expiryDate}}</td>
 
                                         </tr>
                                         {{/each}}

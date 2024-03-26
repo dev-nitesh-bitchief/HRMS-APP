@@ -44,7 +44,7 @@ router.post('/add', (req, res) => {
         }
         console.log('Data inserted successfully');
         // res.status(200).json('Data inserted successfully');
-        res.status(200).redirect('/Leave-type/show');
+        res.status(200).redirect('/LeaveType/show');
         return;
     });
 });
@@ -65,7 +65,7 @@ router.post('/delete', (req, res) => {
         }
         console.log('Data deleted successfully');
         // res.status(200).json('Data deleted successfully');
-        res.status(200).redirect('/Leave-type/show');
+        res.status(200).redirect('/LeaveType/show');
         return;
 
     })
@@ -115,7 +115,7 @@ router.post('/edit', (req, res) => {
         }
         console.log('Leave type updated successfully');
         // res.status(200).json('Leave type updated successfully');
-        res.status(200).redirect('/Leave-type/show');
+        res.status(200).redirect('/LeaveType/show');
         return;
         
     });

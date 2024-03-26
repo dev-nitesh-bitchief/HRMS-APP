@@ -11,7 +11,8 @@ var session = require('express-session');
 
 
 
-var hbs = require('express-handlebars')
+var hbs = require('express-handlebars');
+
 
 
 
@@ -30,6 +31,7 @@ var salarytypeRouter = require('./routes/salarytype');
 
 var attendanceRouter = require('./routes/Attendance')
 var attendancerecordRouter = require('./routes/attendancerecord')
+
 
 var Department = require('./routes/Department')
 
@@ -77,6 +79,11 @@ var Leave_allocation = require('./routes/Leave_allocation');
 
 
 
+var Audit_logging = require('./routes/Audit_logging');
+var Payroll = require('./routes/Payroll');
+
+
+
 
 
 var Expense_category = require('./routes/Expense_category');
@@ -119,7 +126,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -181,10 +188,14 @@ app.use('/Company', Company);
 
 
 app.use('/Leave', Leave_request);
-app.use('/Leave-policy', Leave_policy);
-app.use('/Leave-balance', Leave_balance);
-app.use('/Leave-type', Leave_type);
+app.use('/LeavePolicy', Leave_policy);
+app.use('/LeaveBalance', Leave_balance);
+app.use('/LeaveType', Leave_type);
 app.use('/Leave-allocation', Leave_allocation);
+
+
+app.use('/AuditLogging', Audit_logging);
+app.use('/Payroll',Payroll);
 
 
 

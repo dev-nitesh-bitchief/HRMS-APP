@@ -60,6 +60,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         m.monthName AS Month_name,
         lb.totalLeaves,
         lb.leavesTaken,
+        lb.expiryDate,
         lb.date
     FROM 
         Leave_balance AS lb
@@ -78,6 +79,12 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 res.status(500).json('Error searching  data');
                 return;
             }
+
+
+            result.forEach(row => {
+                row.expiryDate = formatDate(row.expiryDate);
+            });
+
 
             // res.status(200).json(result);
 
@@ -128,7 +135,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         });
 
 
-        res.render('LeaveBalance-admin');
+        res.render('LeaveBalance_admin');
 
         return;
 
@@ -138,7 +145,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
     router.post('/add', (req, res) => {
-        const { department_id, Employee_id, Leave_type_id, Month_id, totalLeaves, leavesTaken } = req.body;
+        const { department_id, Employee_id, Leave_type_id, Month_id, expiryDate ,  totalLeaves } = req.body;
 
         console.log('department id :', department_id);
         console.log('employee id :', Employee_id);
@@ -165,11 +172,11 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 }
 
                 // Prepare and execute the insertion query for each Employee_id
-                const sqlInsertLeaveBalance = 'INSERT INTO Leave_balance (Employee_id, Leave_type_id, Month_id, totalLeaves, leavesTaken) VALUES (?, ?, ?, ?, ?)';
+                const sqlInsertLeaveBalance = 'INSERT INTO Leave_balance (Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , leavesTaken) VALUES (?, ?, ?, ?, ?, ?)';
                 let insertionsCompleted = 0;
                 employees.forEach(employee => {
                     const { Employee_id } = employee;
-                    const data = [Employee_id, Leave_type_id, Month_id, totalLeaves, leavesTaken];
+                    const data = [Employee_id, Leave_type_id, Month_id, totalLeaves, expiryDate ,0];
                     db.query(sqlInsertLeaveBalance, data, (err, result) => {
                         if (err) {
                             console.error('Error inserting data for Employee_id:', Employee_id, err);
@@ -199,16 +206,16 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                                 browserDetails: Browser_details
                             });
 
-                            res.redirect('/Leave-balance/show');
+                            res.redirect('/LeaveBalance/show');
                         }
                     });
                 });
             });
         }
         else {
-            const sql = 'INSERT INTO Leave_balance ( Employee_id , Leave_type_id , Month_id  , totalLeaves , leavesTaken ) VALUES (?,?,?,?,?)';
+            const sql = 'INSERT INTO Leave_balance ( Employee_id , Leave_type_id , Month_id  , totalLeaves , expiryDate , leavesTaken ) VALUES (?,?,?,?,?,?)';
 
-            var data = [Employee_id, Leave_type_id, Month_id, totalLeaves, leavesTaken];
+            var data = [Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , 0];
 
 
             db.query(sql, data, (err, result) => {
@@ -235,7 +242,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                     browserDetails: Browser_details
                 });
 
-                res.redirect('/Leave-balance/show');
+                res.redirect('/LeaveBalance/show');
                 return;
             });
 
@@ -256,6 +263,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         m.monthName AS Month_name,
         lb.totalLeaves,
         lb.leavesTaken,
+        lb.expiryDate,
         lb.date
     FROM 
         Leave_balance AS lb
@@ -277,6 +285,11 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             // console.log('Data searched successfully');
             // res.status(200).json(result);
 
+            result.forEach(row => {
+                row.expiryDate = formatDate(row.expiryDate);
+            });
+
+
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
@@ -296,7 +309,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 browserDetails: Browser_details
             });
 
-            res.render('LeaveBalance-admin', { data: result });
+            res.render('LeaveBalance_admin', { data: result });
             return;
 
         })
@@ -308,8 +321,6 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
         const { balance_Id } = req.body;
         const sql = 'DELETE FROM Leave_balance WHERE id = ?';
-
-
 
         db.query(sql, balance_Id, (err, result) => {
             if (err) {
@@ -325,8 +336,6 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             var Browser_details = localStorage.getItem('Browser_details');
     
     
-    
-    
             logActivity(req, res, {
                 User_id: userId,
                 activityType: "Management access",
@@ -339,7 +348,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 browserDetails: Browser_details
             });
 
-            res.redirect('/leave-balance/show');
+            res.redirect('/LeaveBalance/show');
             return;
 
         })
@@ -399,7 +408,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave-balance/show');
+            res.redirect('/LeaveBalance/show');
             return;
 
         });
@@ -407,62 +416,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
     });
 
-
-
-
-
 });
-
-
-
-
-
-
-
-
-// router.get('/show', (req, res) => {
-
-
-//     const sql = `SELECT 
-//     lb.id AS balance_id,
-//     e.id AS employee_id,
-//     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-//     lb.Leave_type_id,
-//     lt.typeName AS Leave_type_name,
-//     m.monthName AS Month_name,
-//     lb.totalLeaves,
-//     lb.leavesTaken,
-//     lb.date
-// FROM 
-//     Leave_balance AS lb
-// LEFT JOIN 
-//     Leave_type AS lt ON lb.Leave_type_id = lt.id
-// LEFT JOIN 
-//     Month AS m ON lb.Month_id = m.id
-// INNER JOIN 
-//     Employee AS e ON lb.employee_id = e.id`;
-
-
-//     db.query(sql, (err, result) => {
-//         if (err) {
-//             console.error('Error Fetching data:', err);
-//             res.status(500).json('Error Fetching data');
-//             return;
-//         }
-
-//         // res.status(200).json(result);
-
-
-//         res.render('LeaveBalance-admin' , {data : result});
-
-//         return;
-
-//     })
-// });
-
-
-
-
 
 
 //Dropdown options for employee in add leave balance ( admin )
@@ -479,8 +433,6 @@ router.get('/employee', (req, res) => {
         res.json(results);
     });
 });
-
-
 
 
 //Dropdown options for month in add leave balance ( admin )
@@ -531,7 +483,15 @@ router.get('/department', (req, res) => {
 });
 
 
+// Function to format date string in YYYY-MM-DD format
+function formatDate(dateString) {
+    if (!dateString) {
+        return ''; // Return empty string if dateString is null or undefined
+    }
 
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+}
 
 
 module.exports = router;

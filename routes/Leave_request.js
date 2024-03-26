@@ -1,11 +1,11 @@
 
 var express = require('express');
-var router = express.Router();
-
 var db = require('../connection/db');
-
-
 var logActivity = require('./log_function');
+
+
+
+var router = express.Router();
 // const authenticateUser = require('./index');
 
 // Import the LocalStorage class from the node-localstorage package
@@ -81,70 +81,11 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
 
-    router.post('/add', (req, res) => {
-
-
-        const { Leave_type_id, Month_id, startDate, endDate, reason } = req.body;
 
 
 
 
-        start = startDate;
-        end = endDate;
-        var days = calculateNumberOfDays(start, end);
-
-
-        const sql = `INSERT INTO Leave_request 
-                (Employee_id, Leave_type_id, Month_id, startDate, endDate, days, reason) 
-                VALUES (?, ?, ?, ?, ?, ?, ? )`;
-
-        var data = [employeeId, Leave_type_id, Month_id, startDate, endDate, days, reason];
-        var newdata = data.join(',');
-
-
-        db.query(sql, data, (err, result) => {
-            if (err) {
-                console.error('Error inserting data:', err);
-                res.status(500).json('Error inserting data');
-                return;
-            }
-
-            // res.status(200).json('Data inserted successfully');
-
-            var IP_address = localStorage.getItem('IP_address');
-            var Location = localStorage.getItem('Location');
-            var Browser_details = localStorage.getItem('Browser_details');
-
-
-            logActivity(req, res, {
-                User_id: userId,
-                activityType: "management access",
-                resourceName: "Leave",
-                operation: "add request ",
-                databaseTableName: "Leave_request",
-                enteredValues: newdata,
-                ipAddress: IP_address,
-                location: Location,
-                browserDetails: Browser_details
-            });
-
-            res.redirect('/Leave');
-
-
-            return;
-
-        });
-    });
-
-
-
-    router.get('/', (req, res) => {
-
-
-
-        // const { Employee_id } = req.body;
-
-
+    router.get('/show', (req, res) => {
 
         const sql = `SELECT 
                    lr.id AS req_id ,
@@ -176,27 +117,17 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 res.status(500).json('Error Fetching data');
                 return;
             }
-
-
-
             result.forEach(row => {
                 row.startDate = formatDate(row.startDate);
                 row.endDate = formatDate(row.endDate);
-                row.appliedOn = formatDate(row.appliedOn);
-                row.approveDate = formatDate(row.approveDate);
+                row.appliedOn = formatDateTime(row.appliedOn);
+                row.approveDate = formatDateTime(row.approveDate);
             });
-
-
-
             // res.status(200).json(result);
 
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
-
-
-
-
             logActivity(req, res, {
                 User_id: userId,
                 activityType: "Management access",
@@ -209,8 +140,6 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             });
 
             res.render('ApplyLeave', { data: result });
-
-
             return;
 
         });
@@ -219,10 +148,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
 
-
-    router.get('/show-to-approver', (req, res) => {
-        // const {Employee_id} = req.body;
-        // const sql = `SELECT Employee_id ,  Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status  FROM Leave_request `;
+    router.get('/showApplication', (req, res) => {
 
         const sql = `SELECT 
     lr.id AS req_id ,
@@ -246,8 +172,6 @@ LEFT JOIN
 LEFT JOIN 
     Employee AS e ON lr.Employee_id = e.id`;
 
-
-
         db.query(sql, (err, result) => {
             if (err) {
                 console.error('Error Fetching data:', err);
@@ -255,14 +179,11 @@ LEFT JOIN
                 return;
             }
             // console.log('Data fetched successfully');
-
-
-
             result.forEach(row => {
                 row.startDate = formatDate(row.startDate);
                 row.endDate = formatDate(row.endDate);
-                row.appliedOn = formatDate(row.appliedOn);
-                row.approveDate = formatDate(row.approveDate);
+                row.appliedOn = formatDateTime(row.appliedOn);
+                row.approveDate = formatDateTime(row.approveDate);
 
             });
 
@@ -271,9 +192,6 @@ LEFT JOIN
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
-
-
-
 
             logActivity(req, res, {
                 User_id: userId,
@@ -288,12 +206,138 @@ LEFT JOIN
 
             console.log('date :', result);
 
-            res.render('LeaveApproval', { data: result });
+            res.render('LeaveApplication', { data: result });
             return;
 
-        })
+        });
 
-    })
+    });
+
+
+
+    //     router.get('/show-to-approver', (req, res) => {
+    //         // const {Employee_id} = req.body;
+    //         // const sql = `SELECT Employee_id ,  Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status  FROM Leave_request `;
+
+    //         const sql = `SELECT 
+    //     lr.id AS req_id ,
+    //     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
+    //     lt.typeName AS Leave_type_name,
+    //     m.monthName AS Month_name,
+    //     lr.startDate,
+    //     lr.endDate,
+    //     lr.days,
+    //     lr.reason,
+    //     lr.appliedOn,
+    //     lr.status,
+    //     lr.approveDate
+
+    // FROM 
+    //     Leave_request AS lr
+    // LEFT JOIN 
+    //     Leave_type AS lt ON lr.Leave_type_id = lt.id
+    // LEFT JOIN 
+    //     Month AS m ON lr.Month_id = m.id
+    // LEFT JOIN 
+    //     Employee AS e ON lr.Employee_id = e.id`;
+
+    //         db.query(sql, (err, result) => {
+    //             if (err) {
+    //                 console.error('Error Fetching data:', err);
+    //                 res.status(500).json('Error Fetching data');
+    //                 return;
+    //             }
+    //             // console.log('Data fetched successfully');
+    //             result.forEach(row => {
+    //                 row.startDate = formatDate(row.startDate);
+    //                 row.endDate = formatDate(row.endDate);
+    //                 row.appliedOn = formatDate(row.appliedOn);
+    //                 row.approveDate = formatDate(row.approveDate);
+
+    //             });
+
+    //             // res.status(200).json(result);
+
+    //             var IP_address = localStorage.getItem('IP_address');
+    //             var Location = localStorage.getItem('Location');
+    //             var Browser_details = localStorage.getItem('Browser_details');
+
+    //             logActivity(req, res, {
+    //                 User_id: userId,
+    //                 activityType: "Management access",
+    //                 resourceName: "Leave applications",
+    //                 operation: "show",
+    //                 databaseTableName: "Leave_request",
+    //                 ipAddress: IP_address,
+    //                 location: Location,
+    //                 browserDetails: Browser_details
+    //             });
+
+    //             console.log('date :', result);
+
+
+    //         })
+    //         res.render('home', { data: result });
+    //         return;
+
+    //     });
+
+
+
+    router.post('/add', (req, res) => {
+
+
+        const { Leave_type_id, Month_id, startDate, endDate, reason } = req.body;
+
+
+
+
+        start = startDate;
+        end = endDate;
+        var days = calculateNumberOfDays(start, end);
+
+
+        const sql = `INSERT INTO Leave_request 
+            (Employee_id, Leave_type_id, Month_id, startDate, endDate, days, reason) 
+            VALUES (?, ?, ?, ?, ?, ?, ? )`;
+
+        var data = [employeeId, Leave_type_id, Month_id, startDate, endDate, days, reason];
+        var newdata = data.join(',');
+
+
+        db.query(sql, data, (err, result) => {
+            if (err) {
+                console.error('Error inserting data:', err);
+                res.status(500).json('Error inserting data');
+                return;
+            }
+
+            // res.status(200).json('Data inserted successfully');
+
+            var IP_address = localStorage.getItem('IP_address');
+            var Location = localStorage.getItem('Location');
+            var Browser_details = localStorage.getItem('Browser_details');
+
+
+            logActivity(req, res, {
+                User_id: userId,
+                activityType: "management access",
+                resourceName: "Leave",
+                operation: "add request ",
+                databaseTableName: "Leave_request",
+                enteredValues: newdata,
+                ipAddress: IP_address,
+                location: Location,
+                browserDetails: Browser_details
+            });
+
+            res.redirect('/Leave/show');
+
+
+            return;
+
+        });
+    });
 
 
 
@@ -326,7 +370,7 @@ LEFT JOIN
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave');
+            res.redirect('/Leave/show');
             return;
 
         })
@@ -404,7 +448,7 @@ LEFT JOIN
                 browserDetails: Browser_details
             });
 
-            res.redirect('/Leave');
+            res.redirect('/Leave/show');
             return;
 
         });
@@ -430,9 +474,25 @@ LEFT JOIN
     });
 
 
+    //Dropdown options in apply leave form
+    router.get('/leaveType-user', (req, res) => {
+        const sql = `SELECT lb.id AS balance_id, lb.Employee_id,lt.id AS type_id ,lt.typeName, lb.Month_id, lb.totalLeaves, lb.leavesTaken      
+        FROM Leave_balance lb
+        INNER JOIN Leave_type lt ON lb.Leave_type_id = lt.id
+        WHERE Employee_id = ?`;
 
+        data = [employeeId];
 
-
+        db.query(sql, data, (error, results) => {
+            if (error) {
+                console.error('Error retrieving data from database: ' + error.stack);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            console.log("leave type for particular user :", results);
+            res.json(results);
+        });
+    });
 
 
 });
@@ -447,6 +507,25 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
 }
+
+
+// Function to format date string in YYYY-MM-DD HH:MM:SS format
+function formatDateTime(dateString) {
+    if (!dateString) {
+        return ''; // Return empty string if dateString is null or undefined
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 
 
 
@@ -471,237 +550,7 @@ function calculateNumberOfDays(startDate, endDate) {
 
 
 
-router.get('/show', (req, res) => {
-    // const sql =  'SELECT * FROM Leave_request';
 
-    const sql = `SELECT 
-    lr.id AS Leave_request_id,
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    lt.typeName AS Leave_type_name,
-    m.monthName AS Month_name,
-    lr.startDate,
-    lr.endDate,
-    lr.days,
-    lr.reason,
-    lr.appliedOn,
-    lr.approvedBy,
-    lr.status,
-    lr.approveDate
-FROM 
-    Leave_request AS lr
-LEFT JOIN 
-    Leave_type AS lt ON lr.Leave_type_id = lt.id
-LEFT JOIN 
-    Month AS m ON lr.Month_id = m.id
-LEFT JOIN 
-    Employee AS e ON lr.Employee_id = e.id`;
-
-
-
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Error Fetching data:', err);
-            res.status(500).json('Error Fetching data');
-            return;
-        }
-
-        console.log('Data fetched successfully');
-        res.status(200).json(result);
-        return;
-
-    })
-});
-
-
-
-router.get('/show-to-user', (req, res) => {
-    const { Employee_id } = req.body;
-    // const sql = `SELECT Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status , approvedBy , approveDate FROM Leave_request 
-    //                 where Employee_id = ?`;
-
-    const sql = `SELECT 
-     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-     lt.typeName AS Leave_type_name,
-     m.monthName AS Month_name,
-     lr.startDate,
-     lr.endDate,
-     lr.days,
-     lr.reason,
-     lr.appliedOn,
-     lr.approvedBy,
-     lr.status,
-     lr.approveDate
-    FROM 
-                    Leave_request AS lr
-                LEFT JOIN 
-                    Leave_type AS lt ON lr.Leave_type_id = lt.id
-                LEFT JOIN 
-                    Month AS m ON lr.Month_id = m.id
-                LEFT JOIN 
-                    Employee AS e ON lr.Employee_id = e.id
-                WHERE   lr.Employee_id = ?`;
-
-    value = [Employee_id];
-    db.query(sql, value, (err, result) => {
-        if (err) {
-            console.error('Error Fetching data:', err);
-            res.status(500).json('Error Fetching data');
-            return;
-        }
-        console.log('Data fetched successfully');
-        res.status(200).json(result);
-        return;
-
-    })
-
-});
-
-
-
-
-router.get('/show-to-approver', (req, res) => {
-    // const {Employee_id} = req.body;
-    // const sql = `SELECT Employee_id ,  Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status  FROM Leave_request `;
-
-    const sql = `SELECT 
-    
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    lt.typeName AS Leave_type_name,
-    m.monthName AS Month_name,
-    lr.startDate,
-    lr.endDate,
-    lr.days,
-    lr.reason,
-    lr.appliedOn,
-    lr.status
-    
-FROM 
-    Leave_request AS lr
-LEFT JOIN 
-    Leave_type AS lt ON lr.Leave_type_id = lt.id
-LEFT JOIN 
-    Month AS m ON lr.Month_id = m.id
-LEFT JOIN 
-    Employee AS e ON lr.Employee_id = e.id`;
-
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Error Fetching data:', err);
-            res.status(500).json('Error Fetching data');
-            return;
-        }
-        console.log('Data fetched successfully');
-        res.status(200).json(result);
-        return;
-
-    })
-
-})
-
-
-
-
-router.post('/add', (req, res) => {
-    // const leaveRequestData = req.body;
-    const { Employee_id, Leave_type_id, Month_id, startDate, endDate, reason } = req.body;
-
-    start = startDate;
-    end = endDate;
-    var days = calculateNumberOfDays(start, end);
-
-
-    const sql = `INSERT INTO Leave_request 
-                (Employee_id, Leave_type_id, Month_id, startDate, endDate, days, reason) 
-                VALUES (?, ?, ?, ?, ?, ?, ? )`;
-
-    var data = [Employee_id, Leave_type_id, Month_id, startDate, endDate, days, reason];
-
-
-    db.query(sql, data, (err, result) => {
-        if (err) {
-            console.error('Error inserting data:', err);
-            res.status(500).json('Error inserting data');
-            return;
-        }
-        console.log('Data inserted successfully');
-        res.status(200).json('Data inserted successfully');
-        return;
-
-    });
-});
-
-
-
-
-router.post('/delete', (req, res) => {
-    const { id } = req.body;
-    const sql = 'DELETE FROM Leave_request WHERE id = ?';
-
-    db.query(sql, id, (err, result) => {
-        if (err) {
-            console.error('Error deleting data:', err);
-            res.status(500).json('Error deleted data');
-            return;
-        }
-        console.log('Data deleted successfully');
-        res.status(200).json('Data deleted successfully');
-        return;
-
-    })
-})
-
-
-
-router.post('/edit', (req, res) => {
-    // const id = req.body.id;
-
-    const { id, Leave_type_id, Month_id, startDate, endDate, reason } = req.body;
-
-    // Construct the SQL UPDATE query dynamically based on the provided columns
-    let sql = 'UPDATE Leave_request SET ';
-    const updateValues = [];
-    if (Leave_type_id !== '') {
-        sql += ' Leave_type_id = ?,';
-        updateValues.push(Leave_type_id);
-    }
-    if (Month_id !== '') {
-        sql += 'Month_id = ?, ';
-        updateValues.push(Month_id);
-    }
-    if (startDate !== '') {
-        sql += 'startDate = ?, ';
-        updateValues.push(startDate);
-    }
-
-    if (endDate !== '') {
-        sql += 'endDate = ?, ';
-        updateValues.push(endDate);
-    }
-    if (reason !== '') {
-        sql += 'reason = ?, ';
-        updateValues.push(reason);
-    }
-    // Remove the trailing comma and space
-    sql = sql.slice(0, -2);
-    sql += ' WHERE id = ?';
-
-    // Add the id value to the updateValues array
-    updateValues.push(id);
-
-    db.query(sql, updateValues, (err, result) => {
-        if (err) {
-            console.error('Error in updating :', err);
-            res.status(500).json('Internal Server Error');
-            return;
-        }
-        console.log('request updated successfully');
-        res.status(200).json('Request updated successfully');
-        return;
-
-    });
-
-
-});
 
 
 

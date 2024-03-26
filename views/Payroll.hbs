@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* Styling the anchor tag to look like a button */
+        .highlight-net-salary {
+            background-color: rgb(47, 0, 255);
+            /* Change the background color to yellow */
+            font-weight: bold;
+            color: blue;
+
+        }
     </style>
 </head>
 
@@ -16,13 +18,11 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-                {{!-- <div class="col-lg-6 grid-margin stretch-card"> --}}
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Payroll Management</h3>
-
-                            <a id="new_data" type="button" href="/Payroll/create">Create Payroll</a>
-
+                            <h3 class="card-title">Payroll Dashboard</h3>
+                            <a type="button" class="btn btn-primary btn-md" href="/Payroll/create">Create Payroll</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -30,11 +30,14 @@
 
                                             <th>Employee name</th>
                                             <th>Month-year</th>
-                                            <th>Salary</th>
-                                            <th>Expense claim</th>
-                                            <th>absent Deduction</th>
-                                            <th>Net pay</th>
-                                            <th>status</th>
+                                            <th>Basic salary</th>
+                                            <th>Bonus</th>
+                                            <th>Allowance</th>
+                                            <th>Deduction</th>
+                                            <th>PF</th>
+                                            <th>Absent Deduction</th>
+                                            <th>Net salary</th>
+                                            <th>Remarks</th>
                                             <th>Created on</th>
                                             <th>Action</th>
 
@@ -47,35 +50,46 @@
 
                                             <td>{{this.employeeName}}</td>
                                             <td>{{this.month}} - {{this.year}}</td>
-                                            <td>{{this.netSalary}}</td>
-                                            <td>{{this.expenseClaim}}</td>
+                                            <td>{{this.basic}}</td>
+                                            <td>{{this.bonus}}</td>
+                                            <td>{{this.allowance}}</td>
+                                            <td>{{this.deduction}}</td>
+                                            <td>{{this.PF}}</td>
                                             <td>{{this.absentDeduction}}</td>
-                                            <td>{{this.netPay}}</td>
-                                            <td>{{this.status}}</td>
-                                            <td>{{this.dateCreated}}</td>
+                                            <td class="highlight-net-salary">{{this.netSalary}}</td>
+                                            <td>{{this.remark}}</td>
+                                            <td>{{this.createdOn}}</td>
 
-                                            <td>
+                                            <td class="actions">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                                        id="dropdownMenuSizeButton3" data-bs-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuSizeButton3">
+                                                        <button type="button" id="update_data"
+                                                            class="dropdown-item  btn-rounded btn-fw"
+                                                            onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
+                                                            data-toggle="modal" data-target="#editModal">
+                                                            Edit
+                                                            <i class="ti-file btn-icon-append"></i>
+                                                        </button>
 
-                                                <!-- Button to trigger the modal -->
-                                                <a type="button" id="delete_data" data-toggle="modal"
-                                                    data-target="#DeleteModal"
-                                                    data-req-id="{{this.Payroll_id}}">Delete</a>
+                                                        <button type="button" id="delete_data"
+                                                            class="dropdown-item  btn-rounded btn-fw"
+                                                            data-toggle="modal" data-target="#DeleteModal"
+                                                            data-pay-id="{{this.id}}">Delete</button>
 
-
-                                                <a type="button" id="update_data"
-                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
-                                                    data-toggle="modal" data-target="#editModal">
-                                                    Edit
-                                                    <i class="ti-file btn-icon-append"></i>
-                                                </a>
-
+                                                    </div>
+                                                </div>
                                             </td>
-
                                         </tr>
                                         {{/each}}
                                     </tbody>
-
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -83,7 +97,6 @@
             </div>
         </div>
     </div>
-
 
 
 
@@ -102,9 +115,9 @@
                     <form action="/Payroll/delete" method="post">
                         <label for="id">Are you sure you want to delete?</label>
                         <!-- Hidden input field to store the req_id -->
-                        <input type="hidden" id="deleteReqId" name="Payroll_id">
+                        <input type="hidden" id="deleteReqId" name="pay_id">
                         {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
-                        <button id="delete_data" type="submit">Yes</button>
+                        <button class="btn btn-danger" type="submit">Yes</button>
                     </form>
                 </div>
             </div>
@@ -118,27 +131,84 @@
             $('#DeleteModal').on('show.bs.modal', function (event) {
                 // Extract the req_id from the button that triggered the modal
                 const button = $(event.relatedTarget);
-                const payId = button.data('req-id');
+                const payId = button.data('pay-id');
+
+                console.log('pay id in script :',payId);
 
                 // Set the req_id as the value of the hidden input field
                 $('#deleteReqId').val(payId);
 
                 // Display the req_id in the modal for reference (optional)
-                // $('#requestIdDisplay').text(payId);
+                $('#requestIdDisplay').text(payId);
             });
         });
 
     </script>
 
 
-
-
-
-
     <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+<!-- Delete modal -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Delete data</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Payroll/delete" method="post">
+                    <label for="id">Are you sure you want to delete?</label>
+                    <!-- Hidden input field to store the req_id -->
+                    <input type="hidden" id="deleteReqId" name="Payroll_id">
+                    {{!-- <p>Request ID: <span id="requestIdDisplay"></span></p> --}}
+                    <button id="delete_data" type="submit">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        // Event listener for when the delete modal is shown
+        $('#DeleteModal').on('show.bs.modal', function (event) {
+            // Extract the req_id from the button that triggered the modal
+            const button = $(event.relatedTarget);
+            const payId = button.data('req-id');
+
+            // Set the req_id as the value of the hidden input field
+            $('#deleteReqId').val(payId);
+
+            // Display the req_id in the modal for reference (optional)
+            // $('#requestIdDisplay').text(payId);
+        });
+    });
+
+</script>
+
+
+
+
+
+
+<!-- Bootstrap JS (jQuery and Popper.js are required too) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

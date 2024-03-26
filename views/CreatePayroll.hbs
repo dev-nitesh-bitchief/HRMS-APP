@@ -2,31 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* Styling the anchor tag to look like a button */
-        #new_data {
-            display: inline-block;
-            padding: 5px 20px;
-            margin-right: 100px;
-            /* Adjust padding as needed */
-            background-color: #4CAF50;
-            /* Button background color */
-            color: white;
-            /* Button text color */
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            /* Rounded corners */
-            cursor: pointer;
-        }
-
-
         .row_ {
             display: flex;
             align-items: center;
@@ -37,8 +14,6 @@
         .search_bar {
             margin-right: 100px;
         }
-
-
 
         .go_button {
             background-color: #007bff;
@@ -54,33 +29,57 @@
             border-radius: 5px;
             /* Add border radius */
 
-            margin-top: 30px;
-
-
+            margin-top: 22px;
         }
 
+        input[type="text"] {
+            width: 100px;
+            /* Set the width of the input box */
+            /* You can adjust the width as needed */
+            padding: 5px;
+            /* Optional: Add padding for better appearance */
+            box-sizing: border-box;
+            /* Optional: Include padding and border in the element's total width */
+        }
 
+        .table-container {
+            width: 500px;
+            /* Set the fixed width of the table container */
+            overflow-y: auto;
+            /* Add vertical scrollbar for overflow */
+        }
 
-        #hiddenForm {
+        table {
+            width: 100%;
+            /* Table takes full width of its container */
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            /* Add padding for better readability */
+
+            text-align: left;
+            /* Align text to the left */
+        }
+
+        #hidden_td {
             display: none;
         }
     </style>
 </head>
 
 <body>
-
-
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
-
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-
                             <h3 class="card-title">Employee Info</h3>
 
-                            <form class="forms-sample" action="">
+                            <form class="forms-sample" action="/Payroll/salaryDetails" method="post">
                                 <div class="row_">
                                     <div class="search_bar">
 
@@ -88,8 +87,6 @@
                                         <select class="form-select" id="Employee_" name="Employee_id" required>
                                             <option value="">Select </option>
                                         </select>
-
-
                                     </div>
                                     <div class="search_bar">
 
@@ -108,170 +105,279 @@
 
                                     </div>
 
-                                    <a type="button" class="go_button" id="goButton">Go</a>
+                                    <button type="submit" class="go_button" id="goButton">Go</button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
 
 
-                <div class="col-md-12 grid-margin stretch-card" id="hiddenForm">
+                <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Payroll Info</h4>
-                            {{!-- <p class="card-description">
-                                Horizontal form layout
-                            </p> --}}
-
-                             <div class="table-responsive">
+                            <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                           
-                                           
                                             <th>Employee name</th>
                                             <th>Month-year</th>
-                                            <th>Salary</th>
-                                            {{!-- <th>Expense claim</th> --}}
-                                            <th>absent Deduction</th>
-                                            <th>Net pay</th>
-                                            <th>status</th>
-                                            {{!-- <th>Created on</th> --}}
+                                            <th>Base salary</th>
+                                            <th>Bonus</th>
+                                            <th>Allowance</th>
+                                            <th>Deduction</th>
+                                            <th>PF</th>
+                                            <th>Absent Deduction</th>
+                                            <th>Net salary</th>
+                                            <th>Remark</th>
+
                                             <th>Action</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        {{#each data}}
+                                        {{#each Payroll}}
                                         <tr>
-                                           
-                                            <td>{{this.employeeName}}</td>
+                                            <td id="employeeName"></td>
+                                            <td id="hidden_td"> <input class="form-control" type="hidden"
+                                                    value="{{this.employee}}" id="employeeId"></td>
+
                                             <td>{{this.month}} - {{this.year}}</td>
-                                            <td>{{this.netSalary}}</td>
-                                            {{!-- <td>{{this.expenseClaim}}</td> --}}
-                                            <td>{{this.absentDeduction}}</td>
-                                            <td>{{this.netPay}}</td>
-                                            <td>{{this.status}}</td>
-                                            {{!-- <td>{{this.dateCreated}}</td> --}}
-                                           
+                                            <td id="hidden_td"> <input class="form-control" type="hidden"
+                                                    value="{{this.month}}" id="month"></td>
+                                            <td id="hidden_td"> <input class="form-control" type="hidden"
+                                                    value="{{this.year}}" id="year"></td>
+
+                                            <td><input class="form-control" type="text" value="{{this.basic}}"
+                                                    id="basic" placeholder="00">
+                                            </td>
+                                            <td><input class="form-control" type="text" value="{{this.bonus}}"
+                                                    id="bonus" placeholder="00">
+                                            </td>
+                                            <td><input class="form-control" type="text" value="{{this.allowance}}"
+                                                    id="allowance" placeholder="00"></td>
+                                            <td><input class="form-control" type="text" value="{{this.deduction}}"
+                                                    id="deduction" placeholder="00"></td>
+                                            <td><input class="form-control" type="text" value="{{PF}}" id="PF"
+                                                    placeholder="00"></td>
+                                            <td><input class="form-control" type="text" value="{{absentDeduction}}"
+                                                    id="absentDeduction" placeholder="00">
+                                            </td>
+                                            <td><input class="form-control" type="text" id="netSalary" readonly></td>
+
+                                            <td><input class="form-control" type="text" id="remark"></td>
+
                                             <td>
-
-
-                                                <!-- Button to trigger the modal -->
-                                                <a type="button" id="delete_data" data-toggle="modal"
-                                                    data-target="#DeleteModal" data-req-id="{{this.Payroll_id}}">Delete</a>
-
-                                                
-                                                 <a type="button" id="update_data"
-                                                    onclick="UpdateRequest('{{this.req_id}}','{{this.startDate}}','{{this.endDate}}','{{this.Leave_type_name}}','{{this.reason}}')"
-                                                    data-toggle="modal" data-target="#editModal">
-                                                    Edit
-                                                    <i class="ti-file btn-icon-append"></i>
-                                                </a>
-
+                                                <button class=" btn-success btn-sm btn-rounded"
+                                                    id="add_payroll">submit</button>
                                             </td>
 
                                         </tr>
                                         {{/each}}
                                     </tbody>
-
                                 </table>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
 
+
+
     <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const employeeId = document.getElementById('employeeId').value;
+            const employeeName = document.getElementById('employeeName');
 
+            // Function to fetch employee name
+            async function fetchEmployeeName(employeeId) {
+                console.log('employee id:', employeeId);
+                try {
+                    // Replace this with your actual API endpoint to fetch employee name
+                    const response = await fetch(`/Payroll/employeeName`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ employeeId: employeeId })
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
 
-        fetch('/Leave-balance/employee')
-            .then(response => response.json())
-            .then(data => {
-                const roleDropdown = document.getElementById('Employee_');
-                data.forEach(employee => {
-                    const option = document.createElement('option');
-                    option.value = employee.id;
-                    option.textContent = employee.fullName;
-                    roleDropdown.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-
-
-
-
-        fetch('/Leave-balance/month')
-            .then(response => response.json())
-            .then(data => {
-                const roleDropdown = document.getElementById('Month_');
-                data.forEach(month => {
-                    const option = document.createElement('option');
-                    option.value = month.id;
-                    option.textContent = month.monthName;
-                    roleDropdown.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-
-
-
-
-        // Get the dropdown element
-        const yearDropdown = document.getElementById("year_");
-
-        // Function to populate the dropdown with years
-        function populateYearDropdown(startYear, endYear) {
-            for (let year = startYear; year <= endYear; year++) {
-                // Create an option element
-                const option = document.createElement("option");
-                option.text = year;
-                option.value = year;
-
-                // Append the option to the dropdown
-                yearDropdown.appendChild(option);
+                    console.log('data in script :', data[0]);
+                    return data[0].employeeName; // Assuming the API returns the employee name
+                } catch (error) {
+                    console.error('Error fetching employee name:', error);
+                    return ''; // Return empty string if there's an error
+                }
             }
-        }
-      // Example usage: populate the dropdown with years from 2000 to 2050
-        populateYearDropdown(2020, 2025);
+
+            // Get employee name and update the DOM
+            try {
+                const name = await fetchEmployeeName(employeeId);
+                employeeName.textContent = name;
+            } catch (error) {
+                console.error('Error updating employee name:', error);
+            }
 
 
 
 
 
+            const submitButton = document.querySelector('#add_payroll');
+
+            submitButton.addEventListener('click', function () {
+
+
+                // Get values from inputs
+                const employeeId = document.getElementById('employeeId').value;
+                const month = document.getElementById('month').value;
+                const year = document.getElementById('year').value;
+                const basic = document.getElementById('basic').value;
+                const bonus = document.getElementById('bonus').value || "0";
+                const allowance = document.getElementById('allowance').value || "0";
+                const deduction = document.getElementById('deduction').value || "0";
+                const PF = document.getElementById('PF').value || "0";
+                const absentDeduction = document.getElementById('absentDeduction').value || "0";
+                const netSalary = document.getElementById('netSalary').value || "0";
+                const remark = document.getElementById('remark').value;
+
+                // Prepare data object
+                const data = {
+                    employeeId: employeeId,
+                    month: month,
+                    year: year,
+                    basic: basic,
+                    bonus: bonus,
+                    allowance: allowance,
+                    deduction: deduction,
+                    PF: PF,
+                    absentDeduction: absentDeduction,
+                    netSalary: netSalary,
+                    remark: remark
+                };
+
+                console.log("data :", data)
+                // Send data to server
+                fetch('/Payroll/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        // Handle successful response (if needed)
+                        console.log('Data submitted successfully');
+                    })
+                    .catch(error => {
+                        // Handle error
+                        console.error('There was a problem with your fetch operation:', error);
+                    });
+            });
 
 
 
-        // Function to show the hidden form when Go button is clicked
-        document.getElementById('goButton').addEventListener('click', function () {
-            document.getElementById('hiddenForm').style.display = 'block';
+
+            // Get input fields
+            const basicInput = document.getElementById('basic');
+            const bonusInput = document.getElementById('bonus');
+            const allowanceInput = document.getElementById('allowance');
+            const deductionInput = document.getElementById('deduction');
+            const PFInput = document.getElementById('PF');
+            const absentDeductionInput = document.getElementById('absentDeduction');
+            const netSalaryInput = document.getElementById('netSalary');
+
+            // Function to calculate net salary
+            function calculateNetSalary() {
+                const basic = parseFloat(basicInput.value) || 0;
+                const bonus = parseFloat(bonusInput.value) || 0;
+                const allowance = parseFloat(allowanceInput.value) || 0;
+                const deduction = parseFloat(deductionInput.value) || 0;
+                const PF = parseFloat(PFInput.value) || 0;
+                const absentDeduction = parseFloat(absentDeductionInput.value) || 0;
+
+                // Calculate net salary
+                const totalEarnings = basic + bonus + allowance;
+                const totalDeductions = deduction + PF + absentDeduction;
+                const netSalary = totalEarnings - totalDeductions;
+
+                // Display net salary
+                netSalaryInput.value = netSalary.toFixed(2);
+            }
+
+            // Add event listeners to input fields
+            basicInput.addEventListener('input', calculateNetSalary);
+            bonusInput.addEventListener('input', calculateNetSalary);
+            allowanceInput.addEventListener('input', calculateNetSalary);
+            deductionInput.addEventListener('input', calculateNetSalary);
+            PFInput.addEventListener('input', calculateNetSalary);
+            absentDeductionInput.addEventListener('input', calculateNetSalary);
+
+            // Initial calculation
+            calculateNetSalary();
+
+
 
         });
 
-
-        
-
-
-        
-
-
-        
-
-       
-        
-
-
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Fetch employees and populate the Employee dropdown
+            fetch('/Leave-balance/employee')
+                .then(response => response.json())
+                .then(data => {
+                    const employeeDropdown = document.getElementById('Employee_');
+                    data.forEach(employee => {
+                        const option = document.createElement('option');
+                        option.value = employee.id;
+                        option.textContent = employee.fullName; 
+                        employeeDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching employees:', error));
 
+            // Fetch months and populate the Month dropdown
+            fetch('/Leave-balance/month')
+                .then(response => response.json())
+                .then(data => {
+                    const monthDropdown = document.getElementById('Month_');
+                    data.forEach(month => {
+                        const option = document.createElement('option');
+                        option.value = month.id;
+                        option.textContent = month.monthName; // Assuming 'monthName' is the property containing the month's name
+                        monthDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching months:', error));
+
+            // Populate the Year dropdown
+            const yearDropdown = document.getElementById("year_");
+            function populateYearDropdown(startYear, endYear) {
+                for (let year = startYear; year <= endYear; year++) {
+                    const option = document.createElement("option");
+                    option.text = year;
+                    option.value = year;
+                    yearDropdown.appendChild(option);
+                }
+            }
+            populateYearDropdown(2020, 2025);
+
+            // Other code for calculating net salary and submitting payroll data goes here
+        });
+    </script>
 
 
     <!-- Bootstrap JS (jQuery and Popper.js are required too) -->

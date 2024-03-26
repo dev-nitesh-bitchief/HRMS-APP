@@ -14,9 +14,13 @@
   <link rel="stylesheet" href="/vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="/vendors/css/toastify.min.css">
+
+  <link rel="stylesheet" href="/vendors/select2/select2.min.css">
+  <link rel="stylesheet" href="/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  {{!-- <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css"> --}}
   <link rel="stylesheet" href="/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
@@ -417,12 +421,27 @@
             </a>
             <div class="collapse" id="admin">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave/show-to-approver">Leave applications</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance/show">Leave balance</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Audit-logging/show">Audit and logging </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-type/show">Leave type</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-policy/show">Leave Policies</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Leave/showApplication">Leave applications</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/LeaveBalance/show">Leave balance</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/AuditLogging/show">Audit and logging </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/LeaveType/show">Leave type</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/LeavePolicy/show_admin">Leave Policies</a></li>
                 <li class="nav-item"> <a class="nav-link" href="/Payroll/show">Payroll</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/show">All Expenses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/holiday/show-to-admin">Public Holidays</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/employee-onboarding/">Employee Onboarding</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/type">Expense type </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Expense/payment-method">Payment Method</a>
+                </li>
 
               </ul>
             </div>
@@ -458,9 +477,9 @@
             </a>
             <div class="collapse" id="leave">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/Leave">Apply leave</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-balance">My leaves</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Leave-policy">Leave policies</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Leave/show">Apply leave</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/LeaveBalance">My leaves</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/LeavePolicy/show">Leave policies</a></li>
               </ul>
             </div>
           </li>
@@ -477,8 +496,6 @@
               </ul>
             </div>
           </li>
-
-
 
           <li class="nav-item">
 
@@ -678,9 +695,9 @@
       <script src="/vendors/js/toastify-js.js"></script>
       <!-- endinject -->
       <!-- Plugin js for this page -->
-      <script src="/chart.js/Chart.min.js"></script>
-      <script src="/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-      <script src="/progressbar.js/progressbar.min.js"></script>
+      {{!-- <script src="/js/chart.js"></script> --}}
+      {{!-- <script src="/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script> --}}
+      <script src="/js/progress-bar.js"></script>
 
       <!-- End plugin js for this page -->
       <!-- inject:js -->
@@ -693,7 +710,7 @@
       <!-- endinject -->
       <!-- Custom js for this page-->
       <script src="/js/dashboard.js"></script>
-      <script src="/js/Chart.roundedBarCharts.js"></script>
+      {{!-- <script src="/js/Chart.roundedBarCharts.js"></script> --}}
       <!-- End custom js for this page-->
 
 
@@ -702,6 +719,25 @@
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <!-- Your custom script -->
+
+      <script src="/vendors/js/vendor.bundle.base.js"></script>
+      <!-- endinject -->
+      <!-- Plugin js for this page -->
+      <script src="/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+      <script src="/vendors/select2/select2.min.js"></script>
+      <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+      <!-- End plugin js for this page -->
+      <!-- inject:js -->
+      <script src="/js/off-canvas.js"></script>
+      <script src="/js/hoverable-collapse.js"></script>
+      <script src="/js/template.js"></script>
+      <script src="/js/settings.js"></script>
+      <script src="/js/todolist.js"></script>
+      <!-- endinject -->
+      <!-- Custom js for this page-->
+      <script src="/js/file-upload.js"></script>
+      <script src="/js/typeahead.js"></script>
+      <script src="/js/select2.js"></script>
 
 </body>
 

@@ -81,32 +81,9 @@ LEFT JOIN
 
 router.get('/show', (req, res) => {
 
-    const sql = `SELECT
-   
-    p.id AS Payroll_id,
-    e.id AS Employee_id,
-    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    pc.id AS Payroll_cycle_id,
-    m.monthName AS month,
-    p.year,
-    s.netSalary,
-    p.expenseClaim,
-    p.absentDeduction,
-    p.netPay,
-    p.status,
-    p.dateCreated
-FROM
-    Payroll p
-LEFT JOIN
-    Employee e ON p.Employee_id = e.id
-LEFT JOIN
-    Payroll_cycle pc ON p.Payroll_cycle_id = pc.id
-LEFT JOIN
-    Month m ON p.Month_id = m.id
-
-LEFT JOIN
-    Salary s ON p.Salary_id = s.id;
- `;
+    const sql = `SELECT p.id, CONCAT(e.firstname,' ',e.lastName) AS employeeName, p.Month_id AS month , p.year, p.basic, p.bonus, p.allowance, p.deduction, p.PF, p.absentDeduction, p.netSalary, p.remark, p.status, p.createdOn
+    FROM Payroll p
+    LEFT JOIN Employee e ON p.Employee_id = e.id;`;
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -117,7 +94,7 @@ LEFT JOIN
 
         // Format the dateCreated property for each row in the result set
         result.forEach(row => {
-            row.dateCreated = formatDate(row.dateCreated);
+            row.createdOn = formatDate(row.createdOn);
         });
 
         function formatDate(dateString) {
@@ -136,19 +113,22 @@ LEFT JOIN
         return;
 
     })
+
+
 });
-
-
 
 
 
 router.post('/add', (req, res) => {
     // const leaveRequestData = req.body;
-    const { Employee_id, month, year, salary, expenseClaim, absentDeduction, netPay, status } = req.body;
+    console.log('insode add route');
+    const { employeeId, month, year, basic, bonus, allowance, deduction, PF, absentDeduction, netSalary, remark } = req.body;
 
-    const sql = 'INSERT INTO Payroll ( Employee_id, Month_id , Year_id , salary , expenseClaim , absentDeduction , netPay , status ) VALUES(?,?,?,?,?,?,?,?)';
+    const date = new Date();
 
-    var data = [Employee_id, month, year, salary, expenseClaim, absentDeduction, netPay, status];
+    const sql = 'INSERT INTO Payroll ( Employee_id, Month_id , year , basic , bonus ,allowance , deduction , PF ,  absentDeduction , netSalary , remark  , createdOn ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+
+    var data = [employeeId, month, year, basic, bonus, allowance, deduction, PF, absentDeduction, netSalary, remark, date];
 
     console.log(data);
 
@@ -160,24 +140,24 @@ router.post('/add', (req, res) => {
             return;
         }
         console.log('Payroll data inserted successfully');
-        // res.status(200).json('Payroll data inserted successfully');
-        res.status(200).json({ message: 'Payroll added successfully' });
+
+        // res.status(200).json({ message: 'Payroll added successfully' });
+        res.redirect('/Payroll/show');
 
 
-        return;
     });
 });
 
 
 
-
-
 router.post('/delete', (req, res) => {
-    const { Payroll_id } = req.body;
+    const { pay_id } = req.body;
+
+    console.log('pay is :', pay_id);
 
     sql = 'DELETE FROM Payroll WHERE id = ?';
 
-    db.query(sql, Payroll_id, (err, result) => {
+    db.query(sql, pay_id, (err, result) => {
         if (err) {
             console.error('Error deleting data:', err);
             res.status(500).json('Error deleted data');
@@ -190,8 +170,6 @@ router.post('/delete', (req, res) => {
 
     });
 });
-
-
 
 
 
@@ -237,53 +215,100 @@ router.post('/edit', (req, res) => {
 
 
 
-//Dropdown options for employee in add leave balance ( admin )
-router.post('/salary', (req, res) => {
+router.post('/employeeName', (req, res) => {
 
-    const { Employee_id } = req.body;
-
-    const sql = "SELECT netSalary FROM Salary where Employee_id = ?";
+    const { employeeId } = req.body;
 
 
-    db.query(sql, Employee_id, (error, results) => {
+
+    const sql = "SELECT CONCAT(firstName,' ',lastName) AS employeeName FROM Employee WHERE id = ?;"
+
+    db.query(sql, [employeeId], (error, results) => {
         if (error) {
             console.error('Error retrieving data from database: ' + error.stack);
             res.status(500).json({ error: 'Internal server error' });
             return;
         }
+
         res.status(200).json(results);
-    });
+
+    })
+
 });
 
 
-router.post('/presentDays', (req, res) => {
-    const { Employee_id, month, year } = req.body;
 
-    const sql = `SELECT COUNT(DISTINCT DATE(CheckIn)) AS total_present_days
-    FROM Attendance
+
+router.post('/salaryDetails', (req, res) => {
+    try {
+        const { Employee_id, month, year } = req.body;
+
+        const sql = `SELECT e.id AS Employee_id, e.firstname AS Employee_name, s.id AS Salary_id, st.salary_type AS SalaryType, sd.salarytypeAmount AS SalaryAmount
+    FROM Employee e
+    JOIN Salary s ON e.id = s.Employee_id
+    JOIN SalaryDetails sd ON s.id = sd.salary_id
+    JOIN SalaryType st ON sd.salarytype_id = st.id
     WHERE Employee_id = ?
-      AND YEAR(CheckIn) = ?
-      AND MONTH(CheckIn) = ?`;
+    ORDER BY e.id, st.id `;
 
-    const data = [Employee_id, year, month];
+        const data = [Employee_id];
 
-    db.query(sql, data, (error, results) => {
-        if (error) {
-            console.error('Error retrieving data from database: ' + error.stack);
-            res.status(500).json({ error: 'Internal server error' });
-            return;
-        }
+        db.query(sql, data, async (error, result) => {
+            if (error) {
+                console.error('Error retrieving data from database: ' + error.stack);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            // console.log(result);
 
-        res.status(200).json(results);
-    });
-})
+            // res.status(200).json(results);
+
+            const salariesByType = {};
+
+            result.forEach(salary => {
+                const { SalaryType, SalaryAmount } = salary;
+                salariesByType[SalaryType] = SalaryAmount;
+            });
+
+            // console.log(salariesByType);
+            // console.log("basic salary:", salariesByType.basic);
+
+            const absent_days = await calculateAbsentDays(Employee_id, year, month);
+            console.log('absent days 123', absent_days);
+
+            const monthIndex = (month - 1);
+            const daysInMonth = new Date(year, monthIndex, 0).getDate();
+
+            const absentDeduction = ((salariesByType.basic / daysInMonth) * absent_days).toFixed(2);
+            console.log("absent deduction :", absentDeduction);
+
+            salariesByType.absentDeduction = absentDeduction;
+            // console.log("Payroll :", salariesByType);
+
+            salariesByType.employee = Employee_id;
+            salariesByType.month = month;
+            salariesByType.year = year;
 
 
+            const payrollData = [salariesByType];
+
+            // console.log("data in array :", payrollData);
 
 
+            res.status(200).render('CreatePayroll', { Payroll: payrollData });
+
+            // return;
 
 
+        });
 
+
+    } catch (error) {
+        console.error('Error retrieving data from database:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+});
 
 
 function getDatesForMonth(year, month) {
@@ -299,14 +324,10 @@ function getDatesForMonth(year, month) {
 }
 
 
-
-
 // Function to filter out weekends start from 0 = sunday.
 function removeDayFromDate(dates, dayToRemove) {
     return dates.filter(date => moment(date).day() !== dayToRemove);
 }
-
-
 
 
 
@@ -323,14 +344,11 @@ function getHolidays(year, month) {
                     return new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate());
                 });
                 resolve(holidays);
-               
+
             }
         });
     });
 }
-
-
-
 
 
 // Function to fetch attendance data for the employee
@@ -381,29 +399,6 @@ function getApprovedLeaves(employeeId, year, month) {
 }
 
 
-// Main function to calculate absent days
-// async function calculateAbsentDays(employeeId, year, month) {
-//     try {
-//         const dates = getDatesForMonth(year, month);
-//         const workingDays = filterWeekends(dates);
-//         const holidays = await getHolidays(year, month);
-//         const attendanceDates = await getAttendanceData(employeeId, year, month);
-//         const approvedLeaves = await getApprovedLeaves(employeeId, year, month);
-
-//         console.log('Apprved leaves inside :', approvedLeaves);
-//         console.log('Holidays :', holidays);
-
-//         const absentDays = workingDays.filter(date => !holidays.includes(date) && !attendanceDates.includes(date) && !approvedLeaves.includes(date));
-
-//         console.log('Absent days:', absentDays);
-//         console.log('Number of absent days:', absentDays.length);
-//     } catch (error) {
-//         console.error('Error:', error);
-//     } finally {
-//         // Close the database connection
-//         // db.end();
-//     }
-// }
 
 
 // Main function to calculate absent days
@@ -412,21 +407,21 @@ async function calculateAbsentDays(employeeId, year, month) {
         const dates = getDatesForMonth(year, month);
 
         console.log('date length:', dates.length);
-       
+
 
         const dayToRemove = 0; // Assuming 0 represents Sunday
-        const workingDays = await  removeDayFromDate(dates, dayToRemove);
-        
+        const workingDays = await removeDayFromDate(dates, dayToRemove);
+
 
         const holidays = await getHolidays(year, month);
         const attendanceDates = await getAttendanceData(employeeId, year, month);
         const approvedLeaves = await getApprovedLeaves(employeeId, year, month);
-        
+
         // console.log('Dates:', dates);
-        // console.log("Working Days (Excluding Sundays):", workingDays.length);
-        // console.log('Holidays:', holidays.length);
-        // console.log('Attendance Dates:', attendanceDates.length);
-        // console.log('Approved Leaves:', approvedLeaves.length);
+        console.log("Working Days (Excluding Sundays):", workingDays.length);
+        console.log('Holidays:', holidays.length);
+        console.log('Attendance Dates:', attendanceDates.length);
+        console.log('Approved Leaves:', approvedLeaves.length);
 
         // Convert dates to ISO strings for comparison
         const holidayStrings = holidays.map(date => date.toISOString().split('T')[0]);
@@ -441,9 +436,10 @@ async function calculateAbsentDays(employeeId, year, month) {
         });
 
         // console.log('Absent Days:', absentDays);
-        console.log('Number of Absent Days:', absentDays.length);
+        // console.log('Number of Absent Days:', absentDays.length);
+        return absentDays.length;
 
-       
+
     } catch (error) {
         console.error('Error:', error);
     } finally {
@@ -452,10 +448,12 @@ async function calculateAbsentDays(employeeId, year, month) {
 }
 
 // Example usage
-const employeeId = 3;
-const year = 2024;
-const month = 3; // March
-calculateAbsentDays(employeeId, year, month);
+// const employeeId = 3;
+// const year = 2024;
+// const month = 3; // March
+// calculateAbsentDays(employeeId, year, month);
+
+
 
 
 
