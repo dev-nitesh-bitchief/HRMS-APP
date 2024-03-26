@@ -1,108 +1,4 @@
-{{!-- 
-    <title>Dashboard</title>
-    <style>
-        /* styles.css */
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-    display: flex;
-}
-
-.dashboard {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 200vw;
-}
-
-.card {
-    width: 300px;
-    margin: 20px;
-    border-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-content {
-    padding: 20px;
-}
-
-.card h2 {
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
-
-.card p {
-    margin: 10px 0;
-    color: #666;
-}
-
-.card-link {
-    display: block;
-    text-align: center;
-    padding: 12px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 0 0 20px 20px;
-    transition: background-color 0.3s;
-}
-
-.card-link:hover {
-    background-color: #0056b3;
-}
-
-    </style>
-</head>
-<body>
-    <div class="dashboard">
-        <div class="card">
-            <div class="card-content">
-                <h2>Departments</h2>
-                <p>View all department information</p>
-            </div>
-            <a href="/Department" class="card-link">Go to Departments</a>
-        </div>
-        <div class="card">
-            <div class="card-content">
-                <h2>Attendance-Records</h2>
-                <p>View all Attendancerecord information</p>
-            </div>
-            <a href="/attendancerecord" class="card-link">Go to Attendance-Records</a>
-        </div>
-        <div class="card">
-            <div class="card-content">
-                <h2>Subscription</h2>
-                <p>View all Plans information</p>
-            </div>
-            <a href="/subPlan" class="card-link">Go to Subscription-plans</a>
-        </div>
-        <div class="card">
-            <div class="card-content">
-                <h2>Employees</h2>
-                <p>View all employee information</p>
-            </div>
-            <a href="/ework" class="card-link">Go to Employees</a>
-        </div>
-    </div>
-</body>
-</html>
- --}}
-
-<!-- Main -->
-<!-- Montserrat Font -->
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -170,15 +66,18 @@ body {
       <h3>DEPARTMENTS</h3>
       <span class="material-icons-outlined">inventory_2</span>
     </div>
-    <h4>2</h4>
+    <div id="departmentCount">
+      <h4>0</h4>
+    </div>
   </div>
-
   <div class="card" onclick="redirectTo('/company')">
     <div class="card-inner">
       <h3>COMPANY</h3>
       <span class="material-icons-outlined">category</span>
     </div>
-    <h4>4</h4>
+    <div id="companyCount">
+      <h4>0</h4>
+    </div>
   </div>
 
   <div class="card" onclick="redirectTo('/ework')">
@@ -186,22 +85,41 @@ body {
       <h3>EMPLOYEES</h3>
       <span class="material-icons-outlined">groups</span>
     </div>
-    <h4>15</h4>
+    <div id="employeeCount">
+      <h4>0</h4>
+    </div>
   </div>
 
   <div class="card" onclick="redirectTo('/attendancerecord')">
     <div class="card-inner">
       <h3>ATTENDANCE</h3>
-      <span class="material-symbols-outlined">assignment_turned_in</span>
+      <span class="material-icons-outlined">assignment_turned_in</span>
     </div>
-    <h4>56</h4>
+    <div id="attendanceCount">
+      <h4>0</h4>
+    </div>
   </div>
 </div>
 <script>
-    // Function to redirect to a specific route
+  // Function to redirect to a specific route
   function redirectTo(route) {
     window.location.href = route;
   }
+
+ // Make an HTTP request to the backend endpoint
+fetch('/dashboard/counts')
+  .then(response => response.json()) // Parse response JSON
+  .then(data => {
+    // Update UI with retrieved counts
+    document.getElementById('departmentCount').textContent = data.departmentCount;
+    document.getElementById('companyCount').textContent = data.companyCount;
+    document.getElementById('employeeCount').textContent = data.employeeCount;
+    document.getElementById('attendanceCount').textContent = data.attendanceCount;
+  })
+  .catch(error => {
+    console.error('Error fetching counts:', error);
+    // Handle error, e.g., display error message to user
+  });
 </script>
 </body>
 </html>

@@ -316,7 +316,7 @@
             debugger
             if (response.ok) {
               displayMessage('Add successful','3000');
-              window.location.href = '/permission';
+              window.location.href = '/subscription';
             } else {
               debugger
               response.json().then(data => {
@@ -369,7 +369,7 @@
             debugger
             if (response.ok) {
               displayMessage('update successful','3000');
-              window.location.href = '/permission';
+              window.location.href = '/subscription';
             } else {
               debugger
               response.json().then(data => {
@@ -395,7 +395,43 @@
           });
       });
       //--------------------------------
-
+      document.getElementById('deleteForm').addEventListener('submit',function(event){
+        event.preventDefault();
+        let formData = new FormData(this);
+        const formDataObject = {};
+        for(let [key,value] of formData.entries()){
+          formDataObject[key] = value;
+        }
+        console.log(formDataObject);
+        fetch('/ework/delete',{
+          method:"POST",
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify(formDataObject)
+        }).then(response=>{
+          debugger
+          if(response.ok){
+            displayMessage('Delete Successful','3000');
+            window.location.href='/subscription';
+          }
+          else{
+            response.json().then(data=>{
+              debugger
+              if(!data.success){
+                displayMessage(data.message);
+              }
+              else{
+                displayMessage('Error Occurred','3000');
+              }
+            }).catch(error=>{
+              debugger
+              displayMessage('Error Occurred','3000');
+            })
+          }
+        }).catch(error=>{
+          debugger
+          displayMessage('Error Occurred','3000')
+        })
+      })
 
     });
   </script>
