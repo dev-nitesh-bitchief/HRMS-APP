@@ -215,72 +215,6 @@ LEFT JOIN
 
 
 
-    //     router.get('/show-to-approver', (req, res) => {
-    //         // const {Employee_id} = req.body;
-    //         // const sql = `SELECT Employee_id ,  Leave_type_id , month_id , startDate , endDate , reason , appliedOn , status  FROM Leave_request `;
-
-    //         const sql = `SELECT 
-    //     lr.id AS req_id ,
-    //     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
-    //     lt.typeName AS Leave_type_name,
-    //     m.monthName AS Month_name,
-    //     lr.startDate,
-    //     lr.endDate,
-    //     lr.days,
-    //     lr.reason,
-    //     lr.appliedOn,
-    //     lr.status,
-    //     lr.approveDate
-
-    // FROM 
-    //     Leave_request AS lr
-    // LEFT JOIN 
-    //     Leave_type AS lt ON lr.Leave_type_id = lt.id
-    // LEFT JOIN 
-    //     Month AS m ON lr.Month_id = m.id
-    // LEFT JOIN 
-    //     Employee AS e ON lr.Employee_id = e.id`;
-
-    //         db.query(sql, (err, result) => {
-    //             if (err) {
-    //                 console.error('Error Fetching data:', err);
-    //                 res.status(500).json('Error Fetching data');
-    //                 return;
-    //             }
-    //             // console.log('Data fetched successfully');
-    //             result.forEach(row => {
-    //                 row.startDate = formatDate(row.startDate);
-    //                 row.endDate = formatDate(row.endDate);
-    //                 row.appliedOn = formatDate(row.appliedOn);
-    //                 row.approveDate = formatDate(row.approveDate);
-
-    //             });
-
-    //             // res.status(200).json(result);
-
-    //             var IP_address = localStorage.getItem('IP_address');
-    //             var Location = localStorage.getItem('Location');
-    //             var Browser_details = localStorage.getItem('Browser_details');
-
-    //             logActivity(req, res, {
-    //                 User_id: userId,
-    //                 activityType: "Management access",
-    //                 resourceName: "Leave applications",
-    //                 operation: "show",
-    //                 databaseTableName: "Leave_request",
-    //                 ipAddress: IP_address,
-    //                 location: Location,
-    //                 browserDetails: Browser_details
-    //             });
-
-    //             console.log('date :', result);
-
-
-    //         })
-    //         res.render('home', { data: result });
-    //         return;
-
-    //     });
 
 
 
@@ -288,9 +222,6 @@ LEFT JOIN
 
 
         const { Leave_type_id, Month_id, startDate, endDate, reason } = req.body;
-
-
-
 
         start = startDate;
         end = endDate;
@@ -461,8 +392,6 @@ LEFT JOIN
     router.get('/leaveType-dropdown', (req, res) => {
         const sql = 'SELECT id, typeName FROM Leave_type';
 
-
-
         db.query(sql, (error, results, fields) => {
             if (error) {
                 console.error('Error retrieving data from database: ' + error.stack);
@@ -527,11 +456,6 @@ function formatDateTime(dateString) {
 }
 
 
-
-
-
-
-
 function calculateNumberOfDays(startDate, endDate) {
     // Parse the start and end dates
     const start = new Date(startDate);
@@ -546,6 +470,97 @@ function calculateNumberOfDays(startDate, endDate) {
 
     return numberOfDays;
 }
+
+
+// Pseudo-code for fetching request status
+router.get('/getRequestStatus', (req, res) => {
+    // Assuming you have access to the database
+    // Query the database to get the status of each request
+    const requestStatuses = {}; // Object to store request statuses
+
+    // Example query
+    db.query('SELECT id, status FROM Leave_request', (err, results) => {
+        if (err) {
+            // Handle error
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+
+        // Store the statuses in the requestStatuses object
+        results.forEach(result => {
+            requestStatuses[result.id] = result.status;
+        });
+
+        // Send the requestStatuses object as JSON response
+        res.json(requestStatuses);
+    });
+});
+
+
+
+
+
+router.post('/status-approve', (req, res) => {
+    const { req_id } = req.body;
+    // const approvedBy = 'Your Approver Name'; // Change this to the name of the approver
+    const approveDate = new Date().toISOString().slice(0, 10); // Current date as approval date
+
+
+    // Update the leave request in the database
+    const sql = `UPDATE Leave_request 
+                             SET  status = 'Approved', approvedBy = 'Admin', approveDate = ? 
+                             WHERE id = ?`;
+
+    data = [approveDate, req_id];
+
+    db.query(sql, data, (err, result) => {
+
+        if (err) {
+            console.error('Error updating leave request:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log(`Leave request with ID ${req_id} approved successfully.`);
+        // res.status(200).send(`Leave request with ID ${req_id} approved successfully.`);
+
+        res.status(200).json({ success: true });
+        return
+
+    });
+});
+
+
+
+router.post('/status-reject', (req, res) => {
+    const { req_id } = req.body;
+    // const approvedBy = 'Your Approver Name'; // Change this to the name of the approver
+    const approveDate = new Date().toISOString().slice(0, 10); // Current date as approval date
+
+
+
+    // Update the leave request in the database
+    const sql = `UPDATE Leave_request 
+                             SET  status = 'Rejected', approvedBy = ?,  approveDate = ? 
+                             WHERE id = ?`;
+
+    data = [ storedVariable ,approveDate, req_id];
+
+    db.query(sql, data, (err, result) => {
+
+        if (err) {
+            console.error('Error updating leave request:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log(`Leave request with ID ${req_id} rejected successfully.`);
+        // res.status(200).send(`Leave request with ID ${req_id} approved successfully.`);
+
+        res.status(200).json({ success: true });
+        return
+
+    });
+});
 
 
 
