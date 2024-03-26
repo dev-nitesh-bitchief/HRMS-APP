@@ -1,4 +1,4 @@
-
+{{!-- 
     <title>Dashboard</title>
     <style>
         /* styles.css */
@@ -9,15 +9,14 @@ body {
     padding: 0;
     background-color: #f0f0f0;
     display: flex;
-    
-    align-items: center;
-    height: 100vh;
 }
 
 .dashboard {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 200vw;
 }
 
 .card {
@@ -77,6 +76,20 @@ body {
         </div>
         <div class="card">
             <div class="card-content">
+                <h2>Attendance-Records</h2>
+                <p>View all Attendancerecord information</p>
+            </div>
+            <a href="/attendancerecord" class="card-link">Go to Attendance-Records</a>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h2>Subscription</h2>
+                <p>View all Plans information</p>
+            </div>
+            <a href="/subPlan" class="card-link">Go to Subscription-plans</a>
+        </div>
+        <div class="card">
+            <div class="card-content">
                 <h2>Employees</h2>
                 <p>View all employee information</p>
             </div>
@@ -85,4 +98,110 @@ body {
     </div>
 </body>
 </html>
+ --}}
 
+<!-- Main -->
+<!-- Montserrat Font -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,600,0,200" />
+<style>
+.main-cards {
+  display: flex;
+  gap: 40px;
+  margin: 30px ;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px;
+  border-radius: 5px;
+  height: 120px; /* Adjust the height as needed */
+  width: 18vw;
+}
+
+.card:first-child {
+  background-color: #2962ff;
+}
+
+.card:nth-child(2) {
+  background-color: #ff6d00;
+}
+
+.card:nth-child(3) {
+  background-color: #2e7d32;
+}
+
+.card:nth-child(4) {
+  background-color: #d50000;
+}
+
+.card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-inner > .material-icons-outlined {
+  font-size: 45px;
+}
+
+@media screen and (max-width: 768px) {
+  .main-cards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+}
+</style>
+</head>
+<body>
+<div class="main-cards">
+  <div class="card" onclick="redirectTo('/Department')">
+    <div class="card-inner">
+      <h3>DEPARTMENTS</h3>
+      <span class="material-icons-outlined">inventory_2</span>
+    </div>
+    <h4>2</h4>
+  </div>
+
+  <div class="card" onclick="redirectTo('/company')">
+    <div class="card-inner">
+      <h3>COMPANY</h3>
+      <span class="material-icons-outlined">category</span>
+    </div>
+    <h4>4</h4>
+  </div>
+
+  <div class="card" onclick="redirectTo('/ework')">
+    <div class="card-inner">
+      <h3>EMPLOYEES</h3>
+      <span class="material-icons-outlined">groups</span>
+    </div>
+    <h4>15</h4>
+  </div>
+
+  <div class="card" onclick="redirectTo('/attendancerecord')">
+    <div class="card-inner">
+      <h3>ATTENDANCE</h3>
+      <span class="material-symbols-outlined">assignment_turned_in</span>
+    </div>
+    <h4>56</h4>
+  </div>
+</div>
+<script>
+    // Function to redirect to a specific route
+  function redirectTo(route) {
+    window.location.href = route;
+  }
+</script>
+</body>
+</html>
