@@ -143,7 +143,8 @@ router.post('/delete',(req,res)=>{
             return;
         }
         console.log("data delete successfully");
-        return res.status(200).json({result});
+        // return res.status(200).json({result});
+        return res.redirect('/ework');
     });
 });
 

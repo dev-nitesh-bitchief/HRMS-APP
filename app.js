@@ -22,7 +22,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var CompanyRecord = require('./routes/CompanyRecord');
 var Company = require('./routes/Company');
-
+var dashboard = require('./routes/dashboard')
 
 
 
@@ -157,7 +157,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/salary', salaryRouter);
 app.use('/salarytype', salarytypeRouter);
-
+app.use('/dashboard',dashboard);
 
 
 

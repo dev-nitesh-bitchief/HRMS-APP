@@ -56,7 +56,7 @@
                     .then(response => {
             debugger
             if (response.ok) {
-              alert('Add successful');
+              displayMessage('Add successful','3000');
               window.location.href = '/docs';
             } else {
               debugger
@@ -65,13 +65,13 @@
                 // Display an error message if login fails
                 if (!data.success) {
                   debugger
-                  alert(data.message);
+                  displayMessage(data.message);
                 } else {
-                  alert('An error occurred. Please try again later.');
+                  displayMessage('An error occurred. Please try again later.','3000');
                 }
               }).catch(error => {
                 debugger
-                showToast('An error occurred. Please try again later.');
+                displayMessage('An error occurred. Please try again later.','3000');
               });
             }
           })
@@ -79,7 +79,7 @@
             debugger
             // Handle any errors that occur during the API request
             console.error('Error:', error);
-            showToast('An error occurred. Please try again later.');
+            displayMessage('An error occurred. Please try again later.','3000');
           });
             });
            // showToast('document added!')

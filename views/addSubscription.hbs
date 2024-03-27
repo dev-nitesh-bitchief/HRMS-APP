@@ -2,19 +2,6 @@
 <html lang="en">
 
 <head>
- <link rel="stylesheet" href="../design/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../design/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../design/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../design/vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="../design/vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../design/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../design/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../design/images/favicon.png" />
   <style>
    /* Styling the anchor tag to look like a button */
   .new_data {
@@ -90,36 +77,44 @@
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Permissions:</h4>
+              <h4 class="card-title">Subscription-Plans:</h4>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal"
                 data-target="#addRoleModal"><span class="mdi mdi-account-plus"></span>
-                Add New Permission
+                Add New Plans
               </button>
                     <tr>
                       <th>Id:</th>
-                      <th>Permissions-Name</th>
+                      <th>Plan-Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Features</th>
+                      <th>Duration-Months </th>
                       <th class="actions">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each permissions}}
+                    {{#each plan}}
                     <tr>
-                      <td>{{this.id}}</td>
-                      <td>{{this.permissionName}}</td>
+                      <td>{{this.plan_id}}</td>
+                      <td>{{this.plan_name}}</td>
+                      <td>{{this.description}}</td>
+                      <td>{{this.price}}</td>
+                      <td>{{this.features}}</td>
+                      <td>{{this.duration}}</td>
                    <td class="actions">
                                <div class="dropdown">
                       <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <button type="button" class="dropdown-item" onclick="UpdateForm('{{this.id}}','{{this.permissionName}}')" data-toggle="modal"
-                          data-target="#updatePermissionModal">Edit Permission</button>
+                        <button type="button" class="dropdown-item" onclick="UpdateForm('{{this.plan_id}}','{{this.plan_name}}','{{this.description}}','{{this.price}}','{{this.features}}','{{this.duration}}')" data-toggle="modal"
+                          data-target="#updatePermissionModal">Edit Plans</button>
 
                         <button type="button" class="dropdown-item" data-toggle="modal"
-                          data-target="#deleteModal" onclick="openDeleteModal('{{this.id}}')">Delete</button>
+                          data-target="#deleteModal" onclick="openDeleteModal('{{this.plan_id}}')">Delete</button>
                       </div>
                     </div>
                      </td>
@@ -141,17 +136,38 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="addRoleModalLabel">Add New Permission</h5>
+                <h5 class="modal-title" id="addRoleModalLabel">Add New Plan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <form id="addForm" class="forms-sample">
+                  
                   <div class="form-group">
-                    <label for="permissionName">permissionName:</label>
-                    <input type="text" class="form-control" id="permissionName" name="permissionName"
-                      placeholder="permissionName">
+                    <label for="plan_name">Plan-Name:</label>
+                    <input type="text" class="form-control" id="plan_name" name="plan_name"
+                      placeholder="plan_name">
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                      placeholder="Description">
+                  </div>
+                  <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="text" class="form-control" id="price" name="price"
+                      placeholder="price">
+                  </div>
+                  <div class="form-group">
+                    <label for="features">Features:</label>
+                    <input type="text" class="form-control" id="features" name="features"
+                      placeholder="Features">
+                  </div>
+                  <div class="form-group">
+                    <label for="duration">Duration:</label>
+                    <input type="text" class="form-control" id="duration" name="duration"
+                      placeholder="Duration">
                   </div>
                   <button type="submit" class="btn btn-primary me-2">Submit</button>
                 </form>
@@ -167,16 +183,16 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete Record</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Delete Plan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form id="deleteForm" action="/permission/delete" method="post">
+                <form id="deleteForm" action="/subPlan/delete" method="post">
                   <div class="form-group">
                     {{!-- <label for="username">Are you sure:</label> --}}
-                    <input type="hidden" id="id" name="id" value="{{this.id}}">
+                    <input type="hidden" id="plan_id" name="plan_id" value="{{this.plan_id}}">
                     <!-- Hidden input field to store record ID -->
                     <p id="idDisplay"></p> <!-- Paragraph to display record ID -->
                   </div>
@@ -193,7 +209,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="updatePermissionModalLabel">Update Permission-Name</h5>
+                <h5 class="modal-title" id="updatePermissionModalLabel">Update Plan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -201,16 +217,37 @@
               <div class="modal-body">
                 <form id="uploadForm">
                   <div class="form-group">
-                    <label for="id"> ID:</label>
-                    <input type="text" class="form-control" id="pre-id" name="id_" placeholder="Enter ID">
+                    <label for="plan_id">ID:</label>
+                    <input type="text" class="form-control" id="pre-plan_id" name="plan_id"
+                      placeholder="plan_id">
                   </div>
                   <div class="form-group">
-                    <label for="permissionName">permission Name:</label>
-                    <input type="text" class="form-control" id="pre-permissionName" name="permissionName_"
-                      placeholder="Enter permission Name">
+                    <label for="plan_name">Plan-Name:</label>
+                    <input type="text" class="form-control" id="pre-plan_name" name="plan_name"
+                      placeholder="plan_name">
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" class="form-control" id="pre-description" name="description"
+                      placeholder="Description">
+                  </div>
+                  <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="text" class="form-control" id="pre-price" name="price"
+                      placeholder="price">
+                  </div>
+                  <div class="form-group">
+                    <label for="features">Features:</label>
+                    <input type="text" class="form-control" id="pre-features" name="features"
+                      placeholder="Features">
+                  </div>
+                  <div class="form-group">
+                    <label for="duration">Duration:</label>
+                    <input type="text" class="form-control" id="pre-duration" name="duration"
+                      placeholder="Duration">
                   </div>
 
-                  <button type="submit" class="btn btn-warning">Update permission</button>
+                  <button type="submit" class="btn btn-warning">Update Plan</button>
                 </form>
               </div>
             </div>
@@ -230,26 +267,27 @@
 
       function openDeleteModal(id) {
         // Set the record ID in the form and display it in the paragraph
-        document.getElementById('id').value = id;
+        document.getElementById('plan_id').value = id;
         document.getElementById('idDisplay').innerText = 'Are you sure want to delete: ' + id;
         // Show the modal
         $('#deleteModal').modal('show');
       }
       //function to prefill the update  form:
-   function UpdateForm(id, permissionName) {
-        console.log(id);
-        console.log(permissionName);
-
+   function UpdateForm(id, plan_name,description,price,features,duration) {
         // Fill the input fields with the data
-        document.getElementById('pre-id').value = id;
-        document.getElementById('pre-permissionName').value = permissionName;
+        document.getElementById('pre-plan_id').value = id;
+        document.getElementById('pre-plan_name').value = plan_name;
+        document.getElementById('pre-description').value=description;
+        document.getElementById('pre-price').value=price;
+        document.getElementById('pre-features').value=features;
+        document.getElementById('pre-duration').value=duration;
 
         // Show the modal containing the form
         $('#updatePermissionModal').modal('show');
       }
     
     document.addEventListener('DOMContentLoaded', function () {
-      displayMessage('permission','3000');
+      displayMessage('Subscription','3000');
       //------------------------------------------------------------
       document.getElementById('addForm').addEventListener('submit', function (event) {
         event.preventDefault();
@@ -267,7 +305,7 @@
         // Now you can use formDataObject to access form data
         console.log(formDataObject);
 
-        fetch('/permission/add', {
+        fetch('/subPlan/add', {
           method: 'POST',
           headers: {
             "content-Type": "application/json"
@@ -278,7 +316,7 @@
             debugger
             if (response.ok) {
               displayMessage('Add successful','3000');
-              window.location.href = '/permission';
+              window.location.href = '/subscription';
             } else {
               debugger
               response.json().then(data => {
@@ -320,7 +358,7 @@
         // Now you can use formDataObject to access form data
         console.log(formDataObject);
 
-        fetch('/permission/update', {
+        fetch('/subPlan/update', {
           method: 'POST',
           headers: {
             "content-Type": "application/json"
@@ -331,7 +369,7 @@
             debugger
             if (response.ok) {
               displayMessage('update successful','3000');
-              window.location.href = '/permission';
+              window.location.href = '/subscription';
             } else {
               debugger
               response.json().then(data => {
@@ -357,7 +395,43 @@
           });
       });
       //--------------------------------
-
+      document.getElementById('deleteForm').addEventListener('submit',function(event){
+        event.preventDefault();
+        let formData = new FormData(this);
+        const formDataObject = {};
+        for(let [key,value] of formData.entries()){
+          formDataObject[key] = value;
+        }
+        console.log(formDataObject);
+        fetch('/ework/delete',{
+          method:"POST",
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify(formDataObject)
+        }).then(response=>{
+          debugger
+          if(response.ok){
+            displayMessage('Delete Successful','3000');
+            window.location.href='/subscription';
+          }
+          else{
+            response.json().then(data=>{
+              debugger
+              if(!data.success){
+                displayMessage(data.message);
+              }
+              else{
+                displayMessage('Error Occurred','3000');
+              }
+            }).catch(error=>{
+              debugger
+              displayMessage('Error Occurred','3000');
+            })
+          }
+        }).catch(error=>{
+          debugger
+          displayMessage('Error Occurred','3000')
+        })
+      })
 
     });
   </script>
