@@ -145,7 +145,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
 
 
     router.post('/add', (req, res) => {
-        const { department_id, Employee_id, Leave_type_id, Month_id, expiryDate ,  totalLeaves } = req.body;
+        const { department_id, Employee_id, Leave_type_id, Month_id, expiryDate ,  totalLeaves , remark } = req.body;
 
         console.log('department id :', department_id);
         console.log('employee id :', Employee_id);
@@ -172,11 +172,11 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 }
 
                 // Prepare and execute the insertion query for each Employee_id
-                const sqlInsertLeaveBalance = 'INSERT INTO Leave_balance (Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , leavesTaken) VALUES (?, ?, ?, ?, ?, ?)';
+                const sqlInsertLeaveBalance = 'INSERT INTO Leave_balance (Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , leavesTaken , remark) VALUES (?, ?, ?, ?, ?, ? , ?)';
                 let insertionsCompleted = 0;
                 employees.forEach(employee => {
                     const { Employee_id } = employee;
-                    const data = [Employee_id, Leave_type_id, Month_id, totalLeaves, expiryDate ,0];
+                    const data = [Employee_id, Leave_type_id, Month_id, totalLeaves, expiryDate ,0 , remark];
                     db.query(sqlInsertLeaveBalance, data, (err, result) => {
                         if (err) {
                             console.error('Error inserting data for Employee_id:', Employee_id, err);
@@ -213,9 +213,9 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
             });
         }
         else {
-            const sql = 'INSERT INTO Leave_balance ( Employee_id , Leave_type_id , Month_id  , totalLeaves , expiryDate , leavesTaken ) VALUES (?,?,?,?,?,?)';
+            const sql = 'INSERT INTO Leave_balance ( Employee_id , Leave_type_id , Month_id  , totalLeaves , expiryDate , leavesTaken , remark ) VALUES (?,?,?,?,?,?,?)';
 
-            var data = [Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , 0];
+            var data = [Employee_id, Leave_type_id, Month_id, totalLeaves , expiryDate , 0 , remark];
 
 
             db.query(sql, data, (err, result) => {

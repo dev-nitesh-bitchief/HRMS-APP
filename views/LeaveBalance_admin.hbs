@@ -6,9 +6,8 @@
 
 
     <style>
-        
-        .emp{
-           margin-right: 20px;
+        .emp {
+            margin-right: 20px;
         }
 
         .search_button {
@@ -19,7 +18,7 @@
             cursor: pointer;
             border-radius: 5px;
             margin-left: 20px;
-           
+
         }
 
         .sub-dropdown {
@@ -29,7 +28,7 @@
 
 
         /* Custom CSS for horizontal and non-scrollable modal */
-        .modal-dialog {
+        .horizontal-modal {
             max-width: 100%;
             width: 80%;
             margin: 0;
@@ -53,42 +52,47 @@
                                     data</a>
 
 
-                                <form class="forms-sample" action="/LeaveBalance/search" method="post">
+                                {{!-- <form class="forms-sample" action="/LeaveBalance/search" method="post">
                                     <div class="d-flex">
-                                       
-                                            <label for="employee" class="emp">Employee :</label>
-                                            <select class="form-select js-example-basic-single w-100" id="Employee_s"
-                                                name="Employee_id">
 
-                                                <option value="">Select </option>
-                                            </select>                                
+                                        <label for="employee" class="emp">Employee :</label>
+                                        <select class="form-select js-example-basic-single w-100" id="Employee_s"
+                                            name="Employee_id">
+
+                                            <option value="">Select </option>
+                                        </select>
                                         <button type="submit" class="search_button">Go</button>
+                                    </div>
+                                </form> --}}
+                                <form class="forms-sample" action="/LeaveBalance/search" method="post" id="searchForm">
+                                    <div class="d-flex">
+                                        <label for="employee" class="emp">Employee :</label>
+                                        <select class="form-select js-example-basic-single w-100" id="Employee_s"
+                                            name="Employee_id">
+                                            <option value="">Select</option>
+                                        </select>
                                     </div>
                                 </form>
                             </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-
                                         <tr>
-
                                             <th>Employee name</th>
-                                            <th>Month</th>
+                                            {{!-- <th>Month</th> --}}
                                             <th>Leave type</th>
                                             <th>Total leaves</th>
                                             <th>Leaves taken</th>
                                             <th>Leave Expiry</th>
                                             <th>Action</th>
-
                                         </tr>
-
                                     </thead>
                                     <tbody>
 
                                         {{#each data}}
                                         <tr>
                                             <td>{{this.employeeName}}</td>
-                                            <td>{{this.Month_name}}</td>
+                                            {{!-- <td>{{this.Month_name}}</td> --}}
                                             <td>{{this.Leave_type_name}}</td>
                                             <td>{{this.totalLeaves}}</td>
                                             <td>{{this.leavesTaken}}</td>
@@ -133,7 +137,7 @@
                                 </table>
                             </div>
 
-                           
+
                         </div>
                     </div>
                 </div>
@@ -146,7 +150,7 @@
     <!-- ADD data modal -->
     <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog horizontal-modal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLabel">Leave details</h4>
@@ -213,11 +217,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="id" class="col-sm-3 col-form-label">Month :</label>
+                                    {{!-- <label for="id" class="col-sm-3 col-form-label">Month :</label>
                                     <div class="col-sm-7">
                                         <select class="form-select" id="Month_id" name="Month_id" required>
                                             <option value="">Select </option>
                                         </select>
+                                    </div> --}}
+                                    <label for="totalLeaves" class="col-sm-3 col-form-label">Total leaves :</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="totalLeaves" name="totalLeaves"
+                                            required>
                                     </div>
                                 </div>
                             </div>
@@ -234,11 +243,21 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-check form-check-flat form-check-primary">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="lifetime"
+                                            id="lifetimeCheckbox">
+                                        Lifetime
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="totalLeaves" class="col-sm-3 col-form-label">Total leaves :</label>
+                                    <label for="remark" class="col-sm-3 col-form-label">Remarks :</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="totalLeaves" name="totalLeaves"
-                                            required>
+                                        <input type="text" class="form-control" id="remark" name="remark" required>
                                     </div>
                                 </div>
                             </div>
@@ -256,9 +275,75 @@
         </div>
     </div>
 
+    <script>
+    /*  document.addEventListener('DOMContentLoaded', function () {
+            const expiryDateInput = document.getElementById('expiryDate');
+            const lifetimeCheckbox = document.getElementById('lifetimeCheckbox');
+
+            lifetimeCheckbox.addEventListener('change', function () {
+                if (lifetimeCheckbox.checked) {
 
 
-    <!-- new Delete modal -->
+                    // Set the expiry date to 100 years from today
+                    const today = new Date();
+                    const futureDate = new Date(today.getFullYear() + 100, today.getMonth(), today.getDate());
+                    //const formattedDate = futureDate.toISOString().split('T')[0];
+                    const formattedDate = formatDate(futureDate);
+
+                    expiryDateInput.value = formattedDate;
+
+                    // Disable the expiry date input
+                    expiryDateInput.disabled = true;
+                } else {
+                    // Enable the expiry date input
+                    expiryDateInput.disabled = false;
+                    expiryDateInput.value = '';        // Reset the value
+                }
+            });
+
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+        });     */
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const expiryDateInput = document.getElementById('expiryDate');
+            const lifetimeCheckbox = document.getElementById('lifetimeCheckbox');
+
+            lifetimeCheckbox.addEventListener('change', function () {
+                if (lifetimeCheckbox.checked) {
+                    // Set the expiry date to 100 years from today
+                    const today = new Date();
+                    const futureDate = new Date(today.getFullYear() + 100, today.getMonth(), today.getDate());
+                    const formattedDate = formatDate(futureDate);
+
+                    expiryDateInput.value = formattedDate;
+
+                    // Set the expiry date input to read-only
+                    expiryDateInput.readOnly = true;
+                } else {
+                    // Enable the expiry date input
+                    expiryDateInput.readOnly = false;
+                    expiryDateInput.value = ''; // Reset the value
+                }
+            });
+
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+        });
+    </script>
+
+
+
+
     <!-- Delete modal -->
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -327,8 +412,16 @@
 
 
 
-
     <script>
+        // code to auto submit the employee search in dropdown 
+        $(document).ready(function () {
+            // Event listener for employee selection
+            $('#Employee_s').on('change', function () {
+                // Automatically submit the form when an option is selected
+                $('#searchForm').submit();
+            });
+        });
+
 
         // Fetch data from the server and populate the dropdown
         fetch('/LeaveBalance/employee')

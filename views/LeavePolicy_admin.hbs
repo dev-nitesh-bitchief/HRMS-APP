@@ -45,8 +45,8 @@
                                             <td class="serial-number"></td>
                                             <td>{{this.policyName}}</td>
                                             <td>{{this.description}}</td>
-                                            <td class="actions">
-                                                <a href="/Leave_policy/{{this.policyFile}}" target="_blank">View</a>
+                                            <td >    
+                                                 <a href="/LeavePolicy/pdf_file/{{this.policyFile}}" target="_blank">View</a>
                                             </td>
 
                                             <td class="actions">
@@ -64,7 +64,7 @@
 
                                                         <button type="button" id="update_data"
                                                             class="dropdown-item  btn-rounded btn-fw"
-                                                            onclick="UpdateRequest('{{this.id}}','{{this.typeName}}','{{this.description}}')"
+                                                            onclick="UpdateRequest('{{this.id}}','{{this.policyName}}','{{this.description}}')"
                                                             data-toggle="modal" data-target="#editModal">
                                                             Edit
                                                             <i class="ti-file btn-icon-append"></i>
@@ -74,7 +74,7 @@
                                                         <button type="button" id="delete_data"
                                                             class="dropdown-item  btn-rounded btn-fw"
                                                             data-toggle="modal" data-target="#DeleteModal"
-                                                            data-req-id="{{this.id}}">Delete</button>
+                                                            data-policy-id="{{this.id}}">Delete</button>
 
                                                     </div>
                                                 </div>
@@ -135,7 +135,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="bill">Policy File</label>
+                            <label for="bill">Policy File ( pdf format only )</label>
                             <input type="file" class="form-control" id="policyFile" name="policyFile"
                                 placeholder="Upload File">
                         </div>
@@ -185,13 +185,13 @@
             $('#DeleteModal').on('show.bs.modal', function (event) {
                 // Extract the req_id from the button that triggered the modal
                 const button = $(event.relatedTarget);
-                const reqId = button.data('req-id');
+                const reqId = button.data('policy-id');
 
                 // Set the req_id as the value of the hidden input field
                 $('#deleteReqId').val(reqId);
 
                 // Display the req_id in the modal for reference (optional)
-                $('#requestIdDisplay').text(reqId);
+               // $('#requestIdDisplay').text(reqId);
             });
         });
 
@@ -224,12 +224,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="typeName">Type name</label>
-                            <input type="text" class="form-control" id="typeName_" name="typeName" placeholder="">
+                            <label for="typeName">Policy name</label>
+                            <input type="text" class="form-control" id="policyName_" name="policyName" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="description">Description:</label><br>
-                            <textarea class="form-control" id="description_" name="description" rows="4"
+                            <textarea class="form-control" id="description_" name="description" rows="10"
                                 cols="35"></textarea><br>
                         </div>
 
@@ -245,10 +245,10 @@
 
 
     <script>
-        function UpdateRequest(id, typeName, description) {
+        function UpdateRequest(id, policyName, description) {
 
             document.getElementById('id_').value = id;
-            document.getElementById('typeName_').value = typeName;
+            document.getElementById('policyName_').value = policyName;
             document.getElementById('description_').value = description;
 
             $('#UpdateModal').modal('show');
