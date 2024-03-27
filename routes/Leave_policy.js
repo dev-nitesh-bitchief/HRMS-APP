@@ -11,14 +11,15 @@ var db = require('../connection/db');
 var logActivity = require('./log_function');
 // const authenticateUser = require('./index');
 
-// Import the LocalStorage class from the node-localstorage package
+
 const { LocalStorage } = require('node-localstorage');
 
-// Create a new instance of LocalStorage
 const localStorage = new LocalStorage('./scratch');
 
-var storedVariable = localStorage.getItem('username');
+var storedVariable = localStorage.getItem('username');  
 
+
+router.use('/pdf_file', express.static(path.join(__dirname, '..', 'Leave_policy')));
 
 
 
@@ -94,6 +95,8 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         })
     });
 
+  
+
 
     router.get('/show_admin', (req, res) => {
 
@@ -133,7 +136,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         })
     });
 
-
+   
 
     const upload = multer({ dest: 'Leave_policy/' });
 
@@ -155,7 +158,7 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         console.log("bill is ", policyFile);
     
         var fileName = policyFile.filename;
-        fileName = policyName;
+        fileName = policyName + '.pdf';
     
         const filePath = path.join(__dirname, '..', 'Leave_policy', fileName);
     
@@ -215,19 +218,27 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         const { policy_id } = req.body;
         const sql = 'DELETE FROM Leave_policy WHERE id = ?';
 
-        db.query(sql, policy_id, (err, result) => {
+        data = [policy_id] ;
+
+        console.log('policy id :' , policy_id);
+        
+
+        db.query(sql, data , (err, result) => {
             if (err) {
                 console.error('Error deleting data:', err);
                 res.status(500).json('Error deleted data');
                 return;
             }
+
             console.log('Data deleted successfully');
-            res.status(200).json('Data deleted successfully');
+            // res.status(200).json('Data deleted successfully');
 
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
 
+           
+            const newdata = data.join(',');
 
             logActivity(req, res, {
                 User_id: userId,
@@ -235,20 +246,17 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 resourceName: "Leave Policies",
                 operation: "Delete policy",
                 databaseTableName: "Leave_policy",
-                enteredValues: policy_id,
+                enteredValues: newdata,
                 ipAddress: IP_address,
                 location: Location,
                 browserDetails: Browser_details
             });
 
             res.status(200).redirect('/LeavePolicy/show_admin');
+            return;
 
-
-        })
+        });
     });
-
-
-
 
 
 
@@ -256,8 +264,6 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
         // const id = req.body.id;
 
         const { id, policyName, description } = req.body;
-
-
 
         // Construct the SQL UPDATE query dynamically based on the provided columns
         let sql = 'UPDATE Leave_policy SET ';
@@ -286,11 +292,13 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 return;
             }
             console.log('policy updated successfully');
-            res.status(200).json('policy updated successfully');
+           
 
             var IP_address = localStorage.getItem('IP_address');
             var Location = localStorage.getItem('Location');
             var Browser_details = localStorage.getItem('Browser_details');
+
+            const newdata = updateValues.join(',');
 
 
             logActivity(req, res, {
@@ -299,12 +307,13 @@ getEmployeeAndUserIdByUsername(storedVariable, (err, employeeId, userId) => {
                 resourceName: "Leave Policies",
                 operation: "Edit policy",
                 databaseTableName: "Leave_policy",
-                enteredValues: updateValues,
+                enteredValues: newdata ,
                 ipAddress: IP_address,
                 location: Location,
                 browserDetails: Browser_details
             });
-
+            
+             // res.status(200).json('policy updated successfully');
             res.redirect('/LeavePolicy/show_admin');
             return;
 

@@ -6,8 +6,6 @@
     <style>
         /* CSS styles for the close button */
 
-
-
         .actions {
             text-align: right;
         }
@@ -58,11 +56,7 @@
                                             <td>{{this.approveDate}}</td>
                                             <td>
 
-
                                                 <!-- Button to trigger the modal -->
-
-
-
 
                                             </td>
                                             <td class="actions">
@@ -103,10 +97,6 @@
         </div>
     </div>
 
-
-
-
-
     <!-- Add modal -->
     <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -138,53 +128,18 @@
                             <select class="form-select" id="Leave_type_id" name="Leave_type_id" required>
                                 <option value="">Select </option>
                             </select>
-
-
-
                         </div>
                         <div class="form-group">
                             <label for="reason">Reason</label>
                             <input type="text" class="form-control" id="reason" name="reason" placeholder="reason"
                                 required>
                         </div>
-
-
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
-
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Fetch data from the server and populate the dropdown
-        fetch('/Leave/leaveType-user')
-            .then(response => response.json())
-            .then(data => {
-                const roleDropdown = document.getElementById('Leave_type_id');
-                data.forEach(leave_type => {
-                    const option = document.createElement('option');
-                    option.value = leave_type.type_id;
-
-                     const remainingLeaves = leave_type.totalLeaves - leave_type.leavesTaken;
-                     
-
-                    option.textContent = leave_type.typeName  + ' ( ' + remainingLeaves + ' out of ' + leave_type.totalLeaves + ' remaining )';
-
-                    //option.textContent = leave_type.typeName + ' - ' + leave_type.description;
-                    roleDropdown.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
-
-
-
-
-
-
 
 
     <!-- Delete modal -->
@@ -210,29 +165,6 @@
             </div>
         </div>
     </div>
-
-
-    <script>
-        $(document).ready(function () {
-            // Event listener for when the delete modal is shown
-            $('#DeleteModal').on('show.bs.modal', function (event) {
-                // Extract the req_id from the button that triggered the modal
-                const button = $(event.relatedTarget);
-                const reqId = button.data('req-id');
-
-                // Set the req_id as the value of the hidden input field
-                $('#deleteReqId').val(reqId);
-
-                // Display the req_id in the modal for reference (optional)
-                $('#requestIdDisplay').text(reqId);
-            });
-        });
-
-    </script>
-
-
-
-
 
 
     <!-- update modal -->
@@ -268,26 +200,9 @@
                         </div>
                         <div class="form-group">
                             <label for="Leave_type">Leave type:</label>
-                            <select class="form-select" id="Leave_type" name="Leave_type">
+                            <select class="form-select" id="Leave_type_" name="Leave_type">
                                 <option value="">Select</option>
                             </select>
-
-                            <script>
-                                // Fetch data from the server and populate the dropdown
-                                fetch('/Leave/leaveType-dropdown')
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        const roleDropdown = document.getElementById('Leave_type');
-                                        data.forEach(leave_type => {
-                                            const option = document.createElement('option');
-                                            option.value = leave_type.id;
-                                            option.textContent = leave_type.typeName;
-                                            roleDropdown.appendChild(option);
-                                        });
-                                    })
-                                    .catch(error => console.error('Error fetching data:', error));
-                            </script>
-
 
                         </div>
                         <div class="form-group">
@@ -303,22 +218,116 @@
         </div>
     </div>
 
-
-
     <script>
-        function UpdateRequest(req_id, startDate, endDate, Leave_type_name, reason) {
+        // Fetch data from the server and populate the dropdown
+        fetch('/Leave/leaveType-user')
+            .then(response => response.json())
+            .then(data => {
+                const roleDropdown = document.getElementById('Leave_type_id');
+                data.forEach(leave_type => {
+                    const option = document.createElement('option');
+                    option.value = leave_type.type_id;
 
+                    const remainingLeaves = leave_type.totalLeaves - leave_type.leavesTaken;
+
+
+                    option.textContent = leave_type.typeName + ' ( ' + remainingLeaves + ' out of ' + leave_type.totalLeaves + ' remaining )';
+
+                    //option.textContent = leave_type.typeName + ' - ' + leave_type.description;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+        // Fetch data from the server and populate the dropdown
+        /* fetch('/Leave/leaveType-dropdown')
+             .then(response => response.json())
+             .then(data => {
+                 const roleDropdown = document.getElementById('Leave_type');
+                 data.forEach(leave_type => {
+                     const option = document.createElement('option');
+                     option.value = leave_type.id;
+                     option.textContent = leave_type.typeName;
+                     roleDropdown.appendChild(option);
+                 });
+             })
+             .catch(error => console.error('Error fetching data:', error));  */
+
+
+        fetch('/Leave/leaveType-user')
+            .then(response => response.json())
+            .then(data => {
+                const roleDropdown = document.getElementById('Leave_type_');
+                data.forEach(leave_type => {
+                    const option = document.createElement('option');
+                    option.value = leave_type.type_id;
+
+                    const remainingLeaves = leave_type.totalLeaves - leave_type.leavesTaken;
+
+
+                    option.textContent = leave_type.typeName + ' ( ' + remainingLeaves + ' out of ' + leave_type.totalLeaves + ' remaining )';
+
+                    //option.textContent = leave_type.typeName + ' - ' + leave_type.description;
+                    roleDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+
+
+
+
+        $(document).ready(function () {
+            // Event listener for when the delete modal is shown
+            $('#DeleteModal').on('show.bs.modal', function (event) {
+                // Extract the req_id from the button that triggered the modal
+                const button = $(event.relatedTarget);
+                const reqId = button.data('req-id');
+
+                // Set the req_id as the value of the hidden input field
+                $('#deleteReqId').val(reqId);
+
+                // Display the req_id in the modal for reference (optional)
+                $('#requestIdDisplay').text(reqId);
+            });
+        });
+
+
+
+        /* function UpdateRequest(req_id, startDate, endDate, Leave_type_name, reason) {
+ 
+             document.getElementById('id_').value = req_id;
+             document.getElementById('startDate_').value = startDate;
+             document.getElementById('endDate_').value = endDate;
+             // document.getElementById('Leave_type').value = Leave_type_name;
+             document.getElementById('reason_').value = reason;
+             $('#UpdateModal').modal('show');
+         };   */
+
+
+
+        function UpdateRequest(req_id, startDate, endDate, Leave_type_name, reason) {
             document.getElementById('id_').value = req_id;
             document.getElementById('startDate_').value = startDate;
             document.getElementById('endDate_').value = endDate;
-            // document.getElementById('Leave_type').value = Leave_type_name;
+
+            // Fetch the Leave type dropdown element
+            var leaveTypeDropdown = document.getElementById('Leave_type_');
+
+            // Loop through options and set selected attribute for the correct Leave type
+            for (var i = 0; i < leaveTypeDropdown.options.length; i++) {
+                if (leaveTypeDropdown.options[i].text.includes(Leave_type_name)) {
+                    leaveTypeDropdown.options[i].selected = true;
+                }
+            }
+
             document.getElementById('reason_').value = reason;
-            $('#UpdateModal').modal('show');
+            $('#editModal').modal('show');
         };
 
     </script>
-
-
 
     <!-- Bootstrap JS (jQuery and Popper.js are required too) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -327,5 +336,4 @@
 
 
 </body>
-
 </html>
